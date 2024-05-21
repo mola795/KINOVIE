@@ -1,18 +1,24 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :genres, only: %i[index show]
-  resources :lists, only: %i[show new create]
-  resources :titles, only: %i[show]
+  resources :lists, only: %i[show new create index edit update]
+  resources :titles, only: %i[show] do
+    resources :reviews, only: %i[index new create]
+  end
   resources :list_items, only: %i[new create destroy]
+  resources :users, only: %i[show new create]
 
   get '/profile', to: 'pages#profile', as: :profile
-  get '/users/:username', to: 'pages#username', as: :username
+  get '/users/:username', to: 'users#show', as: :username
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  resources :people, only: %i[show]
+  resources :services, only: %i[index show]
+
+  resources :comments, only: %i[new create]
+  resources :follows, only: %i[create]
+
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
