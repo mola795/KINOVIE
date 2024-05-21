@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   get '/popular', to: 'titles#popular', as: :popular_titles
+  get 'search', to: 'search#index', as: 'search'
 
   # Defines the root path route ("/")
   # root "posts#index"

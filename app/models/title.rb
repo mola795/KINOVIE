@@ -9,4 +9,8 @@ class Title < ApplicationRecord
   has_many :services, through: :streamings
 
   validates :name, presence: true
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name, against: :name
+
 end
