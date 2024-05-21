@@ -54,6 +54,7 @@ gem "sassc-rails"
 # Custom Added Gems
 gem 'httparty'
 gem 'faker'
+gem 'pg_search'
 
 group :development, :test do
   gem "dotenv-rails"

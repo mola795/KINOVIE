@@ -1,0 +1,10 @@
+<h1>Search Results</h1>
+
+<% if @query.present? %>
+  <h2>Titles</h2>
+  <ul>
+    <% @titles.each do |title| %>
+      <li><%= link_to title.name, title_path(title) %></li>
+    <% end %>
+  </ul>
+<% end %>
