@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'pages#profile', as: :profile
   get '/users/:username', to: 'pages#username', as: :username
+  get 'search', to: 'search#index', as: 'search'
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
