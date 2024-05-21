@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   resources :genres, only: %i[index show]
-  resources :lists, only: %i[show new create index edit update]
+  resources :lists, only: %i[show new create index edit update destroy]
   resources :titles, only: %i[show] do
     resources :reviews, only: %i[index new create]
   end
@@ -15,9 +15,7 @@ Rails.application.routes.draw do
 
   resources :people, only: %i[show]
   resources :services, only: %i[index show]
-
-  resources :comments, only: %i[new create]
-  resources :follows, only: %i[create]
+  resources :follows, only: %i[create destroy]
 
   get "up" => "rails/health#show", as: :rails_health_check
 
