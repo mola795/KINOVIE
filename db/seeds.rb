@@ -12,18 +12,22 @@ class WatchModeApi
   include HTTParty
   base_uri 'https://api.watchmode.com/v1'
 
+  def initialize(watchmode_api_key)
+    @watchmode_api_key = watchmode_api_key
+  end
+
   # Method to get all available sources (Netflix, AppleTV, Prime, etc.).
   # Can be filtered by region(s), given a one or more 2-char country code ('US,CA,JP')
   def get_sources(regions)
-    api_key = 'Wa0xNagkzZLawLxWCcarWIGDwFW6bILgqpJrokZf'
-    self.class.get("/sources/?apiKey=#{api_key}&regions=#{regions}")
+    # api_key = 'Wa0xNagkzZLawLxWCcarWIGDwFW6bILgqpJrokZf'
+    self.class.get("/sources/?apiKey=#{@watchmode_api_key}&regions=#{regions}")
   end
 
   # Method to get the details of all available sources for a given title
   # 'Where can I watch Fallout?'
   def get_title_details(title_id, regions)
-    api_key = 'Wa0xNagkzZLawLxWCcarWIGDwFW6bILgqpJrokZf'
-    self.class.get("/title/#{title_id}/sources/?apiKey=#{api_key}&regions=#{regions}")
+    # api_key = 'Wa0xNagkzZLawLxWCcarWIGDwFW6bILgqpJrokZf'
+    self.class.get("/title/#{title_id}/sources/?apiKey=#{@watchmode_api_key}&regions=#{regions}")
   end
 end
 
@@ -31,18 +35,18 @@ class TMDBApi
   include HTTParty
   base_uri 'https://api.themoviedb.org/3'
 
-  def initialize(api_key)
-    @api_key = api_key
+  def initialize(tmdb_api_key)
+    @tmdb_api_key = tmdb_api_key
   end
 
   def fetch_popular_movies
-    self.class.get("/movie/popular", query: { api_key: @api_key, language: 'en-US' })
+    self.class.get("/movie/popular", query: { api_key: @tmdb_api_key, language: 'en-US' })
   end
 end
 
-def seed_popular_movies(api)
+def seed_popular_movies(tmdb_api)
   # Return a list of popular movies
-  movies = api.fetch_popular_movies['results']
+  movies = tmdb_api.fetch_popular_movies['results']
   # For each movie returned, create a record with the extracted details
   movies.each do |movie|
     title = Title.create(
@@ -54,10 +58,13 @@ def seed_popular_movies(api)
     )
     # For each title, assign its tmdb_id to use in the Watchmode Request
     tmdb_id = title.tmdb_id
+    # tmdb_id = `#{title.media_type}-#{title.tmdb_id}`
+    title_id = title.media_type + '-' + tmdb_id.to_s
     # Create a new instance of the Watchmode API request
-    watchmode_api = WatchModeApi.new
+    watchmode_api_key = ENV['WATCHMODE_API_KEY']
+    watchmode_api = WatchModeApi.new(watchmode_api_key)
     # Get all streaming sources available for the current title in the US
-    streaming_sources = watchmode_api.get_title_details(tmdb_id, 'US')
+    streaming_sources = watchmode_api.get_title_details(title_id, 'US')
     # Selecting only the HD sources, find the corresponding service from our existing
     # DB of streaming services based on name
     streaming_sources.select{|streaming_src| streaming_src["format"] == 'HD'}.each do |streaming_src|
@@ -76,7 +83,8 @@ def seed_popular_movies(api)
   end
 end
 
-watchmode_api = WatchModeApi.new
+watchmode_api_key = ENV['WATCHMODE_API_KEY']
+watchmode_api = WatchModeApi.new(watchmode_api_key)
 # Seed all available sources (within the US for now)
 services = watchmode_api.get_sources('US')
 services.each do |service|
@@ -87,7 +95,7 @@ services.each do |service|
 end
 
 puts "Seeding popular movies from TMDb..."
-api_key = ENV['TMDB_API_KEY']
-tmdb_api = TMDBApi.new(api_key)
+tmdb_api_key = ENV['TMDB_API_KEY']
+tmdb_api = TMDBApi.new(tmdb_api_key)
 seed_popular_movies(tmdb_api)
 puts "Seeding completed."
