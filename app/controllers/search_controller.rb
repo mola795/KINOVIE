@@ -1,7 +1,6 @@
 class SearchController < ApplicationController
   def index
     @query = params[:query]
-    @titles = Title.where("name ILIKE ?", "%#{@query}%")
-    @genres = Genre.where("name ILIKE ?", "%#{@query}%")
+    @titles = Title.search_by_name(@query)
   end
 end

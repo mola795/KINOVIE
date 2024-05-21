@@ -1,0 +1,10 @@
+<h1>Popular Movies</h1>
+<ul>
+  <% @titles.each do |title| %>
+    <li>
+      <img src="<%= title.poster_url %>" alt="<%= title.name %>">
+      <p><%= link_to title.name, title_path(title) %></p>
+      <p>Release Date: <%= title.release_date %></p>
+    </li>
+  <% end %>
+</ul>
