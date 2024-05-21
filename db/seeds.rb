@@ -31,6 +31,45 @@ end
 
 watchmode_api = WatchModeApi.new
 
+class TMDBApi
+  include HTTParty
+  base_uri 'https://api.themoviedb.org/3'
+
+  def initialize(api_key)
+    @api_key = api_key
+  end
+
+  def fetch_popular_movies
+    self.class.get("/movie/popular", query: { api_key: @api_key, language: 'en-US' })
+  end
+end
+
+def seed_popular_movies(api)
+  movies = api.fetch_popular_movies['results']
+  movies.each do |movie|
+    title = Title.create(
+      name: movie['title'],
+      media_type: 'movie',
+      release_date: movie['release_date'],
+      tmdb_id: movie['id'],
+      poster_url: "https://image.tmdb.org/t/p/w500#{movie['poster_path']}"
+    )
+    tmdb_id = title.tmdb_id
+
+    streaming_sources = watchmode_api.get_title_details(tmdb_id, '')
+    streaming_sources.select{|streaming_src| streaming_src["format"] == 'HD'}.each do |streaming_src|
+      service = Service.where(name: streaming_src['name']).first
+      streaming = Streaming.new(
+        url: streaming_src['web_url'],
+        # service_id: service.id
+      )
+      streaming.service = service
+      streaming.title = title
+      streaming.save
+    end
+  end
+end
+
 # Seed all available sources
 services = watchmode_api.get_sources('')
 services.each do |service|
@@ -40,31 +79,8 @@ services.each do |service|
   )
 end
 
-# For each title seeded, seed the streaming service Ids & URL
-# Where title_id = current title looping through (from TMDB/OMDB seeding)
-streaming_sources = watchmode_api.get_title_details(imdb_id, '')
-streaming_sources.select{|streaming_src| streaming_src["format"] == 'HD'}.each do |streaming_src|
-  service = Service.where(name: streaming_src['name']).first
-  title = Title.where(imdb_id: imdb_id).first
-  streaming = Streaming.new(
-    url: streaming_src['web_url'],
-    # service_id: service.id
-  )
-  streaming.service = service
-  streaming.title = title
-  streaming.save
-end
-
-sources = watchmode_api.get_title_details('tt3416742', 'CA,US')
-
-puts "Starting to seed books..."
-
-
-
-
-user = User.create!(
-  email: Faker::Internet.email,
-  first_name: Faker::Name.first_name,
-  last_name: Faker::Name.last_name,
-  password: "123456"
-)
+puts "Seeding popular movies from TMDb..."
+api_key = ENV['TMDB_API_KEY']
+tmdb_api = TMDBApi.new(api_key)
+seed_popular_movies(tmdb_api)
+puts "Seeding completed."
