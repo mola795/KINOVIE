@@ -55,6 +55,7 @@ gem "sassc-rails"
 gem 'httparty'
 gem 'faker'
 gem 'pg_search'
+gem 'rest-client'
 
 group :development, :test do
   gem "dotenv-rails"
