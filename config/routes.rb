@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   root to: "pages#home"
 
   resources :genres, only: %i[index show]
@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   resources :follows, only: %i[create destroy]
 
   get "up" => "rails/health#show", as: :rails_health_check
+
+  get '/popular', to: 'titles#popular', as: :popular_titles
 
   # Defines the root path route ("/")
   # root "posts#index"
