@@ -19,14 +19,12 @@ class WatchModeApi
   # Method to get all available sources (Netflix, AppleTV, Prime, etc.).
   # Can be filtered by region(s), given a one or more 2-char country code ('US,CA,JP')
   def get_sources(regions)
-    # api_key = 'Wa0xNagkzZLawLxWCcarWIGDwFW6bILgqpJrokZf'
     self.class.get("/sources/?apiKey=#{@watchmode_api_key}&regions=#{regions}")
   end
 
   # Method to get the details of all available sources for a given title
   # 'Where can I watch Fallout?'
   def get_title_details(title_id, regions)
-    # api_key = 'Wa0xNagkzZLawLxWCcarWIGDwFW6bILgqpJrokZf'
     self.class.get("/title/#{title_id}/sources/?apiKey=#{@watchmode_api_key}&regions=#{regions}")
   end
 end
