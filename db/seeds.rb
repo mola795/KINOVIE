@@ -150,7 +150,8 @@ end
 puts "Seeding services from WatchMode..."
 watchmode_api_key = ENV['WATCHMODE_API_KEY']
 watchmode_api = WatchModeApi.new(watchmode_api_key)
-seed_services(watchmode_api)
+
+(watchmode_api)
 
 puts "Seeding popular movies and TV shows from TMDb..."
 tmdb_api_key = ENV['TMDB_API_KEY']
