@@ -1,0 +1,10 @@
+<%= simple_form_for(list) do |f| %>
+<div class="row">
+    <div class="col-6">
+      <%= f.input :name %>
+      <%= f.input :status, :collection => %w[Private Friend Public] %>
+    </div>
+      <%= f.input :description, wrapper_html: { class: "col-6 description-input" } %>
+    <%= f.submit %>
+  <% end %>
+</div>
