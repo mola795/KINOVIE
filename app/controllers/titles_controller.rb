@@ -5,13 +5,16 @@ class TitlesController < ApplicationController
 
   def show
     @title = Title.find(params[:id])
-    tmdb_api_key = ENV['TMDB_API_KEY']
-    tmdb_api = TmdbApi.new(tmdb_api_key)
+    # tmdb_api_key = ENV['TMDB_API_KEY']
+    # tmdb_api = TmdbApi.new(tmdb_api_key)
 
-    @movie_details = tmdb_api.fetch_movie_details(@title.tmdb_id)
-    @description = @movie_details['overview']
-    @genres = @movie_details['genres'].map { |genre| genre['name'] }.join(", ")
-    @cast = tmdb_api.fetch_movie_cast(@title.tmdb_id).map { |cast_member| cast_member['name'] }.join(", ")
+    # @movie_details = tmdb_api.fetch_movie_details(@title.tmdb_id)
+    # @description = @movie_details['overview']
+    # @genres = @movie_details['genres'].map { |genre| genre['name'] }.join(", ")
+    # @cast = tmdb_api.fetch_movie_cast(@title.tmdb_id).map { |cast_member| cast_member['name'] }.join(", ")
+
+    @list_item = ListItem.new
+
   end
 
   def popular
