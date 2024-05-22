@@ -68,9 +68,6 @@ class TitlesController < ApplicationController
       logger.error "Error creating title: #{e.message}"
       redirect_to new_title_path, alert: 'An error occurred while creating the title.'
     end
-
-    @list_item = ListItem.new
-
   end
 
   private
