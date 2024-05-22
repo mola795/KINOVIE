@@ -1,0 +1,10 @@
+<img src="<%= @service.logo_url %>">
+<div class="container d-flex gap-3 align-items-center flex-wrap">
+  <% @service.streamings.each do |streaming| %>
+    <div class="card" style="width: 200px; height 400px;">
+      <a href="<%= streaming.url %>">
+          <img src="<%= streaming.title.poster_url %>" class="card-img-top">
+      </a>
+    </div>
+  <% end %>
+</div>

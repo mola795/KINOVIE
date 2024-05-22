@@ -65,7 +65,7 @@ def seed_popular_movies(tmdb_api)
     streaming_sources = watchmode_api.get_title_details(title_id, 'US')
     # Selecting only the HD sources, find the corresponding service from our existing
     # DB of streaming services based on name
-    streaming_sources.select{|streaming_src| streaming_src["format"] == 'HD'}.each do |streaming_src|
+    streaming_sources.select { |streaming_src| streaming_src['format'] == 'HD' }.each do |streaming_src|
       service = Service.where(name: streaming_src['name']).first
       # Create a new streaming record, pulling url from the current streaming source
       streaming = Streaming.new(
@@ -85,10 +85,11 @@ watchmode_api_key = ENV['WATCHMODE_API_KEY']
 watchmode_api = WatchModeApi.new(watchmode_api_key)
 # Seed all available sources (within the US for now)
 services = watchmode_api.get_sources('US')
-services.each do |service|
+services.reject { |service| service['type'] == 'tve' }.each do |service|
   Service.create(
     name: service['name'],
-    watchmode_id: service['id']
+    watchmode_id: service['id'],
+    logo_url: service['logo_100px']
   )
 end
 

@@ -1,0 +1,14 @@
+<h1>STREAMING SERVICES!</h1>
+<br>
+
+<div class="container d-flex gap-3 align-items-center flex-wrap">
+  <% @services.each do |service| %>
+    <% if service.streamings.count != 0 %>
+      <div class="card" style="width: 100px;">
+        <a href="<%= service_path(service) %>">
+            <img src="<%= service.logo_url %>" class="card-img-top">
+        </a>
+      </div>
+    <% end %>
+  <% end %>
+</div>
