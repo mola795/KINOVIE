@@ -1,11 +1,11 @@
-<h1>Popular Movies</h1>
+<h1>Popular Titles</h1>
 <p>Total Titles in Database: <%= @total_titles_count %></p>
 <ul>
   <% @titles.each do |title| %>
     <li>
       <img src="<%= title.poster_url %>" alt="<%= title.name %>">
       <p><%= link_to title.name, title_path(title) %></p>
-      <p>Release Date: <%= title.release_date %></p>
+      <p>Year: <%= title.start_year %> <% if title.end_year %>- <%= title.end_year %><% end %></p>
     </li>
   <% end %>
 </ul>

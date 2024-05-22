@@ -110,12 +110,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_040151) do
   create_table "titles", force: :cascade do |t|
     t.string "name"
     t.string "media_type"
-    t.date "release_date"
     t.integer "tmdb_id"
-    t.integer "imdb_id"
+    t.string "imdb_id"
     t.string "poster_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "imdb_rating"
+    t.integer "imdb_votes"
+    t.integer "start_year"
+    t.integer "end_year"
   end
 
   create_table "users", force: :cascade do |t|

@@ -4,7 +4,11 @@
   <h2>Titles</h2>
   <ul>
     <% @titles.each do |title| %>
-      <li><%= link_to title.name, title_path(title) %></li>
+      <li>
+        <%= link_to title[:name], title_path(id: title[:id]) %>
+        <p><strong>Start Year:</strong> <%= title[:start_year] %> <% if title[:end_year] %>- <%= title[:end_year] %><% end %></p>
+        <img src="<%= title[:poster_url] %>" alt="<%= title[:name] %>">
+      </li>
     <% end %>
   </ul>
 <% end %>
