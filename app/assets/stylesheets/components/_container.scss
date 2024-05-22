@@ -1,0 +1,26 @@
+.container {
+  margin-top: 20px;
+}
+
+.container-flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  // gap: 3;
+}
+
+.container-column-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.container-devise {
+  text-align: center;
+  margin: 10px;
+}
+
+.container-devise-links {
+  text-align: center;
+}
