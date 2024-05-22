@@ -4,9 +4,10 @@ Rails.application.routes.draw do
 
   resources :genres, only: %i[index show]
   resources :lists, only: %i[show new create index edit update destroy]
-  resources :titles, only: %i[show] do
+  resources :titles, only: %i[index show new create] do
     resources :reviews, only: %i[index new create]
   end
+
   resources :list_items, only: %i[new create destroy]
   resources :users, only: %i[show new create]
 

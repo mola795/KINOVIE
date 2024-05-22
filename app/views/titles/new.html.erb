@@ -1,0 +1,18 @@
+<!-- app/views/titles/new.html.erb -->
+<h1>New Title</h1>
+
+<%= form_with model: @title, url: titles_path, local: true do |form| %>
+  <div class="field">
+    <%= form.label :tmdb_id, "TMDb ID" %>
+    <%= form.text_field :tmdb_id, name: 'title[tmdb_id]', id: 'tmdb_id' %>
+  </div>
+  <div class="field">
+    <%= form.label :media_type, "Media Type" %>
+    <%= form.select :media_type, options_for_select([['Movie', 'movie'], ['TV Show', 'tv']]), {}, name: 'title[media_type]', id: 'media_type' %>
+  </div>
+  <div class="actions">
+    <%= form.submit 'Add Title' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', titles_path %>
