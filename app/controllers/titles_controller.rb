@@ -10,6 +10,7 @@ class TitlesController < ApplicationController
 
   def show
     @title = Title.find(params[:id])
+    @list_item = ListItem.new
     fetch_and_display_title_details
   rescue ActiveRecord::RecordNotFound => e
     logger.error "Title not found: #{e.message}"
@@ -67,9 +68,6 @@ class TitlesController < ApplicationController
       logger.error "Error creating title: #{e.message}"
       redirect_to new_title_path, alert: 'An error occurred while creating the title.'
     end
-
-    @list_item = ListItem.new
-
   end
 
   private
