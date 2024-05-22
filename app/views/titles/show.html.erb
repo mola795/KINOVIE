@@ -1,5 +1,13 @@
 <h1><%= @title.name %></h1>
 
+<p><strong>Release Year:</strong> <%= @title.release_date.year %></p>
+<p><strong>TMDb ID:</strong> <%= @title.tmdb_id %></p>
+<p><strong>IMDb ID:</strong> <%= @title.imdb_id %></p>
+<div>
+  <img src="<%= @title.poster_url %>" alt="<%= @title.name %> Poster">
+<p><strong>Description:</strong> <%= @description %></p>
+<p><strong>Genres:</strong> <%= @genres %></p>
+<p><strong>Cast:</strong> <%= @cast %></p>
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
