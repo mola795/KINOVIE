@@ -12,6 +12,9 @@ class TitlesController < ApplicationController
     @description = @movie_details['overview']
     @genres = @movie_details['genres'].map { |genre| genre['name'] }.join(", ")
     @cast = tmdb_api.fetch_movie_cast(@title.tmdb_id).map { |cast_member| cast_member['name'] }.join(", ")
+
+    @list_item = ListItem.new
+
   end
 
   def popular
