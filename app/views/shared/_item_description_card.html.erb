@@ -1,0 +1,17 @@
+<div class="item-description-card">
+  <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" class="item-description-card-img"/>
+  <div class="item-description-card-infos">
+    <h2 class="item-description-card-title"><%= title.name %></h2>
+    <div class="item-description-card-small-text">
+      <p><%= title.start_year %></p>
+      <% if title.end_year %>
+         <p> - <%= title.end_year %></p>
+      <% end %>
+      <p>·</p>
+      <p><%= title.media_type %></p>
+      <p>·</p>
+      <p>Duration</p>
+    </div>
+    <div class="item-description-card-main-text">Description</div>
+  </div>
+</div>

@@ -12,6 +12,7 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+@import "pages/show";
 
 // Shared
 body {
@@ -22,4 +23,8 @@ body {
   color: $main-white;
   display: flex;
   flex-direction: column;
+}
+
+ul {
+  list-style-type: none;
 }

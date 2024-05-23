@@ -18,9 +18,22 @@
 
 .container-devise {
   text-align: center;
-  margin: 10px;
+  margin: 15px;
 }
 
 .container-devise-links {
   text-align: center;
+}
+
+.container-media-show {
+  width: 80%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-item-card {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }

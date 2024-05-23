@@ -1,49 +1,79 @@
-<h1 class="page-heading"><%= @title.name %></h1>
+<div class="container-media-show">
+  <div class="media-show-heading">
+    <h1 class="media-heading"><%= @title.name %></h1>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Add to List
+    </button>
+  </div>
 
-<p><strong>Year:</strong> <%= @title.start_year %> <% if @title.end_year %>- <%= @title.end_year %><% end %></p>
-
-<p><strong>TMDb ID:</strong> <%= @title.tmdb_id %></p>
-<p><strong>IMDb ID:</strong> <%= @title.imdb_id %></p>
-<p><strong>IMDb Rating:</strong> <%= @imdb_rating %></p>
-<p><strong>IMDb Votes:</strong> <%= @imdb_votes %></p>
-<p><strong>Media Type:</strong> <%= @title.media_type %></p>
-<div>
-  <img src="<%= @title.poster_url %>" alt="<%= @title.name %> Poster">
-</div>
-<p><strong>Description:</strong> <%= @description %></p>
-<p><strong>Genres:</strong> <%= @genres %></p>
-<p><strong>Cast:</strong> <%= @cast %></p>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Add to list
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-        <% current_user.lists.each do |list|%>
-          <%= simple_form_for [@title, @list_item] do |f| %>
-          <%= f.input :list_id, as: :hidden, input_html: { value: list.id} %>
-          <%= f.button :button do %>
-            <%= list.name %>
+   <div class="media-show-infos media-show-year-type">
+        <span class="media-show-info-heading">Year </span>
+        <span class="media-show-info-text">
+          <%= @title.start_year %>
+          <% if @title.end_year %>
+            - <%= @title.end_year %>
           <% end %>
-          <% end %>
-        <% end %>
-      <%= link_to 'New List', new_list_path %>
+        </span>
+        <span class="media-show-info-heading">Media Type </span>
+          <%= @title.media_type.capitalize %>
+    </div>
 
-
+  <div class="media-show-infos media-show-poster-description">
+    <div class="media-show-poster">
+      <img src="<%= @title.poster_url %>" alt="<%= @title.name %> Poster">
+    </div>
+    <div class="media-show-infos">
+      <div>
+        <span class="media-show-info-heading">TMDb ID </span>
+        <%= @title.tmdb_id %>
+        <span class="media-show-info-heading">IMDb ID </span>
+        <%= @title.imdb_id %>
+        <span class="media-show-info-heading">IMDb Rating </span>
+        <%= @imdb_rating %>
+        <span class="media-show-info-heading">IMDb Votes </span>
+        <%= @imdb_votes %>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <div class="media-show-info">
+        <span class="media-show-info-heading">Genres </span>
+        <%= @genres %>
+      </div>
+      <div class="media-show-info">
+        <span class="media-show-info-heading">Description </span>
+        <%= @description %>
+      </div>
+      <div class="media-show-info">
+        <span class="media-show-info-heading">Cast </span>
+        <%= @cast %>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <% current_user.lists.each do |list|%>
+            <%= simple_form_for [@title, @list_item] do |f| %>
+            <%= f.input :list_id, as: :hidden, input_html: { value: list.id} %>
+            <%= f.button :button do %>
+              <%= list.name %>
+            <% end %>
+            <% end %>
+          <% end %>
+        <%= link_to 'New List', new_list_path %>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
