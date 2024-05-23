@@ -326,6 +326,7 @@ DEPENDENCIES
   bootsnap
   bootstrap (~> 5.2)
   capybara
+  concurrent-ruby
   debug
   devise
   dotenv-rails

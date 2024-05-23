@@ -6,6 +6,13 @@ class TmdbApi
     @api_key = api_key
   end
 
+  def fetch_top_rated_movies(page = 1)
+    self.class.get("/movie/top_rated", query: { api_key: @api_key, language: 'en-US', page: page }).parsed_response['results']
+  rescue => e
+    puts "Error fetching top-rated movies: #{e.message}"
+    []
+  end
+
   def fetch_popular_movies
     self.class.get("/movie/popular", query: { api_key: @api_key, language: 'en-US' }).parsed_response['results']
   rescue => e
@@ -55,6 +62,20 @@ class TmdbApi
     handle_response(tv_shows).first(limit)
   rescue => e
     puts "Error searching TV shows: #{e.message}"
+    []
+  end
+
+  def search_movies_and_tv_shows(query, limit = 5)
+    movies = self.class.get("/search/movie", query: { api_key: @api_key, query: query, language: 'en-US' }).parsed_response['results']
+    tv_shows = self.class.get("/search/tv", query: { api_key: @api_key, query: query, language: 'en-US' }).parsed_response['results']
+
+    movies.each { |movie| movie['media_type'] = 'movie' }
+    tv_shows.each { |tv| tv['media_type'] = 'tv' }
+
+    combined_results = (movies + tv_shows).sort_by { |result| result['popularity'] }.reverse.first(limit)
+    handle_response(combined_results)
+  rescue => e
+    puts "Error searching movies and TV shows: #{e.message}"
     []
   end
 

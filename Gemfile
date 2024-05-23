@@ -56,6 +56,7 @@ gem 'httparty'
 gem 'faker'
 gem 'pg_search'
 gem 'rest-client'
+gem 'concurrent-ruby'
 
 group :development, :test do
   gem "dotenv-rails"
