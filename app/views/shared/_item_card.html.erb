@@ -1,19 +1,19 @@
-<%= link_to title_path(title) do  %>
+<%= link_to title_path(title[:id]) do %>
   <div class="card item-card mb-3">
-    <img src="https://image.tmdb.org/t/p/w500<%= title.poster_url %>" alt="<%= title.name %>" class="card-img-top item-card-img-top" alt="...">
+    <img src="<%= title[:poster_path] %>" alt="<%= title[:name] %>" class="card-img-top item-card-img-top" alt="...">
     <div class="card-body item-card-body">
-      <h5 class="card-title item-card-title"><%= title.name %></h5>
+      <h5 class="card-title item-card-title"><%= title[:name] %></h5>
       <div class="card-text item-card-small-texts">
         <div>
           <span class="item-card-small-text-heading">Year:</span>
-          <%= title.start_year %>
-          <% if title.end_year %>
-            - <%= title.end_year %>
+          <%= title[:start_year] %>
+          <% if title[:end_year] %>
+            - <%= title[:end_year] %>
           <% end %>
         </div>
         <div>
           <span class="item-card-small-text-heading">TMDb Media Type:</span>
-          <%= title.media_type.capitalize %>
+          <%= title[:media_type].capitalize %>
         </div>
       </div>
     </div>
