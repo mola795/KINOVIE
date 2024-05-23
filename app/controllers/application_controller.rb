@@ -22,6 +22,9 @@ class ApplicationController < ActionController::Base
         imdb_id = tmdb_details['imdb_id'] || omdb_api.fetch_imdb_id(title_name, release_year)
         omdb_details = omdb_api.fetch_movie_details(imdb_id)
 
+        poster_path = tmdb_details['poster_path']
+        poster_url = poster_path.present? ? "https://image.tmdb.org/t/p/w500#{poster_path}" : nil
+
         title = Title.new(
           name: title_name,
           media_type: media_type == 'tv' ? 'tv' : 'movie',
@@ -29,7 +32,7 @@ class ApplicationController < ActionController::Base
           end_year: extract_years(tmdb_details['last_air_date']).first,
           tmdb_id: tmdb_id,
           imdb_id: imdb_id,
-          poster_url: "https://image.tmdb.org/t/p/w500#{tmdb_details['poster_path']}",
+          poster_url: poster_url,
           imdb_rating: omdb_details['imdbRating'],
           imdb_votes: omdb_details['imdbVotes']&.gsub(',', '')&.to_i
         )
@@ -38,9 +41,11 @@ class ApplicationController < ActionController::Base
           save_genres(tmdb_details['genres'], omdb_details['Genre'], title)
           return title
         else
+          logger.error "Error saving title: #{title.errors.full_messages.join(', ')}"
           return nil
         end
       else
+        logger.error "TMDb details not found for ID: #{tmdb_id}"
         return nil
       end
     rescue => e
@@ -97,11 +102,4 @@ class ApplicationController < ActionController::Base
       [date.split('-').first.to_i, nil]
     end
   end
-end
-
-
-# app/controllers/application_controller.rb
-
-class ApplicationController < ActionController::Base
-
 end
