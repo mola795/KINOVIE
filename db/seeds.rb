@@ -138,7 +138,8 @@ def seed_top_rated_titles(tmdb_api, omdb_api, watchmode_api)
             Streaming.create!(
               url: streaming_src['web_url'],
               service: service,
-              title: title_record
+              title: title_record,
+              streaming_type: streaming_src['type']
             )
             puts "Linked service #{service.name} to title #{title_record.name} with URL"
           end
