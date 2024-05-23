@@ -1,30 +1,33 @@
 class SearchController < ApplicationController
   def index
     @query = params[:query]
-    @titles = Title.search_by_name(@query)
 
-    if @titles.empty?
+    if @query.present?
       tmdb_api = TmdbApi.new(ENV['TMDB_API_KEY'])
-      tmdb_results = tmdb_api.search_movies_and_tv_shows(@query, 5)
+      tmdb_results = tmdb_api.search_movies_and_tv_shows(@query, 10)
+
+      logger.debug "TMDb Results: #{tmdb_results.inspect}"
 
       @titles = tmdb_results.map do |tmdb_title|
-        Title.find_or_create_by(tmdb_id: tmdb_title['id']) do |t|
-          t.name = tmdb_title['title'] || tmdb_title['name']
-          t.media_type = tmdb_title['media_type']
-          t.start_year, t.end_year = extract_years(tmdb_title['release_date'] || tmdb_title['first_air_date'])
-          t.poster_url = "https://image.tmdb.org/t/p/w500/#{tmdb_title['poster_path']}"
-          t.imdb_id = fetch_imdb_id(tmdb_title['id'], tmdb_api, t.media_type)
-        end
+        start_year, end_year = extract_years(tmdb_title['release_date'] || tmdb_title['first_air_date'])
+
+        {
+          id: tmdb_title['id'],
+          name: tmdb_title['title'] || tmdb_title['name'],
+          media_type: tmdb_title['media_type'],
+          start_year: start_year,
+          end_year: end_year,
+          poster_path: tmdb_title['poster_path']
+        }
       end
+
+      logger.debug "Processed Titles: #{@titles.inspect}"
+    else
+      @titles = []
     end
   end
 
   private
-
-  def fetch_imdb_id(tmdb_id, tmdb_api, media_type)
-    title_details = tmdb_api.fetch_title_details(tmdb_id, media_type)
-    title_details['imdb_id']
-  end
 
   def extract_years(date)
     return [nil, nil] unless date
