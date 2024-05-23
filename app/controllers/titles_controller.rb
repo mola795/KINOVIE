@@ -25,48 +25,57 @@ class TitlesController < ApplicationController
   end
 
   def create
-    tmdb_api_key = ENV['TMDB_API_KEY']
-    omdb_api_key = ENV['OMDB_API_KEY']
-    tmdb_api = TmdbApi.new(tmdb_api_key)
-    omdb_api = OmdbApi.new(omdb_api_key)
-
     tmdb_id = params[:title][:tmdb_id]
     media_type = params[:title][:media_type]
 
-    begin
-      tmdb_details = tmdb_api.fetch_title_details(tmdb_id, media_type)
+    existing_title = Title.find_by(tmdb_id: tmdb_id, media_type: media_type)
 
-      if tmdb_details.present?
-        title_name = tmdb_details['title'] || tmdb_details['name']
-        release_year = extract_years(tmdb_details['release_date'] || tmdb_details['first_air_date']).first
+    if existing_title
+      redirect_to existing_title
+    else
+      tmdb_api_key = ENV['TMDB_API_KEY']
+      omdb_api_key = ENV['OMDB_API_KEY']
+      tmdb_api = TmdbApi.new(tmdb_api_key)
+      omdb_api = OmdbApi.new(omdb_api_key)
 
-        imdb_id = tmdb_details['imdb_id'] || omdb_api.fetch_imdb_id(title_name, release_year)
+      logger.debug "Creating title with TMDb ID: #{tmdb_id}, Media Type: #{media_type}"
 
-        omdb_details = omdb_api.fetch_movie_details(imdb_id)
+      begin
+        tmdb_details = tmdb_api.fetch_title_details(tmdb_id, media_type)
 
-        @title = Title.new(
-          name: title_name,
-          media_type: media_type == 'tv' ? 'tv' : 'movie',
-          start_year: release_year,
-          end_year: extract_years(tmdb_details['last_air_date']).first,
-          tmdb_id: tmdb_id,
-          imdb_id: imdb_id,
-          poster_url: "https://image.tmdb.org/t/p/w500#{tmdb_details['poster_path']}",
-          imdb_rating: omdb_details['imdbRating'],
-          imdb_votes: omdb_details['imdbVotes']&.gsub(',', '')&.to_i
-        )
+        if tmdb_details.present?
+          title_name = tmdb_details['title'] || tmdb_details['name']
+          release_year = extract_years(tmdb_details['release_date'] || tmdb_details['first_air_date']).first
 
-        if @title.save
-          redirect_to @title, notice: 'Title was successfully created.'
+          imdb_id = tmdb_details['imdb_id'] || omdb_api.fetch_imdb_id(title_name, release_year)
+
+          omdb_details = omdb_api.fetch_movie_details(imdb_id)
+
+          @title = Title.new(
+            name: title_name,
+            media_type: media_type == 'tv' ? 'tv' : 'movie',
+            start_year: release_year,
+            end_year: extract_years(tmdb_details['last_air_date']).first,
+            tmdb_id: tmdb_id,
+            imdb_id: imdb_id,
+            poster_url: "https://image.tmdb.org/t/p/w500#{tmdb_details['poster_path']}",
+            imdb_rating: omdb_details['imdbRating'],
+            imdb_votes: omdb_details['imdbVotes']&.gsub(',', '')&.to_i
+          )
+
+          if @title.save
+            redirect_to @title
+          else
+            render :new, status: :unprocessable_entity
+          end
         else
-          render :new, status: :unprocessable_entity
+          logger.error "TMDb details not found for ID: #{tmdb_id}, Media Type: #{media_type}"
+          redirect_to new_title_path, alert: 'Title not found in TMDb.'
         end
-      else
-        redirect_to new_title_path, alert: 'Title not found in TMDb.'
+      rescue => e
+        logger.error "Error creating title: #{e.message}"
+        redirect_to new_title_path, alert: 'An error occurred while creating the title.'
       end
-    rescue => e
-      logger.error "Error creating title: #{e.message}"
-      redirect_to new_title_path, alert: 'An error occurred while creating the title.'
     end
   end
 
