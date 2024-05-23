@@ -1,6 +1,6 @@
 class List < ApplicationRecord
   belongs_to :user
-  has_many :list_items
+  has_many :list_items, dependent: :destroy
 
   # before_validation :set_defaults
   validates :name, presence: true
