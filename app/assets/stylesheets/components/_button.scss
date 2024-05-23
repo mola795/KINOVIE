@@ -1,0 +1,24 @@
+.btn {
+  background-color: $sub-color;
+  color: $main-white;
+  border: none;
+  padding: 10px 20px;
+  &:hover {
+    background-color: $sub-color;
+    color: $key-color;
+    border: none;
+  }
+}
+
+.btn-search {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  right: -5px;
+  background-color: transparent;
+  color: $main-color;
+  &:hover {
+    background-color: transparent;
+    color: $key-color;
+  }
+}

@@ -1,5 +1,15 @@
 class ListsController < ApplicationController
 
+  def index
+    @lists = List.all
+    redirect_to new_list_path if @lists.empty?
+  end
+
+  def show
+    @list = List.find(params[:id])
+    @list_items = @list.list_items
+  end
+
   def new
   @list = List.new
   end

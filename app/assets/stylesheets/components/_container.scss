@@ -1,0 +1,39 @@
+.container {
+  margin-top: 20px;
+}
+
+.container-flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  // gap: 3;
+}
+
+.container-column-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.container-devise {
+  text-align: center;
+  margin: 15px;
+}
+
+.container-devise-links {
+  text-align: center;
+}
+
+.container-media-show {
+  width: 80%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-item-card {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}

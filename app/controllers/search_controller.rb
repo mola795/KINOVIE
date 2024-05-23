@@ -7,6 +7,7 @@ class SearchController < ApplicationController
       tmdb_results = tmdb_api.search_movies_and_tv_shows(@query, 10)
 
       @titles = tmdb_results.map do |tmdb_title|
+        genres_new
         media_type = tmdb_title['media_type']
         tmdb_id = tmdb_title['id']
         title = create_or_find_title(tmdb_id, media_type)

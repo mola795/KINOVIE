@@ -1,0 +1,23 @@
+<!-- app/views/lists/index.html.erb -->
+
+<h1>Lists</h1>
+  <ul>
+    <% @lists.each do |list| %>
+      <li>
+        <div>
+          <div>
+            <h2><%= link_to list.name, list_path(list) %></h2>
+            <%# this will display the tiled movie covers %>
+          </div>
+          <div>
+            <p>Status: <%= list.status %></p>
+          </div>
+          <div>
+            <p><%= list.description %></p>
+          </div>
+        </div>
+      </li>
+  </ul>
+<% end %>
+
+<%= link_to 'New List', new_list_path, class: 'btn btn-primary' %>
