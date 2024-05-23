@@ -1,10 +1,19 @@
 <img src="<%= @service.logo_url %>">
 <div class="container d-flex gap-3 align-items-center flex-wrap">
-  <% @service.streamings.each do |streaming| %>
+  <%# For the current service instance, iterate over its associated titles %>
+  <% @service.titles.each do |title| %>
+    <%# For each title, display its poster %>
     <div class="card" style="width: 200px; height 400px;">
-      <a href="<%= streaming.url %>">
-          <img src="<%= streaming.title.poster_url %>" class="card-img-top">
-      </a>
+        <img src="<%= title.poster_url %>" class="card-img-top">
     </div>
+    <%# Then, for each title display its available places to stream where the %>
+    <%# streaming service is equal to the current service instance %>
+    <% title.streamings.where(service: @service).each do |streaming| %>
+      <%= link_to streaming.url, target: "_blank" do %>
+        <button type="button" class="btn-primary">
+        <%= display_streaming_type(streaming.streaming_type) %>
+        </button>
+      <% end %>
+    <% end %>
   <% end %>
 </div>
