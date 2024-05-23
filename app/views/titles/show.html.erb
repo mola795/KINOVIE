@@ -1,4 +1,4 @@
-<div class="container-media-show">
+<div class="container container-media-show">
   <div class="media-show-heading">
     <h1 class="media-heading"><%= @title.name %></h1>
     <!-- Button trigger modal -->
@@ -7,7 +7,7 @@
     </button>
   </div>
 
-  <div class="media-show-infos media-show-year-type">
+  <div class="media-show-infos-year-type">
     <span class="media-show-info-heading">Year </span>
     <span class="media-show-info-text">
       <%= @title.start_year %>
@@ -16,35 +16,35 @@
       <% end %>
     </span>
     <span class="media-show-info-heading">Media Type </span>
-    <%= @title.media_type.capitalize %>
+    <span class="media-show-info-text">
+      <%= @title.media_type.capitalize %>
+    </span>
   </div>
 
-  <div class="media-show-infos media-show-poster-description">
-    <div class="media-show-poster">
-      <img src="<%= @title.poster_url %>" alt="<%= @title.name %> Poster">
-    </div>
-    <div class="media-show-infos">
+  <div class="media-show-infos">
+    <img src="<%= @title.poster_url %>" alt="<%= @title.name %> Poster" class="media-show-poster-img">
+    <div class="media-show-infos-details">
       <div>
         <span class="media-show-info-heading">TMDb ID </span>
-        <%= @title.tmdb_id %>
+        <span class="media-show-info-text"> <%= @title.tmdb_id %></span>
         <span class="media-show-info-heading">IMDb ID </span>
-        <%= @title.imdb_id %>
+        <span class="media-show-info-text"> <%= @title.imdb_id %></span>
         <span class="media-show-info-heading">IMDb Rating </span>
-        <%= @imdb_rating %>
+        <span class="media-show-info-text"> <%= @imdb_rating %></span>
         <span class="media-show-info-heading">IMDb Votes </span>
-        <%= @imdb_votes %>
+        <span class="media-show-info-text"> <%= @imdb_votes %></span>
       </div>
       <div class="media-show-info">
         <span class="media-show-info-heading">Genres </span>
-        <%= @genres %>
+        <span class="media-show-info-text"> <%= @genres %></span>
       </div>
       <div class="media-show-info">
         <span class="media-show-info-heading">Description </span>
-        <%= @description %>
+        <p class="media-show-info-text"> <%= @description %></p>
       </div>
       <div class="media-show-info">
         <span class="media-show-info-heading">Cast </span>
-        <%= @cast %>
+        <p class="media-show-info-text"> <%= @cast %></p>
       </div>
     </div>
   </div>

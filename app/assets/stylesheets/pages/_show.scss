@@ -6,19 +6,32 @@
   }
 }
 
-.media-show-year-type {
+.media-show-poster-img {
+  width: 16rem;
+}
+
+.media-show-infos-year-type {
   margin-bottom: 20px;
 }
 
-.media-show-poster-description {
+.media-show-infos {
   display: flex;
+  width: 60rem;
 }
 
 .media-show-info-heading {
-  text-align: none;
   font-weight: 600;
 }
 
 .media-show-info-text {
   margin-right: 10px;
+}
+
+.media-show-infos-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  max-height: 15rem;
+  margin-left: 1rem;
 }

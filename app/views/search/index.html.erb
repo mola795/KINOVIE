@@ -1,7 +1,7 @@
 <h1 class="page-heading">Search Results</h1>
 
 <% if @query.present? %>
-  <div class="container-item-card">
+  <div class="container container-item-card">
     <% @titles.each do |title| %>
       <%= render 'shared/item_card', title: title %>
     <% end %>
