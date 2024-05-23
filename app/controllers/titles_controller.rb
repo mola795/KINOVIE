@@ -1,5 +1,3 @@
-# app/controllers/titles_controller.rb
-
 class TitlesController < ApplicationController
   def index
     @titles = Title.all
@@ -80,7 +78,39 @@ class TitlesController < ApplicationController
     end
 
     logger.debug "Saving genres for title ID: #{@title.tmdb_id}"
-    save_genres(tmdb_genres, omdb_genres, @title)
+    save_genres(tmdb_genres, @title)
+  end
+
+  def save_genres(tmdb_genres, title)
+    all_genres = tmdb_genres.map { |g| g['name'] }
+
+    logger.debug "All genres to be processed: #{all_genres.uniq.inspect}"
+
+    all_genres.uniq.each do |genre_name|
+      tmdb_genre = tmdb_genres.find { |g| g['name'] == genre_name }
+      if tmdb_genre
+        logger.debug "Processing TMDb genre: #{tmdb_genre.inspect}"
+        genre = Genre.find_or_initialize_by(tmdb_id: tmdb_genre['id'])
+        genre.name = tmdb_genre['name']
+        if genre.save
+          title.genres << genre unless title.genres.include?(genre)
+        end
+      else
+        logger.warn "Genre not found in TMDb: #{genre_name}"
+      end
+    end
+  end
+
+  def find_tmdb_genre_id_by_name(genre_name)
+    tmdb_api_key = ENV['TMDB_API_KEY']
+    url = URI("https://api.themoviedb.org/3/genre/movie/list?api_key=#{tmdb_api_key}&language=en-US")
+    response = Net::HTTP.get(url)
+    genres = JSON.parse(response)["genres"]
+    genre = genres.find { |g| g['name'].casecmp(genre_name).zero? }
+    genre ? genre['id'] : nil
+  rescue => e
+    logger.error "Error fetching TMDb genre ID: #{e.message}"
+    nil
   end
 
   def fetch_combined_cast(tmdb_id, tmdb_api, media_type)
