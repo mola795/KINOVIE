@@ -2,87 +2,34 @@
 <h1 class="page-heading">Pages#home</h1>
 
 <%# CAROUSEL from Bootstrap, Banner (in .carousel-item) from LW UI Kit%>
-<div id="carouselExample" class="carousel slide">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="carousel-banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/background.png);">
-        <div class="container">
-          <h1>Le Wagon brings <strong>tech skills</strong> to <strong>creative people</strong>!</h1>
-          <p>Change your life and learn to code at one of our campuses around the world.</p>
-          <a class="btn btn-flat" href="#">Apply now</a>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="carousel-banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://cdn.pixabay.com/photo/2016/07/07/16/46/dice-1502706_640.jpg);">
-        <div class="container">
-          <h1>Le Wagon brings <strong>tech skills</strong> to <strong>creative people</strong>!</h1>
-          <p>Change your life and learn to code at one of our campuses around the world.</p>
-          <a class="btn btn-flat" href="#">Apply now</a>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="carousel-banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/background.png);">
-        <div class="container">
-          <h1>Le Wagon brings <strong>tech skills</strong> to <strong>creative people</strong>!</h1>
-          <p>Change your life and learn to code at one of our campuses around the world.</p>
-          <a class="btn btn-flat" href="#">Apply now</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-
+<%= render 'shared/carousel' %>
 <%# LIST CAROUSEL %>
 
 <%# ITEM CARD %>
-<div class="card item-card mb-3">
-  <img src="https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg" class="card-img-top item-img-top" alt="...">
-  <div class="card-body item-body">
-    <div class="card-text item-small-text">
-      <p>Rating 1</p>
-      <p>Rating 1</2>
-    </div>
-    <h5 class="card-title item-title">Card title</h5>
-  </div>
-</div>
+<%= render 'shared/item_card' %>
 
 <%# COVER CARD %>
-<%# <div class="card cover-card mb-3">
+<div class="card cover-card mb-3">
   <img src="https://cdn.pixabay.com/photo/2018/05/01/07/52/tuscany-3364921_1280.jpg" class="card-img-top cover-card-img-top" alt="...">
   <div class="card-body cover-card-body">
       <h5 class="card-title cover-card-title">Card title</h5>
   </div>
-</div> %>
+</div>
 
 <%# STREAMING SERVICE CARD %>
-<%# <div class="card cover-card text-bg-dark">
+<div class="card cover-card text-bg-dark">
   <img src="https://cdn.pixabay.com/photo/2018/05/01/07/52/tuscany-3364921_1280.jpg" class="card-img cover-card-img" alt="...">
   <div class="card-img-overlay cover-card-img-overlay">
     <h5 class="card-title cover-card-title">Card title</h5>
   </div>
-</div> %>
+</div>
 
 <%# COLLECTION CARD %>
 <%= render 'shared/collection_card' %>
 
 
 <%# ITEM DESCRIPTION CARD %>
-<%# <div class="item-description-card">
+<div class="item-description-card">
   <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" class="item-description-card-img"/>
   <div class="item-description-card-infos">
     <h2 class="item-description-card-title">Media Title</h2>
@@ -95,4 +42,4 @@
     </div>
     <div class="item-description-card-main-text">Description</div>
   </div>
-</div> %>
+</div>
