@@ -1,26 +1,11 @@
-<h1>Search Results</h1>
+<h1 class="page-heading">Search Results</h1>
 
 <% if @query.present? %>
-  <h2>Titles</h2>
-  <ul style="list-style-type: none; padding: 0;">
+  <div class="container container-item-card">
     <% @titles.each do |title| %>
-      <li style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; display: flex; align-items: center; background-color: #f9f9f9;">
-        <%= form_with url: titles_path, method: :post, local: true do %>
-          <%= hidden_field_tag 'title[tmdb_id]', title[:id] %>
-          <%= hidden_field_tag 'title[media_type]', title[:media_type] %>
-          <%= hidden_field_tag 'title[name]', title[:name] %>
-          <div style="margin-right: 20px; cursor: pointer;" onclick="this.closest('form').submit();">
-            <img src="https://image.tmdb.org/t/p/w500<%= title[:poster_path] %>" alt="<%= title[:name] %>" style="width: 100px; height: auto; border-radius: 5px;">
-          </div>
-          <div style="cursor: pointer; flex: 1;" onclick="this.closest('form').submit();">
-            <h3 style="margin: 0;"><%= title[:name] %></h3>
-            <p style="margin: 5px 0;"><strong>Year:</strong> <%= title[:start_year] %> <% if title[:end_year] %>- <%= title[:end_year] %><% end %></p>
-            <p style="margin: 5px 0;"><strong>TMDb Media Type:</strong> <%= title[:media_type] %></p>
-          </div>
-        <% end %>
-      </li>
+      <%= render 'shared/item_card', title: title %>
     <% end %>
-  </ul>
+  </div>
 <% else %>
   <p>No results found. Please try a different search.</p>
 <% end %>

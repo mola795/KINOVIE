@@ -1,49 +1,89 @@
-<h1><%= @title.name %></h1>
+<!-- app/views/titles/show.html.erb -->
+<div class="container container-media-show">
+  <div class="media-show-heading">
+    <h1 class="media-heading"><%= @title.name %></h1>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Add to List
+    </button>
+  </div>
 
-<p><strong>Year:</strong> <%= @title.start_year %> <% if @title.end_year %>- <%= @title.end_year %><% end %></p>
+  <div class="media-show-infos-year-type">
+    <span class="media-show-info-heading">Year </span>
+    <span class="media-show-info-text">
+      <%= @title.start_year %>
+      <% if @title.end_year %>
+        - <%= @title.end_year %>
+      <% end %>
+    </span>
+    <span class="media-show-info-heading">Media Type </span>
+    <span class="media-show-info-text">
+      <%= @title.media_type.capitalize %>
+    </span>
+  </div>
 
-<p><strong>TMDb ID:</strong> <%= @title.tmdb_id %></p>
-<p><strong>IMDb ID:</strong> <%= @title.imdb_id %></p>
-<p><strong>IMDb Rating:</strong> <%= @imdb_rating %></p>
-<p><strong>IMDb Votes:</strong> <%= @imdb_votes %></p>
-<p><strong>Media Type:</strong> <%= @title.media_type %></p>
-<div>
-  <img src="<%= @title.poster_url %>" alt="<%= @title.name %> Poster">
-</div>
-<p><strong>Description:</strong> <%= @description %></p>
-<p><strong>Genres:</strong> <%= @genres %></p>
-<p><strong>Cast:</strong> <%= @cast %></p>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Add to list
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="media-show-infos">
+    <img src="<%= @title.poster_url %>" alt="<%= @title.name %> Poster" class="media-show-poster-img">
+    <div class="media-show-infos-details">
+      <div>
+        <span class="media-show-info-heading">TMDb ID </span>
+        <span class="media-show-info-text"> <%= @title.tmdb_id %></span>
+        <span class="media-show-info-heading">IMDb ID </span>
+        <span class="media-show-info-text"> <%= @title.imdb_id %></span>
+        <span class="media-show-info-heading">IMDb Rating </span>
+        <span class="media-show-info-text"> <%= @imdb_rating %></span>
+        <span class="media-show-info-heading">IMDb Votes </span>
+        <span class="media-show-info-text"> <%= @imdb_votes %></span>
       </div>
-      <div class="modal-body">
-
-        <% current_user.lists.each do |list|%>
-          <%= simple_form_for [@title, @list_item] do |f| %>
-          <%= f.input :list_id, as: :hidden, input_html: { value: list.id} %>
-          <%= f.button :button do %>
-            <%= list.name %>
+      <div class="media-show-info">
+        <span class="media-show-info-heading">Genres </span>
+        <span class="media-show-info-text">
+          <% @genres.split(', ').each do |genre_name| %>
+            <% genre = Genre.find_by(name: genre_name) %>
+            <% if genre %>
+              <%= link_to genre.name, genre_path(genre.tmdb_id) %>
+            <% else %>
+              <span><%= genre_name %></span>
+            <% end %>
           <% end %>
-          <% end %>
-        <% end %>
-      <%= link_to 'New List', new_list_path %>
-
-
+        </span>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <div class="media-show-info">
+        <span class="media-show-info-heading">Description </span>
+        <p class="media-show-info-text"> <%= @description %></p>
+      </div>
+      <div class="media-show-info">
+        <span class="media-show-info-heading">Cast </span>
+        <p class="media-show-info-text"> <%= @cast %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel"><%= "Add #{@title.name}" %></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <% current_user.lists.each do |list| %>
+            <%= simple_form_for [@title, @list_item] do |f| %>
+              <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
+              <%= f.button :button do %>
+                <%= list.name %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%= link_to new_list_path do %>
+            <i class="fa-solid fa-plus"></i> New List
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
