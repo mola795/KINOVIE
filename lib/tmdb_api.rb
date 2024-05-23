@@ -102,3 +102,9 @@ class TmdbApi
     end
   end
 end
+
+# def crate_title (?)
+#  call the other api
+#
+#create method
+#end

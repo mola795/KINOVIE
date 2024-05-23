@@ -1,0 +1,24 @@
+.media-show-heading {
+  display: flex;
+  align-items: center;
+  .btn-add-list {
+    margin-left: 30px;
+  }
+}
+
+.media-show-year-type {
+  margin-bottom: 20px;
+}
+
+.media-show-poster-description {
+  display: flex;
+}
+
+.media-show-info-heading {
+  text-align: none;
+  font-weight: 600;
+}
+
+.media-show-info-text {
+  margin-right: 10px;
+}

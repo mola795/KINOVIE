@@ -2,6 +2,8 @@
 @import "config/fonts";
 @import "config/colors";
 @import "config/bootstrap_variables";
+@import "config/margins";
+@import "config/texts";
 
 // External libraries
 @import "bootstrap";
@@ -10,3 +12,19 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+@import "pages/show";
+
+// Shared
+body {
+  height: 100vh;
+  height: 100dvh;
+  box-sizing: border-box;
+  background-color: $main-color;
+  color: $main-white;
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  list-style-type: none;
+}

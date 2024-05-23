@@ -1,0 +1,18 @@
+.search {
+  flex-grow: 1;
+  max-width: 500px;
+}
+
+.search-form-control {
+  width: 100%;
+  position: relative;
+  .form-control {
+    height: 2.5rem;
+    border-radius: 30px;
+    &:focus {
+      border: 1px solid $key-color;
+      outline: none !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+  }
+}
