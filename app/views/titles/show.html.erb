@@ -29,7 +29,10 @@
       </div>
       <div class="modal-body">
 
-        <%= link_to 'New List', new_list_path %>
+        <%= link_to new_list_path do %>
+        <i class="fa-solid fa-plus"></i> New List
+        <% end %>
+
         <% current_user.lists.each do |list|%>
           <%= simple_form_for [@title, @list_item] do |f| %>
             <%= f.input :list_id, as: :hidden, input_html: { value: list.id} %>
@@ -38,7 +41,6 @@
             <% end %>
           <% end %>
         <% end %>
-
 
       </div>
       <div class="modal-footer">
