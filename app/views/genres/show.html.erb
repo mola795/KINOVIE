@@ -1,0 +1,71 @@
+<h1><%= @genre.name %> Movies and TV Shows</h1>
+
+<h2>Movies in Database</h2>
+<ul>
+  <% @db_movies.each do |title| %>
+    <li>
+      <div>
+        <img src="<%= title.poster_url %>" alt="<%= title.name %> Poster" style="width: 100px; height: auto;">
+        <p><%= link_to title.name, title_path(title) %></p>
+        <p><strong>Year:</strong> <%= title.start_year %> <% if title.end_year %>- <%= title.end_year %> <% end %></p>
+        <p><strong>IMDb Rating:</strong> <%= title.imdb_rating %></p>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<h2>TV Shows in Database</h2>
+<ul>
+  <% @db_tv_shows.each do |title| %>
+    <li>
+      <div>
+        <img src="<%= title.poster_url %>" alt="<%= title.name %> Poster" style="width: 100px; height: auto;">
+        <p><%= link_to title.name, title_path(title) %></p>
+        <p><strong>Year:</strong> <%= title.start_year %> <% if title.end_year %>- <%= title.end_year %> <% end %></p>
+        <p><strong>IMDb Rating:</strong> <%= title.imdb_rating %></p>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Additional Movies from TMDb</h2>
+<ul style="list-style-type: none; padding: 0;">
+  <% @api_movies.each do |movie| %>
+    <li style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; display: flex; align-items: center; background-color: #f9f9f9;">
+      <%= form_with url: titles_path, method: :post, local: true do %>
+        <%= hidden_field_tag 'title[tmdb_id]', movie['id'] %>
+        <%= hidden_field_tag 'title[media_type]', 'movie' %>
+        <%= hidden_field_tag 'title[name]', movie['title'] %>
+        <div style="margin-right: 20px; cursor: pointer;" onclick="this.closest('form').submit();">
+          <img src="https://image.tmdb.org/t/p/w500<%= movie['poster_path'] %>" alt="<%= movie['title'] %>" style="width: 100px; height: auto; border-radius: 5px;">
+        </div>
+        <div style="cursor: pointer; flex: 1;" onclick="this.closest('form').submit();">
+          <h3 style="margin: 0;"><%= movie['title'] %></h3>
+          <p style="margin: 5px 0;"><strong>Year:</strong> <%= movie['release_date']&.split('-')&.first %></p>
+          <p style="margin: 5px 0;"><strong>TMDb Media Type:</strong> Movie</p>
+        </div>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Additional TV Shows from TMDb</h2>
+<ul style="list-style-type: none; padding: 0;">
+  <% @api_tv_shows.each do |tv_show| %>
+    <li style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; display: flex; align-items: center; background-color: #f9f9f9;">
+      <%= form_with url: titles_path, method: :post, local: true do %>
+        <%= hidden_field_tag 'title[tmdb_id]', tv_show['id'] %>
+        <%= hidden_field_tag 'title[media_type]', 'tv' %>
+        <%= hidden_field_tag 'title[name]', tv_show['name'] %>
+        <div style="margin-right: 20px; cursor: pointer;" onclick="this.closest('form').submit();">
+          <img src="https://image.tmdb.org/t/p/w500<%= tv_show['poster_path'] %>" alt="<%= tv_show['name'] %>" style="width: 100px; height: auto; border-radius: 5px;">
+        </div>
+        <div style="cursor: pointer; flex: 1;" onclick="this.closest('form').submit();">
+          <h3 style="margin: 0;"><%= tv_show['name'] %></h3>
+          <p style="margin: 5px 0;"><strong>Year:</strong> <%= tv_show['first_air_date']&.split('-')&.first %></p>
+          <p style="margin: 5px 0;"><strong>TMDb Media Type:</strong> TV Show</p>
+        </div>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

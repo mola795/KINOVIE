@@ -36,7 +36,16 @@
       </div>
       <div class="media-show-info">
         <span class="media-show-info-heading">Genres </span>
-        <span class="media-show-info-text"> <%= @genres %></span>
+        <span class="media-show-info-text">
+          <% @genres.split(', ').each do |genre_name| %>
+            <% genre = Genre.find_by(name: genre_name) %>
+            <% if genre %>
+              <%= link_to genre.name, genre_path(genre.tmdb_id) %>
+            <% else %>
+              <span><%= genre_name %></span>
+            <% end %>
+          <% end %>
+        </span>
       </div>
       <div class="media-show-info">
         <span class="media-show-info-heading">Description </span>

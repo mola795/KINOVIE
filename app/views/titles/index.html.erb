@@ -1,0 +1,6 @@
+<h1>All Titles</h1>
+<ul>
+  <% @titles.each do |title| %>
+    <li><%= link_to title.name, title_path(title) %></li>
+  <% end %>
+</ul>
