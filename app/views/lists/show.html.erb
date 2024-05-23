@@ -1,35 +1,24 @@
-<div>
-  <div>
-    <h1><%= @list.name %></h1>
-  </div>
-  <div>
-    <%= @list.status %>
-  </div>
-  <div>
-    <p><%= @list.description %></p>
-  </div>
-  <div>
-    <% if @list_items.any? %>
-      <ul>
-          <% @list_items.each do |list_item| %>
-        <li>
-          <div>
-            <%= link_to list_item.title.name, title_path(list_item.title)  %>
-          </div>
+<h1 class="page-heading"><%= @list.name %></h1>
+<p class="text-center"><%= @list.description %></p>
 
-               <div>
-            <%= link_to list_item_path(list_item), data: { turbo_method: :delete }, class: 'btn btn-remove' do %>
-                <i class="fa-solid fa-trash-can"></i>
-            <% end %>
-          </div>
-          </div>
-        </li>
+<% if @list_items.any? %>
+  <div class="container container-item-card">
+    <% @list_items.each do |list_item| %>
+      <div class="card item-card mb-3">
+        <%= link_to title_path(list_item.title) do %>
+          <img src="<%= list_item.title.poster_url %>" alt="<%= list_item.title.name %>" class="card-img-top item-card-img-top">
         <% end %>
-      </ul>
+        <div class="card-body item-card-body">
+          <h5 class="card-title item-card-title">
+            <%= list_item.title.name %>
+          </h5>
+             <%= link_to list_item_path(list_item), data: { turbo_method: :delete }, class: 'btn btn-remove' do %>
+              <i class="fa-solid fa-trash-can"></i>
+             <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
-</div>
-<div>
-  <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
-</div>
+<% end %>
+
 <%# <%= link_to 'Add a movie', new_list_item_path, class: 'btn btn-secondary'%>
