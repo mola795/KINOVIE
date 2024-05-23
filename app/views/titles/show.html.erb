@@ -3,21 +3,21 @@
     <h1 class="media-heading"><%= @title.name %></h1>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Add to List
+      Add to List
     </button>
   </div>
 
-   <div class="media-show-infos media-show-year-type">
-        <span class="media-show-info-heading">Year </span>
-        <span class="media-show-info-text">
-          <%= @title.start_year %>
-          <% if @title.end_year %>
-            - <%= @title.end_year %>
-          <% end %>
-        </span>
-        <span class="media-show-info-heading">Media Type </span>
-          <%= @title.media_type.capitalize %>
-    </div>
+  <div class="media-show-infos media-show-year-type">
+    <span class="media-show-info-heading">Year </span>
+    <span class="media-show-info-text">
+      <%= @title.start_year %>
+      <% if @title.end_year %>
+        - <%= @title.end_year %>
+      <% end %>
+    </span>
+    <span class="media-show-info-heading">Media Type </span>
+    <%= @title.media_type.capitalize %>
+  </div>
 
   <div class="media-show-infos media-show-poster-description">
     <div class="media-show-poster">
@@ -48,27 +48,27 @@
       </div>
     </div>
   </div>
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel"><%= "Add #{@title.name}" %></h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-
-          <% current_user.lists.each do |list|%>
+          <% current_user.lists.each do |list| %>
             <%= simple_form_for [@title, @list_item] do |f| %>
-            <%= f.input :list_id, as: :hidden, input_html: { value: list.id} %>
-            <%= f.button :button do %>
-              <%= list.name %>
-            <% end %>
+              <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
+              <%= f.button :button do %>
+                <%= list.name %>
+              <% end %>
             <% end %>
           <% end %>
-        <%= link_to 'New List', new_list_path %>
-
-
+          <%= link_to new_list_path do %>
+            <i class="fa-solid fa-plus"></i> New List
+          <% end %>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

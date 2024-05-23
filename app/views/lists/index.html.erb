@@ -1,0 +1,19 @@
+<!-- app/views/lists/index.html.erb -->
+
+<h1>Lists</h1>
+
+<% if @lists.any? %>
+  <ul>
+    <% @lists.each do |list| %>
+      <li>
+        <h2><%= link_to list.name, list_path(list) %></h2>
+        <p><%= list.description %></p>
+        <p>Status: <%= list.status %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No lists found.</p>
+<% end %>
+
+<%= link_to 'New List', new_list_path, class: 'btn btn-primary' %>
