@@ -1,0 +1,6 @@
+<%= @user.username %>
+
+<% if @user == current_user %>
+<%# iterate over private lists %>
+<p><%= @private_lists %></p>
+<% end %>

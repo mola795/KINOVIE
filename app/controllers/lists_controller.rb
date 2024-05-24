@@ -2,9 +2,9 @@ class ListsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @lists = current_user.lists.order(:created_at)
-    @watchlist = @lists.find_by(name: 'Watchlist')
-    @lists = @lists.where.not(id: @watchlist.id) if @watchlist
+    @lists = List.all
+    # @watchlist = @lists.find_by(status: 'Private')
+    @lists = @lists.where.not(status: 'Private')
   end
 
   def show
