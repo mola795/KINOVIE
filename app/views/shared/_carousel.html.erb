@@ -4,38 +4,18 @@
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
+
   <div class="carousel-inner">
-    <div class="carousel-item active">
-        <div class="carousel-banner">
-          <% @titles.sample(1).each do |title| %>
-            <a href="<%= title_path(title) %>">
-              <img src="<%= title.poster_url %>" alt="Cover of <%= title.name %>">
-            </a>
-        </div>
-        <div class="container">
-          <p>Now Trending</p>
-          <h1 class="media-heading"><%= title.name %></h1>
-        </div>
-          <% end %>
+    <div class="carousel-inner">
+    <% @titles.sample(1).each do | title | %>
+      <div class="carousel-item active">
+        <img src="<%= title.poster_url %>" class="carousel-item-img" alt="Poster of <%= title.name %>">
       </div>
+    <% end %>
+  </div>
+    <div class="carousel-item">
     </div>
     <div class="carousel-item">
-      <div class="carousel-banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://cdn.pixabay.com/photo/2016/07/07/16/46/dice-1502706_640.jpg);">
-        <div class="container">
-          <h1>Le Wagon brings <strong>tech skills</strong> to <strong>creative people</strong>!</h1>
-          <p>Change your life and learn to code at one of our campuses around the world.</p>
-          <a class="btn btn-flat" href="#">Apply now</a>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="carousel-banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/background.png);">
-        <div class="container">
-          <h1>Le Wagon brings <strong>tech skills</strong> to <strong>creative people</strong>!</h1>
-          <p>Change your life and learn to code at one of our campuses around the world.</p>
-          <a class="btn btn-flat" href="#">Apply now</a>
-        </div>
-      </div>
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">

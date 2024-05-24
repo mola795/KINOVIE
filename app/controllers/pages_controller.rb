@@ -3,5 +3,6 @@ class PagesController < ApplicationController
 
   def home
     @titles = Title.all.select { |title| title.name.split.size <= 3 }
+    @lists = List.includes(:user).all
   end
 end

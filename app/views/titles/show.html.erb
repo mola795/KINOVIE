@@ -2,7 +2,7 @@
   <div class="carousel-inner">
     <% @backdrops.each_with_index do |backdrop, index| %>
       <div class="carousel-item <%= 'active' if index == 0 %>">
-        <img src="<%= backdrop %>" class="d-block w-100" alt="Backdrop">
+        <img src="<%= backdrop %>" class="carousel-item-img" alt="Backdrop">
       </div>
     <% end %>
   </div>
