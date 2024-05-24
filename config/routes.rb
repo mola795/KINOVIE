@@ -13,7 +13,8 @@ Rails.application.routes.draw do
     end
   end
   resources :list_items, only: %i[new create destroy]
-  resources :users, only: %i[show new create]
+  resources :users, only: %i[show]
+
 
   get '/profile', to: 'pages#profile', as: :profile
   get '/users/:username', to: 'users#show', as: :username
