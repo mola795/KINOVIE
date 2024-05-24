@@ -3,7 +3,6 @@ class ListsController < ApplicationController
 
   def index
     @lists = List.all
-    # @watchlist = @lists.find_by(status: 'Private')
     @lists = @lists.where.not(status: 'Private')
   end
 
