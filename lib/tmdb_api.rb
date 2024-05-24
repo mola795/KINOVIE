@@ -15,6 +15,15 @@ class TmdbApi
     []
   end
 
+  def fetch_top_title_backdrop(title_id, media_type)
+    media_type_mapped = map_media_type(media_type)
+    response = self.class.get("/#{media_type_mapped}/#{title_id}/images", query: { api_key: @api_key }).parsed_response
+    response['backdrops'].sort_by { |backdrop| -backdrop['vote_count'] }.map { |backdrop| "https://image.tmdb.org/t/p/original#{backdrop['file_path']}" }
+  rescue => e
+    Rails.logger.error "Error fetching top title backdrop: #{e.message}"
+    []
+  end
+
   def fetch_top_rated_movies(page = 1)
     self.class.get("/movie/top_rated", query: { api_key: @api_key, language: 'en-US', page: page }).parsed_response['results']
   rescue => e
