@@ -38,6 +38,25 @@
   }
 }
 
+.navbar-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin: 10px 20px;
+  }
+}
+
+
+
+
+
+
+
 .navbar-collapse .dropdown-menu {
   background-color: $sub-color;
   border: none;
