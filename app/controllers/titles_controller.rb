@@ -1,17 +1,23 @@
 class TitlesController < ApplicationController
   def index
     @titles = Title.all
+    @total_titles_count = Title.count
   end
 
-  def popular
-    @titles = Title.where(media_type: ['movie', 'tv']).order('created_at DESC').limit(100)
-    @total_titles_count = Title.count
+  def movies
+    @db_movies = Title.where(media_type: 'movie').where("imdb_votes > 0").order(imdb_votes: :desc).page(params[:movie_page]).per(36)
+  end
+
+  def tv_shows
+    @db_tv_shows = Title.where(media_type: 'tv').where("imdb_votes > 0").order(imdb_votes: :desc).page(params[:tv_page]).per(36)
   end
 
   def show
     @title = Title.find(params[:id])
     @list_item = ListItem.new
     fetch_and_display_title_details
+    fetch_backdrops
+    fetch_additional_details
   rescue ActiveRecord::RecordNotFound => e
     logger.error "Title not found: #{e.message}"
     redirect_to titles_path, alert: "Title not found."
@@ -55,21 +61,16 @@ class TitlesController < ApplicationController
 
     @description = @movie_details['overview'] || "No description available"
     tmdb_genres = @movie_details['genres'] || []
-    tmdb_cast = fetch_combined_cast(@title.tmdb_id, tmdb_api, @title.media_type)
+    tmdb_cast = fetch_cast(@title.tmdb_id, tmdb_api, @title.media_type)
 
     if @title.imdb_id
       logger.debug "Fetching OMDb details for IMDb ID: #{@title.imdb_id}"
       omdb_details = omdb_api.fetch_movie_details(@title.imdb_id) || {}
       @imdb_rating = omdb_details['imdbRating'] || "N/A"
       @imdb_votes = omdb_details['imdbVotes']&.gsub(',', '')&.to_i || 0
-      omdb_genres = omdb_details['Genre']&.split(", ") || []
-      omdb_cast = omdb_details['Actors']&.split(", ") || []
 
-      combined_genres = (tmdb_genres.map { |g| g['name'] } + omdb_genres).uniq
-      combined_cast = (tmdb_cast + omdb_cast).uniq
-
-      @genres = combined_genres.join(", ")
-      @cast = combined_cast.join(", ")
+      @genres = tmdb_genres.map { |g| g['name'] }.join(", ")
+      @cast = tmdb_cast.join(", ")
     else
       @imdb_rating = "N/A"
       @imdb_votes = 0
@@ -79,6 +80,29 @@ class TitlesController < ApplicationController
 
     logger.debug "Saving genres for title ID: #{@title.tmdb_id}"
     save_genres(tmdb_genres, @title)
+  end
+
+  def fetch_backdrops
+    tmdb_api_key = ENV['TMDB_API_KEY']
+    tmdb_api = TmdbApi.new(tmdb_api_key)
+    media_type = map_media_type(@title.media_type)
+    @backdrops = tmdb_api.fetch_title_backdrops(@title.tmdb_id, media_type)
+  end
+
+  def fetch_additional_details
+    tmdb_api_key = ENV['TMDB_API_KEY']
+    tmdb_api = TmdbApi.new(tmdb_api_key)
+
+    media_type = map_media_type(@title.media_type)
+    credits = tmdb_api.fetch_credits(@title.tmdb_id, media_type)
+
+    if media_type == 'movie'
+      @director = credits['crew']&.find { |member| member['job'] == 'Director' }&.dig('name')
+      @writers = credits['crew']&.select { |member| member['department'] == 'Writing' }.map { |writer| writer['name'] }.join(", ")
+    elsif media_type == 'tv'
+      @creator = credits['crew']&.find { |member| member['job'] == 'Creator' }&.dig('name')
+      @writers = credits['crew']&.select { |member| member['department'] == 'Writing' }.map { |writer| writer['name'] }.join(", ")
+    end
   end
 
   def save_genres(tmdb_genres, title)
@@ -113,7 +137,7 @@ class TitlesController < ApplicationController
     nil
   end
 
-  def fetch_combined_cast(tmdb_id, tmdb_api, media_type)
+  def fetch_cast(tmdb_id, tmdb_api, media_type)
     cast_details = if media_type == 'movie'
                      tmdb_api.fetch_movie_cast(tmdb_id)
                    else

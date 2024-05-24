@@ -1,0 +1,10 @@
+<h1 class="page-heading">TV Shows</h1>
+
+<div class="container container-item-card">
+  <% @db_tv_shows.each do |title| %>
+    <%= render 'shared/item_card', title: { id: title.id, name: title.name, start_year: title.start_year, end_year: title.end_year, poster_path: title.poster_url, media_type: title.media_type } %>
+  <% end %>
+</div>
+<div class="pagination-container">
+  <%= paginate @db_tv_shows, param_name: 'tv_page', class: 'pagination' %>
+</div>

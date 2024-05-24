@@ -1,0 +1,10 @@
+<h1 class="page-heading">Movies</h1>
+
+<div class="container container-item-card">
+  <% @db_movies.each do |title| %>
+    <%= render 'shared/item_card', title: { id: title.id, name: title.name, start_year: title.start_year, end_year: title.end_year, poster_path: title.poster_url, media_type: title.media_type } %>
+  <% end %>
+</div>
+<div class="pagination-container">
+  <%= paginate @db_movies, param_name: 'movie_page', class: 'pagination' %>
+</div>

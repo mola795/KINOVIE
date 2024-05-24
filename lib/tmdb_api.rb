@@ -6,6 +6,15 @@ class TmdbApi
     @api_key = api_key
   end
 
+  def fetch_title_backdrops(title_id, media_type)
+    media_type_mapped = map_media_type(media_type)
+    response = self.class.get("/#{media_type_mapped}/#{title_id}/images", query: { api_key: @api_key }).parsed_response
+    response['backdrops'].sort_by { |backdrop| -backdrop['vote_count'] }.first(3).map { |backdrop| "https://image.tmdb.org/t/p/original#{backdrop['file_path']}" }
+  rescue => e
+    puts "Error fetching title backdrops: #{e.message}"
+    []
+  end
+
   def fetch_top_rated_movies(page = 1)
     self.class.get("/movie/top_rated", query: { api_key: @api_key, language: 'en-US', page: page }).parsed_response['results']
   rescue => e
@@ -65,6 +74,14 @@ class TmdbApi
     []
   end
 
+  def fetch_credits(title_id, media_type)
+    media_type_mapped = map_media_type(media_type)
+    self.class.get("/#{media_type_mapped}/#{title_id}/credits", query: { api_key: @api_key, language: 'en-US' }).parsed_response
+  rescue => e
+    puts "Error fetching credits: #{e.message}"
+    {}
+  end
+
   def search_movies_and_tv_shows(query, limit = 5)
     movies = self.class.get("/search/movie", query: { api_key: @api_key, query: query, language: 'en-US' }).parsed_response['results']
     tv_shows = self.class.get("/search/tv", query: { api_key: @api_key, query: query, language: 'en-US' }).parsed_response['results']
@@ -102,9 +119,3 @@ class TmdbApi
     end
   end
 end
-
-# def crate_title (?)
-#  call the other api
-#
-#create method
-#end

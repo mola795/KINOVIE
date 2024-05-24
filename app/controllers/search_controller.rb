@@ -1,11 +1,10 @@
-# app/controllers/search_controller.rb
 class SearchController < ApplicationController
   def index
     @query = params[:query]
 
     if @query.present?
       tmdb_api = TmdbApi.new(ENV['TMDB_API_KEY'])
-      tmdb_results = tmdb_api.search_movies_and_tv_shows(@query, 10)
+      tmdb_results = tmdb_api.search_movies_and_tv_shows(@query, 12)
 
       @titles = tmdb_results.map do |tmdb_title|
         media_type = tmdb_title['media_type']
@@ -18,7 +17,7 @@ class SearchController < ApplicationController
           media_type: title.media_type,
           start_year: title.start_year,
           end_year: title.end_year,
-          poster_path: "https://image.tmdb.org/t/p/w500#{title.poster_url}",
+          poster_path: title.poster_url,
           imdb_id: title.imdb_id,
           imdb_rating: title.imdb_rating,
           imdb_votes: title.imdb_votes
@@ -55,7 +54,7 @@ class SearchController < ApplicationController
       end_year: extract_years(tmdb_details['last_air_date']).first,
       tmdb_id: tmdb_id,
       imdb_id: imdb_id,
-      poster_url: tmdb_details['poster_path'],
+      poster_url: "https://image.tmdb.org/t/p/w500#{tmdb_details['poster_path']}",
       imdb_rating: omdb_details['imdbRating'],
       imdb_votes: omdb_details['imdbVotes']&.gsub(',', '')&.to_i
     )
