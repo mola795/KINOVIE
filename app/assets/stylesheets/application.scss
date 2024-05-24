@@ -28,3 +28,43 @@ body {
 ul {
   list-style-type: none;
 }
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-item .page-link {
+  padding: 10px 15px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #e9ecef;
+  border-radius: 5px;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d;
+}

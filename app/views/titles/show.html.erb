@@ -1,6 +1,25 @@
+<div id="title-backdrops-carousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <% @backdrops.each_with_index do |backdrop, index| %>
+      <div class="carousel-item <%= 'active' if index == 0 %>">
+        <img src="<%= backdrop %>" class="d-block w-100" alt="Backdrop">
+      </div>
+    <% end %>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#title-backdrops-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#title-backdrops-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
 <div class="container container-media-show">
   <div class="media-show-heading">
     <h1 class="media-heading"><%= @title.name %></h1>
+    <%= button_to 'Add to Watchlist', add_to_watchlist_title_list_items_path(@title), method: :post, class: 'btn btn-add-watchlist' %>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Add to List
@@ -8,16 +27,33 @@
   </div>
 
   <div class="media-show-infos-year-type">
-    <span class="media-show-info-heading">Year </span>
+    <span class="media-show-info-heading"></span>
     <span class="media-show-info-text">
-      <%= @title.start_year %>
-      <% if @title.end_year %>
-        - <%= @title.end_year %>
+      <%= @title.media_type == 'tv' ? 'TV Show' : @title.media_type.capitalize %>
+    </span>
+    <span class="media-show-info-heading"></span>
+    <span class="media-show-info-text">
+      <% if @title.media_type == 'tv' && @title.start_year != @title.end_year %>
+        <%= @title.start_year %>
+        <% if @title.end_year %>
+          - <%= @title.end_year %>
+        <% end %>
+      <% else %>
+        <%= @title.start_year %>
       <% end %>
     </span>
-    <span class="media-show-info-heading">Media Type </span>
+    <span class="media-show-info-heading"></span>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg" alt="IMDb Logo" class="imdb-logo">
+    <span class="media-show-info-text"><%= @imdb_rating %>/10</span>
     <span class="media-show-info-text">
-      <%= @title.media_type.capitalize %>
+      <% @genres.split(', ').each do |genre_name| %>
+        <% genre = Genre.find_by(name: genre_name) %>
+        <% if genre %>
+          <%= link_to genre.name, genre_path(genre.tmdb_id) %>
+        <% else %>
+          <span><%= genre_name %></span>
+        <% end %>
+      <% end %>
     </span>
   </div>
 
@@ -25,36 +61,30 @@
     <img src="https://image.tmdb.org/t/p/w500<%= @title.poster_url %>" alt="<%= @title.name %> Poster" class="media-show-poster-img">
     <div class="media-show-infos-details">
       <div>
-        <span class="media-show-info-heading">TMDb ID </span>
-        <span class="media-show-info-text"> <%= @title.tmdb_id %></span>
-        <span class="media-show-info-heading">IMDb ID </span>
-        <span class="media-show-info-text"> <%= @title.imdb_id %></span>
-        <span class="media-show-info-heading">IMDb Rating </span>
-        <span class="media-show-info-text"> <%= @imdb_rating %></span>
-        <span class="media-show-info-heading">IMDb Votes </span>
-        <span class="media-show-info-text"> <%= @imdb_votes %></span>
-      </div>
-      <div class="media-show-info">
-        <span class="media-show-info-heading">Genres </span>
-        <span class="media-show-info-text">
-          <% @genres.split(', ').each do |genre_name| %>
-            <% genre = Genre.find_by(name: genre_name) %>
-            <% if genre %>
-              <%= link_to genre.name, genre_path(genre.tmdb_id) %>
-            <% else %>
-              <span><%= genre_name %></span>
-            <% end %>
-          <% end %>
-        </span>
-      </div>
-      <div class="media-show-info">
-        <span class="media-show-info-heading">Description </span>
+        <span class="media-show-info-heading">Premise </span>
         <p class="media-show-info-text"> <%= @description %></p>
       </div>
+      <% if @title.media_type == 'movie' && @director.present? %>
+        <div class="media-show-info">
+          <span class="media-show-info-heading">Director </span>
+          <p class="media-show-info-text"> <%= @director %></p>
+        </div>
+      <% elsif @title.media_type == 'tv' && @creator.present? %>
+        <div class="media-show-info">
+          <span class="media-show-info-heading">Creator </span>
+          <p class="media-show-info-text"> <%= @creator %></p>
+        </div>
+      <% end %>
       <div class="media-show-info">
-        <span class="media-show-info-heading">Cast </span>
-        <p class="media-show-info-text"> <%= @cast %></p>
+        <span class="media-show-info-heading">Writer </span>
+        <p class="media-show-info-text"> <%= @writers %></p>
       </div>
+      <% if @cast.present? %>
+        <div class="media-show-info">
+          <span class="media-show-info-heading">Stars </span>
+          <p class="media-show-info-text"> <%= @cast.split(', ').first(6).join(', ') %></p>
+        </div>
+      <% end %>
     </div>
   </div>
 
@@ -68,11 +98,15 @@
         </div>
         <div class="modal-body">
           <% current_user.lists.each do |list| %>
-            <%= simple_form_for [@title, @list_item] do |f| %>
-              <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
-              <%= f.button :button do %>
-                <%= list.name %>
+            <% unless list.titles.include?(@title) %>
+              <%= simple_form_for [@title, ListItem.new] do |f| %>
+                <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
+                <%= f.button :button, class: 'btn btn-primary' do %>
+                  <%= list.name %>
+                <% end %>
               <% end %>
+            <% else %>
+              <p><%= list.name %> (Already added)</p>
             <% end %>
           <% end %>
           <%= link_to new_list_path do %>
@@ -81,7 +115,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>

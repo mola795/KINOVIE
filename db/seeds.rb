@@ -4,6 +4,7 @@ require_relative '../lib/tmdb_api'
 require_relative '../lib/omdb_api'
 
 puts "Cleaning the DB..."
+GenreConnection.destroy_all
 Streaming.destroy_all
 ListItem.destroy_all
 Title.destroy_all

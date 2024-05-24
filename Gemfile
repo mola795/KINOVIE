@@ -57,6 +57,8 @@ gem 'faker'
 gem 'pg_search'
 gem 'rest-client'
 gem 'concurrent-ruby'
+gem 'kaminari'
+gem 'kaminari-bootstrap'
 
 group :development, :test do
   gem "dotenv-rails"
