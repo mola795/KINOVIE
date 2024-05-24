@@ -19,6 +19,7 @@ class ListsController < ApplicationController
   def create
     @list = List.new(list_params)
     @list.user = current_user
+
     if @list.save
       redirect_to @list, notice: 'List was created.'
     else
@@ -30,6 +31,8 @@ class ListsController < ApplicationController
     @list = List.find(params[:id])
     if @list.name == 'Watchlist'
       redirect_to @list, alert: 'The Watchlist cannot be renamed.'
+    else
+      @list.genre_connections.build if @list.genre_connections.empty? # Ensure form builds fields for genres if none exist
     end
   end
 
@@ -38,7 +41,7 @@ class ListsController < ApplicationController
     if @list.name == 'Watchlist'
       redirect_to @list, alert: 'The Watchlist cannot be renamed.'
     else
-      if @list.update(list_params)
+      if @list.update(list_update_params)
         redirect_to @list, notice: 'List was updated.'
       else
         render :edit, status: :unprocessable_entity
@@ -61,5 +64,9 @@ class ListsController < ApplicationController
 
   def list_params
     params.require(:list).permit(:name, :description, :status)
+  end
+
+  def list_update_params
+    params.require(:list).permit(:name, :description, :status, genre_connections_attributes: [:id, :genre_id, :_destroy])
   end
 end
