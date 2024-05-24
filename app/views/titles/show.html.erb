@@ -25,8 +25,10 @@
       Add to List
     </button>
     <!-- Streaming Services -->
-    <span style="margin-left: 250px; margin-right: 20px">Where to Watch</span>
-      <% streaming_services = @title.streamings.where(streaming_type: 'sub').each do |streaming| %>
+    <% streaming_services = @title.streamings.where(streaming_type: 'sub') %>
+    <% if streaming_services.any? %>
+      <span style="margin-left: 250px; margin-right: 20px">Where to Watch</span>
+      <% streaming_services.each do |streaming| %>
         <% if streaming.service.logo_url.present? %>
           <div class="card" style="width: 50px;">
             <%= link_to streaming.url, target: "_blank" do %>
@@ -35,6 +37,7 @@
           </div>
         <% end %>
       <% end %>
+    <% end %>
     <!-- End Streaming Services -->
   </div>
 
