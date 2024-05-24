@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-sm navbar-kinovie">
   <div class="container-fluid">
-    <div class="navbar-right">
+    <div class="navbar-left">
       <%# APP LOGO %>
       <%= link_to root_path, class: "navbar-brand navbar-heading" do %>
         <i class="fa-solid fa-clapperboard"></i>
@@ -32,16 +32,21 @@
     </div>
 
     <%# DROPDOWN %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <%# <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </button> %>
 
     <%# OTHER LINKS AND PROFILE %>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
-          <li class="nav-item active">
+          <%# <li class="nav-item active">
             <%= link_to "My Lists", user_lists_path(current_user), class: "nav-link" %>
+          <%# </li>  %>
+           <li class="nav-item">
+            <%= link_to "#", class: "nav-link" do %>
+              <i class="fa-regular fa-bell"></i>
+            <% end %>
           </li>
           <li class="nav-item">
             <a href="<%= user_path(current_user) %>" class="avatar">

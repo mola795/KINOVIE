@@ -1,0 +1,23 @@
+<h1 class="page-heading">My Lists</h1>
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <%= link_to 'New List', new_list_path, class: 'btn btn-primary mb-4' %>
+  </div>
+</div>
+
+<div class="collection-card-list">
+<% if @user == current_user %>
+  <% if @watchlist %>
+   <%= render 'shared/collection_card', list: @watchlist%>
+  <% end %>
+
+  <% @private_lists.each do |list| %>
+    <%= render 'shared/collection_card', list: list%>
+  <% end %>
+<% end %>
+
+<% @lists.each do |list| %>
+ <%= render 'shared/collection_card', list: list%>
+<% end %>
+</div>
