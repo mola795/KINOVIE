@@ -43,10 +43,10 @@
           <li class="nav-item active">
             <%= link_to "My Lists", user_lists_path(current_user), class: "nav-link" %>
           </li>
-          <li class="nav-item dropdown">
-          <a href="<%= user_path(current_user) %>" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar avatar-nav", alt: "dropdown menu" %>
-          </a>
+          <li class="nav-item">
+            <a href="<%= user_path(current_user) %>" class="avatar">
+              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar avatar-nav", alt: "Profile" %>
+            </a>
           </li>
         <% else %>
           <li class="nav-item">
