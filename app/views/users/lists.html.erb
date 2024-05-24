@@ -1,8 +1,8 @@
-<%= @user.username %>
+<h1 class="page-heading">My Lists</h1>
 
 <% if @user == current_user %>
 <ul>
-  <% @watchlist %>
+  <% if @watchlist %>
     <li>
       <div>
         <div>
@@ -16,6 +16,8 @@
         </div>
       </div>
     </li>
+    <% end %>
+
 
     <% @private_lists.each do |list| %>
     <li>
