@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'pages#profile', as: :profile
   get '/users/:username', to: 'users#show', as: :username
+  get '/users/:id/lists', to: 'users#lists', as: 'user_lists'
 
   resources :people, only: %i[show]
   resources :services, only: %i[index show]
