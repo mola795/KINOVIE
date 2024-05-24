@@ -1,13 +1,16 @@
-
 <div>
   <div>
     <h1><%= @list.name %></h1>
   </div>
-  <div>
-    <%= @list.status %>
-  </div>
-  <div>
-    <p><%= @list.description %></p>
+  <div class="">
+    <div class="">
+      <strong>Description:</strong>
+      <p class=""><%= @list.description.presence || "No description available" %></p>
+    </div>
+    <div class="">
+      <strong>Status:</strong>
+      <p class=""><%= @list.status.presence || "No status available" %></p>
+    </div>
   </div>
   <div>
     <% if @list_items.any? %>
