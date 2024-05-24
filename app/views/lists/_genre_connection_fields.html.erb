@@ -1,0 +1,4 @@
+<div class="nested-fields">
+  <%= f.input :genre_id, as: :select, collection: Genre.all.pluck(:name, :id), include_blank: "Select a genre" %>
+  <%= link_to_remove_association "Remove", f %>
+</div>

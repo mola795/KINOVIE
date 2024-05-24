@@ -3,13 +3,17 @@
     <h1><%= @list.name %></h1>
   </div>
   <div class="">
-    <div class="">
+  <div class="">
       <strong>Description:</strong>
       <p class=""><%= @list.description.presence || "No description available" %></p>
     </div>
-    <div class="">
-      <strong>Status:</strong>
-      <p class=""><%= @list.status.presence || "No status available" %></p>
+   <div class="">
+      <strong></strong>
+      <div class="genre-buttons">
+        <% @list.genres.each do |genre| %>
+          <%= link_to genre.name, genre_path(genre.tmdb_id), class: "btn" %>
+        <% end %>
+      </div>
     </div>
   </div>
   <div>
@@ -26,6 +30,10 @@
       </div>
     <% end %>
   </div>
+  <div class="">
+      <strong>Status:</strong>
+      <p class=""><%= @list.status.presence || "No status available" %></p>
+    </div>
   <div>
     <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
     <% unless @list.name == 'Watchlist' %>
