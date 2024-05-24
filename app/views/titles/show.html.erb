@@ -44,7 +44,7 @@
     </span>
     <span class="media-show-info-heading"></span>
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg" alt="IMDb Logo" class="imdb-logo">
-    <span class="media-show-info-text"><%= @imdb_rating %>/10</span>
+    <span class="media-show-info-text"><%= @imdb_rating %></span>
     <span class="media-show-info-text">
       <% @genres.split(', ').each do |genre_name| %>
         <% genre = Genre.find_by(name: genre_name) %>
@@ -75,10 +75,12 @@
           <p class="media-show-info-text"> <%= @creator %></p>
         </div>
       <% end %>
-      <div class="media-show-info">
-        <span class="media-show-info-heading">Writer </span>
-        <p class="media-show-info-text"> <%= @writers %></p>
-      </div>
+      <% if @writers.present? %>
+        <div class="media-show-info">
+          <span class="media-show-info-heading">Writer </span>
+          <p class="media-show-info-text"> <%= @writers %></p>
+        </div>
+      <% end %>
       <% if @cast.present? %>
         <div class="media-show-info">
           <span class="media-show-info-heading">Stars </span>
@@ -106,7 +108,7 @@
                 <% end %>
               <% end %>
             <% else %>
-              <p><%= list.name %> (Already added)</p>
+              <p><%= list.name %> -  Already added</p>
             <% end %>
           <% end %>
           <%= link_to new_list_path do %>

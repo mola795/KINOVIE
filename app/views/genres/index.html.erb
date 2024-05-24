@@ -1,8 +1,6 @@
 <h1>Genres</h1>
-<ul>
-  <% @genres.each do |genre| %>
-    <li>
-      <%= link_to genre.name, genre_path(genre.tmdb_id) %>
-    </li>
+<div class="container container-cover-card">
+  <% @cover_cards.each do |cover_card| %>
+    <%= render 'shared/cover_card', backdrop_url: cover_card[:backdrop_url], genre: cover_card[:genre] %>
   <% end %>
-</ul>
+</div>
