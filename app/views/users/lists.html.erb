@@ -1,55 +1,17 @@
 <h1 class="page-heading">My Lists</h1>
 
+<div class="collection-card-list">
 <% if @user == current_user %>
-<ul>
   <% if @watchlist %>
-    <li>
-      <div>
-        <div>
-          <h2><%= link_to @watchlist.name, list_path(@watchlist) %></h2>
-        </div>
-        <div>
-          <p>Status: <%= @watchlist.status %></p>
-        </div>
-        <div>
-          <p><%= @watchlist.description %></p>
-        </div>
-      </div>
-    </li>
-    <% end %>
-
-
-    <% @private_lists.each do |list| %>
-    <li>
-      <div>
-        <div>
-          <h2><%= link_to list.name, list_path(list) %></h2>
-        </div>
-        <div>
-          <p>Status: <%= list.status %></p>
-        </div>
-        <div>
-          <p><%= list.description %></p>
-        </div>
-      </div>
-    </li>
+   <%= render 'shared/collection_card', list: @watchlist%>
   <% end %>
 
-  <% @lists.each do |list| %>
-    <li>
-      <div>
-        <div>
-          <h2><%= link_to list.name, list_path(list) %></h2>
-        </div>
-        <div>
-          <p>Status: <%= list.status %></p>
-        </div>
-        <div>
-          <p><%= list.description %></p>
-        </div>
-      </div>
-    </li>
+  <% @private_lists.each do |list| %>
+    <%= render 'shared/collection_card', list: list%>
   <% end %>
-</ul>
-
 <% end %>
+
+<% @lists.each do |list| %>
+ <%= render 'shared/collection_card', list: list%>
+<% end %>
+</div>
