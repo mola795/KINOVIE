@@ -1,1 +1,9 @@
 <%= render 'shared/carousel' %>
+<div class="container-collection">
+  <h2 class="container home-heading">Friend's List</h2>
+  <div class="collection-card-list">
+    <% @lists.each do |list| %>
+      <%= render 'shared/collection_card', list: list%>
+    <% end %>
+  </div>
+</div>

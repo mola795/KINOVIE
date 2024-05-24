@@ -69,35 +69,37 @@
   }
 }
 
-
 // COLLECTION CARD
 .collection-card {
-  aspect-ratio: 16 / 9;
+  background-color: $main-color;
   width: 100%;
   max-width: 20rem;
   height: 100%;
-  max-height: 480px;
+  max-height: 200px;
 }
 
 .collection-card-images {
-  display: flex;
+  aspect-ratio: 16 / 9;
   height: 100%;
+  width: 100%;
+  display: flex;
   position: relative;
-  justify-content: end;
-  img {
-    height: 100%;
-    position: absolute;
+  justify-content: center;
+  overflow-x: hidden;
+}
 
-    &:nth-child(2) {
-      transform: translateX(-10%);
-    }
-    &:nth-child(3) {
-      transform: translateX(-20%);
-    }
-    &:last-child {
-      transform: translateX(-30%);
-    }
-  }
+.collection-card-img {
+  height: 100%;
+  // position: absolute;
+  // &:nth-child(2) {
+  //   transform: translateX(-25%);
+  // }
+  // &:nth-child(3) {
+  //   transform: translateX(-50%);
+  // }
+  // &:last-child {
+  //   transform: translateX(-75%);
+  // }
 }
 
 .collection-card-body {

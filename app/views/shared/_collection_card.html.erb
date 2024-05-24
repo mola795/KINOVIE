@@ -1,21 +1,25 @@
-<div class="card collection-card mb-3">
-  <div class="collection-card-images w-100">
-    <% 4.times do %>
-        <img src="https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg" class="collection-card-img-top" alt="...">
+<a href="<%= list_path(list) %>"
+ class="card collection-card mb-3">
+  <div class="collection-card-images">
+    <% list.titles.each do |title| %>
+      <% if list.titles.count == 1 %>
+        <img src="<%= title.poster_url %>" alt="Poster of <%= title.name %>" class="collection-card-img collection-card-img-single">
+      <% else %>
+        <img src="<%= title.poster_url %>" alt="Poster of <%= title.name %>" class="collection-card-img">
+      <% end %>
     <% end %>
-
   </div>
   <div class="card-body collection-card-body">
     <div class="collection-card-main-text">
-      <h5 class="card-title collection-card-title">Card title</h5>
-      <p class="card-subtitle collection-card-subtitle">Username</p>
+      <h5 class="card-title collection-card-title"><%= list.name  %></h5>
+      <p class="card-subtitle collection-card-subtitle"><%= list.user.username %></p>
     </div>
     <div class="card-text collection-card-small-text">
-        <p>#</p>
-        <div>
-          <p>Icon 1</p>
-          <p>Icon 2</p>
-        </div>
+      <p><%= list.titles.count %></p>
+      <%# <div>
+        <p>Icon 1</p>
+        <p>Icon 2</p>
+      </div> %>
     </div>
   </div>
-</div>
+</a>
