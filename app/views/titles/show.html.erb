@@ -87,6 +87,18 @@
       <% end %>
     </div>
   </div>
+  <div id="streaming-services">
+    <h1>Where to Watch</h1>
+    <% streaming_services = @title.streamings.where(streaming_type: 'sub').each do |streaming| %>
+      <% if streaming.service.logo_url.present? %>
+        <div class="card" style="width: 100px;">
+          <%= link_to streaming.url, target: "_blank" do %>
+            <img src="<%= streaming.service.logo_url %>" class="card-img-top">
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
