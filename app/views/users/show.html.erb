@@ -1,25 +1,85 @@
-<h1 class="page-heading">My Lists</h1>
-
-<div class="row">
-  <div class="col-md-12 text-center">
-    <%= link_to 'New List', new_list_path, class: 'btn btn-primary mb-4' %>
+<div class="container">
+  <div class="container-user">
+    <%# user profile image %>
+    <div class="user-details">
+      <div class="user-profile-details">
+        <img src="<%= @user.profile_picture_url %>" alt="" class="avatar-user-page">
+        <h1 class="page-heading"><%= @user.username %></h1>
+        <%# user profile description %>
+        <%# user's social media %>
+      </div>
+      <div class="user-status-details">
+        <div class="user-status-info">
+          <p>Followers</p>
+          <%= link_to follows_path do %>
+            <%= @user.follows.count == 0 ? 0 : @user.followers.count %>
+          <% end %>
+        </div>
+        <div class="user-status-info">
+          <p>Following</p>
+          <%= link_to follows_path do %>
+            <%= @user.follows.count == 0 ? 0 : @user.followers.count %>
+          <% end %>
+        </div>
+        <div class="user-status-info">
+          <p>Movies</p>
+        </div>
+        <div class="user-status-info">
+          <p>TV Shows</p>
+        </div>
+        <div class="user-status-info">
+          <p>Lists</p>
+          <%= link_to lists_path do %>
+            <%= @user.lists.count == 0 ? 0 : @user.lists.count %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="user-navbar">
+    <%= link_to 'Home', user_path%>
+    <span>Activity</span>
+    <span>Movies</span>
+    <span>TV Shows</span>
+    <%= link_to 'Lists', lists_path %>
+    <span>Reviews</span>
+  </div>
+  <div class="container-collection container-collection-heading">
+    <h2 class="user-heading">My List</h2>
+    <div><%= link_to 'New List', new_list_path, class: 'btn' %></div>
+  </div>
+  <div id="carouselCollection" class="carousel slide">
+    <div class="carousel-inner">
+      <% @lists.each_slice(4).each_with_index do |group, index| %>
+        <div class="carousel-item <%= index == 0 ? "active" : "" %>">
+          <div class="collection-card-list">
+            <% group.each do |list| %>
+              <%= render 'shared/collection_card', list: list%>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div class="activity-feed">
+    <h2 class="user-heading">My Activity</h2>
+    <div class="activity-feed-card">
+      <% @list_activity.each do |activity| %>
+        <p><i class="fa-solid fa-play fa-2xs"></i>
+          <%= activity %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="friend-list">
+    <h2 class="user-heading">Recommended Friends</h2>
+  </div>
+  <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "btn btn-user-logout" %>
 </div>
-
-<div class="collection-card-list">
-<% if @user == current_user %>
-  <% if @watchlist %>
-   <%= render 'shared/collection_card', list: @watchlist%>
-  <% end %>
-
-  <% @private_lists.each do |list| %>
-    <%= render 'shared/collection_card', list: list%>
-  <% end %>
-<% end %>
-
-<% @lists.each do |list| %>
- <%= render 'shared/collection_card', list: list%>
-<% end %>
-</div>
-
-<%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>

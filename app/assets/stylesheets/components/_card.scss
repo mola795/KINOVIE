@@ -151,3 +151,15 @@
     font-size: $small-text;
   }
 }
+
+// PROFILE PAGE CARD
+.activity-feed-card {
+  margin: $default-margin auto;
+  width: 95%;
+  height: 20rem;
+  padding: 10px;
+  // border: 1px solid $light-white;
+  background-color: $sub-color;
+  overflow-y: auto;
+  scrollbar-width: none;
+}

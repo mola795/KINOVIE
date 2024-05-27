@@ -6,7 +6,6 @@
         <i class="fa-solid fa-clapperboard"></i>
         <span>KINOVIE</span>
       <% end %>
-
       <%# LINKS %>
       <div class="navbar-links">
         <%= link_to "Movies", movies_path, class: "nav-link" %>
@@ -14,7 +13,6 @@
         <%= link_to "Lists", lists_path, class: "nav-link" %>
       </div>
     </div>
-
     <%# SEARCH BAR %>
     <div class="search">
       <div class="search-form-control form-group">
@@ -30,12 +28,10 @@
         <% end %>
       </div>
     </div>
-
     <%# DROPDOWN %>
     <%# <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button> %>
-
     <%# OTHER LINKS AND PROFILE %>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
@@ -43,7 +39,7 @@
           <%# <li class="nav-item active">
             <%= link_to "My Lists", user_lists_path(current_user), class: "nav-link" %>
           <%# </li>  %>
-           <li class="nav-item">
+          <li class="nav-item">
             <%= link_to "#", class: "nav-link" do %>
               <i class="fa-regular fa-bell"></i>
             <% end %>
