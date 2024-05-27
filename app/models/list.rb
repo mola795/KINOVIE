@@ -8,4 +8,16 @@ class List < ApplicationRecord
   validates :name, presence: true
 
   accepts_nested_attributes_for :genre_connections, allow_destroy: true, reject_if: :all_blank
+
+  def activity_string
+    time_minutes = (Time.now - created_at) / 60
+      if time_minutes <= 60
+        "You created \"#{name}\" — #{time_minutes.round} minutes ago"
+      elsif time_minutes > 60 && time_minutes < 1440
+        time_hours = (time_minutes / 60).round
+        "You created \"#{name}\" — #{time_hours} #{time_hours == 1 ? "hour" : "hours" } ago"
+      else
+        "You created \"#{name}\" — #{created_at.strftime("%b %d, %Y")}"
+      end
+  end
 end
