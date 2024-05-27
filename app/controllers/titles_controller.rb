@@ -15,6 +15,7 @@ class TitlesController < ApplicationController
   def show
     @title = Title.find(params[:id])
     @list_item = ListItem.new
+    @review = @title.reviews.find_by(user: current_user) || Review.new
     fetch_and_display_title_details
     fetch_backdrops
     fetch_additional_details
