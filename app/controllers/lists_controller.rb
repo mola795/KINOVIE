@@ -7,7 +7,11 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
-    @list_items = @list.list_items.order(:rank)
+    if @list.name == 'Watchlist'
+      @list_items = @list.list_items.order(rank: :desc)
+    else
+      @list_items = @list.list_items.order(:rank)
+    end
   end
 
   def new
