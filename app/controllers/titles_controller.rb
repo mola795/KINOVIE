@@ -16,6 +16,7 @@ class TitlesController < ApplicationController
     @title = Title.find(params[:id])
     @list_item = ListItem.new
     @review = @title.reviews.find_by(user: current_user) || Review.new
+    @lists = List.joins(:list_items).where(list_items: { title_id: @title.id }).distinct
     fetch_and_display_title_details
     fetch_backdrops
     fetch_additional_details

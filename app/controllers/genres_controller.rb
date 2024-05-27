@@ -5,10 +5,20 @@ class GenresController < ApplicationController
 
   def show
     @genre = Genre.find_by(tmdb_id: params[:id])
+
+    if @genre.nil?
+      redirect_to genres_path, alert: "Genre not found"
+      return
+    end
+
     @db_movies = @genre.titles.where(media_type: 'movie').where("imdb_votes > 0").order(imdb_votes: :desc).page(params[:movie_page]).per(12) || []
     @db_tv_shows = @genre.titles.where(media_type: 'tv').where("imdb_votes > 0").order(imdb_votes: :desc).page(params[:tv_page]).per(12) || []
     @lists = @genre.lists.distinct
-    check_and_update_genre_cover_url
+    @cover_url = params[:cover_url] || @genre.cover_url
+
+    unless params[:skip_update]
+      check_and_update_genre_cover_url
+    end
   end
 
   private
@@ -37,7 +47,7 @@ class GenresController < ApplicationController
   end
 
   def find_new_top_title_for_genre
-    @genre.titles.where(media_type: 'movie').where("imdb_votes > 0").order(imdb_votes: :desc).find do |title|
+    @genre.titles.where(media_type: 'movie').where("imdb_votes >= 25000").order(imdb_votes: :desc).find do |title|
       title_genres = title.genres.pluck(:name)
       # Überspringe Titel, die das Genre "Animation" enthalten, wenn das aktuelle Genre nicht "Animation" ist
       next if title_genres.include?('Animation') && @genre.name != 'Animation'
@@ -55,7 +65,7 @@ class GenresController < ApplicationController
   end
 
   def genre_cover_title_imdb_votes_changed?
-    top_title = @genre.titles.where(media_type: 'movie').where("imdb_votes > 0").order(imdb_votes: :desc).first
+    top_title = @genre.titles.where(media_type: 'movie').where("imdb_votes >= 25000").order(imdb_votes: :desc).first
     cover_url_top_title = Genre.where(cover_url: @genre.cover_url).first
     return false unless top_title && cover_url_top_title
 
