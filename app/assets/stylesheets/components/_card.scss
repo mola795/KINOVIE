@@ -154,7 +154,8 @@
 
 // PROFILE PAGE CARD
 .activity-feed-card {
-  margin: $default-margin auto;
+  margin: auto;
+  margin-bottom: $default-margin;
   width: 95%;
   height: 20rem;
   padding: 10px;

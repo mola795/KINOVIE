@@ -7,7 +7,11 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
-    @list_items = @list.list_items.order(:rank)
+    if @list.name == 'Watchlist'
+      @list_items = @list.list_items.order(rank: :desc)
+    else
+      @list_items = @list.list_items.order(:rank)
+    end
   end
 
   def new
@@ -19,7 +23,8 @@ class ListsController < ApplicationController
     @list.user = current_user
 
     if @list.save
-      redirect_to @list, notice: 'List was created.'
+      update_genres(@list)
+      redirect_to @list, notice: 'List was created and genres were successfully linked.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -67,12 +72,9 @@ class ListsController < ApplicationController
           end
 
           # Update Genres
-          @list.genre_connections.destroy_all
-          params[:list][:genre_ids].reject(&:blank?).each do |genre_id|
-            @list.genre_connections.create!(genre_id: genre_id)
-          end
+          update_genres(@list)
 
-          redirect_to @list, notice: 'List was updated.'
+          redirect_to @list, notice: 'List was updated and genres were successfully linked.'
         end
       rescue => e
         @list.errors.add(:base, e.message)
@@ -95,10 +97,20 @@ class ListsController < ApplicationController
   private
 
   def list_params
-    params.require(:list).permit(:name, :description, :status)
+    params.require(:list).permit(:name, :description, :status, genre_ids: [])
   end
 
   def list_update_params
     params.require(:list).permit(:name, :description, :status, genre_connections_attributes: [:id, :genre_id, :_destroy], list_items_attributes: [:id, :old_rank, :new_rank], genre_ids: [])
+  end
+
+  def update_genres(list)
+    list.genre_connections.destroy_all
+    if params[:list][:genre_ids].present?
+      params[:list][:genre_ids].reject(&:blank?).each do |genre_id|
+        list.genre_connections.create!(genre_id: genre_id)
+      end
+    end
+    flash[:notice] = "Genres were successfully linked with the list."
   end
 end

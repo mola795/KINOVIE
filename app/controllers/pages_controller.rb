@@ -1,8 +1,19 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [ :home ]
+  skip_before_action :authenticate_user!, only: [:home]
 
   def home
-    @titles = Title.all.select { |title| title.name.split.size <= 3 }
+    @genres = Genre.where.not(cover_url: nil)
+                   .where.not(name: ["Animation", "TV Movie", "Kids", "Documentary", "War"])
+                   .sample(12)
     @lists = List.includes(:user).all
+
+    return unless user_signed_in?
+
+    @friends_activity = current_user.friends_activity.reverse
   end
+
+  def activity
+    @all_activity = current_user.all_activity.reverse
+  end
+
 end

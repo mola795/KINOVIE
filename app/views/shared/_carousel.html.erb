@@ -6,10 +6,10 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-inner">
-      <% @titles.sample(1).each do | title | %>
-        <div class="carousel-item active">
-          <a href="<%= title_path(title) %>">
-            <img src="<%= title.poster_url %>" class="carousel-item-img" alt="Poster of <%= title.name %>">
+      <% @genres.each_with_index do |genre, index| %>
+        <div class="carousel-item <%= index == 0 ? "active" : "" %>">
+          <a href="<%= genre_path(genre.tmdb_id, cover_url: genre.cover_url, skip_update: true) %>">
+            <img src="<%= genre.cover_url %>" class="carousel-item-img" alt="Cover of <%= genre.name %>">
           </a>
         </div>
       <% end %>
