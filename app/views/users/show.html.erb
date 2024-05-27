@@ -38,8 +38,8 @@
         </div>
       </div>
       <div class="user-navbar">
-        <%= link_to 'Home', user_path%>
-        <span>Activity</span>
+        <%= link_to 'Home', user_path %>
+        <%= link_to 'Activity', activity_path %>
         <span>Movies</span>
         <span>TV Shows</span>
         <%= link_to 'Lists', lists_path %>
@@ -74,5 +74,4 @@
       <div class="friend-list">
         <h2 class="user-heading">Recommended Friends</h2>
       </div>
-      <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "btn btn-user-logout" %>
     </div>

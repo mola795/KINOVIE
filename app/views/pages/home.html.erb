@@ -2,7 +2,7 @@
 <%= render 'shared/carousel' %>
 <%# LIST CAROUSEL %>
 <div class="container-collection">
-  <h2 class=" container home-heading">Friend's List</h2>
+  <h2 class="container page-heading">Friend's List</h2>
 </div>
 <div id="carouselCollection" class="carousel slide">
   <div class="carousel-inner">
@@ -27,5 +27,6 @@
 </div>
 <%# ACTIVITY FEED %>
 <% if user_signed_in? %>
-  <%= render 'shared/activity_feed', list_activity: @friends_activity , title: "Friend's Activity"%>
+  <h2 class="container page-heading">Friend's Activity</h2>
+  <%= render 'shared/activity_feed', list_activity: @friends_activity, title: ""%>
 <% end %>

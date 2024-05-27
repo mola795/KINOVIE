@@ -17,8 +17,6 @@ class User < ApplicationRecord
   has_many :list_items, through: :lists, dependent: :destroy
 
   def activity
-    # @user_username = self.username
-    # @user_profile_img = self.profile_picture_url
     #  @reviews = self.reviews
     #  @followers = self.followers
     #  @followings = self.following
