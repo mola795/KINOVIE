@@ -18,7 +18,10 @@ Rails.application.routes.draw do
   resources :list_items, only: %i[new create destroy]
   resources :users, only: %i[show]
 
-  get '/profile', to: 'pages#profile', as: :profile
+  get '/profile', to: 'pages#profile', as: :profile do
+    get '/followers', to: 'pages#followers', as: :followers
+    get '/following', to: 'pages#following', as: :following
+  end
   get '/users/:username', to: 'users#show', as: :username
   get '/users/:id/lists', to: 'users#lists', as: 'user_lists'
 
