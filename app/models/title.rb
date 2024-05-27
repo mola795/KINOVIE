@@ -13,4 +13,9 @@ class Title < ApplicationRecord
   include PgSearch::Model
   pg_search_scope :search_by_name, against: :name
 
+
+  def average_rating_title
+    all_review = self.reviews
+    all_review.map{ |review| review.rating }.sum / all_review.count
+  end
 end
