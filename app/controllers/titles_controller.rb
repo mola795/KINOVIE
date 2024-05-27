@@ -107,23 +107,48 @@ class TitlesController < ApplicationController
   end
 
   def save_genres(tmdb_genres, title)
-    all_genres = tmdb_genres.map { |g| g['name'] }
-
-    logger.debug "All genres to be processed: #{all_genres.uniq.inspect}"
-
-    all_genres.uniq.each do |genre_name|
-      tmdb_genre = tmdb_genres.find { |g| g['name'] == genre_name }
-      if tmdb_genre
-        logger.debug "Processing TMDb genre: #{tmdb_genre.inspect}"
-        genre = Genre.find_or_initialize_by(tmdb_id: tmdb_genre['id'])
-        genre.name = tmdb_genre['name']
-        if genre.save
-          title.genres << genre unless title.genres.include?(genre)
-        end
-      else
-        logger.warn "Genre not found in TMDb: #{genre_name}"
-      end
+    tmdb_genres.each do |tmdb_genre|
+      genre = create_or_find_genre(tmdb_genre)
+      title.genres << genre unless title.genres.include?(genre)
     end
+  end
+
+  def create_or_find_genre(tmdb_genre)
+    genre = Genre.find_or_initialize_by(tmdb_id: tmdb_genre['id'])
+    genre.name = tmdb_genre['name']
+
+    genre.save! if genre.new_record?
+    genre
+  end
+
+  def create_or_find_title(tmdb_id, media_type)
+    title = Title.find_by(tmdb_id: tmdb_id)
+    return title if title
+
+    tmdb_api_key = ENV['TMDB_API_KEY']
+    tmdb_api = TmdbApi.new(tmdb_api_key)
+    media_type = map_media_type(media_type)
+    title_details = tmdb_api.fetch_title_details(tmdb_id, media_type)
+
+    return unless title_details
+
+    poster_url = "https://image.tmdb.org/t/p/w500#{title_details['poster_path']}"
+
+    Title.create(
+      name: title_details['title'] || title_details['name'],
+      description: title_details['overview'],
+      tmdb_id: tmdb_id,
+      media_type: media_type,
+      imdb_id: title_details['imdb_id'],
+      poster_url: poster_url
+    )
+  end
+
+  def fetch_backdrop(tmdb_id, media_type)
+    tmdb_api_key = ENV['TMDB_API_KEY']
+    tmdb_api = TmdbApi.new(tmdb_api_key)
+    backdrops = tmdb_api.fetch_top_title_backdrop(tmdb_id, media_type)
+    backdrops.first # Use the first backdrop for simplicity
   end
 
   def find_tmdb_genre_id_by_name(genre_name)

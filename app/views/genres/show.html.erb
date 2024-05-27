@@ -1,5 +1,49 @@
+<h1 class="page-heading"><%= @genre.name %></h1>
+
+<!-- Cover Image Carousel -->
+<div id="genre-cover-carousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="<%= @genre.cover_url %>" class="d-block w-100" alt="<%= @genre.name %> Cover">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#genre-cover-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#genre-cover-carousel" data-bs-slide="next">
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- Collection Card Carousel -->
+<% if @lists.any? %>
+  <h2 class="page-heading" style="margin-top: 20px;">Lists</h2>
+  <div id="carouselCollection" class="carousel slide">
+    <div class="carousel-inner">
+      <% @lists.each_slice(4).each_with_index do |group, index| %>
+        <div class="carousel-item <%= index == 0 ? "active" : "" %>">
+          <div class="collection-card-list">
+            <% group.each do |list| %>
+              <%= render 'shared/collection_card', list: list %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+<% end %>
+
 <% if @db_movies.any? %>
-  <h1 class="page-heading"><%= @genre.name %> Movies</h1>
+  <h2 class="page-heading" style="margin-top: 20px;">Movies</h2>
   <div class="container container-item-card">
     <% @db_movies.each do |title| %>
       <%= render 'shared/item_card', title: { id: title.id, name: title.name, start_year: title.start_year, end_year: title.end_year, poster_path: title.poster_url, media_type: title.media_type } %>
@@ -11,7 +55,7 @@
 <% end %>
 
 <% if @db_tv_shows.any? %>
-  <h1 class="page-heading"><%= @genre.name %> TV Shows</h1>
+  <h1 class="page-heading">TV Shows</h1>
   <div class="container container-item-card">
     <% @db_tv_shows.each do |title| %>
       <%= render 'shared/item_card', title: { id: title.id, name: title.name, start_year: title.start_year, end_year: title.end_year, poster_path: title.poster_url, media_type: title.media_type } %>
