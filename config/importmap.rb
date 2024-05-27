@@ -7,3 +7,4 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin "bootstrap", to: "bootstrap.min.js", preload: true
 pin "@popperjs/core", to: "popper.js", preload: true
 pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
+pin "cocoon-js", to: "https://ga.jspm.io/npm:cocoon-js@1.2.14/dist/cocoon.js"

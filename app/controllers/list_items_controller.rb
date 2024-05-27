@@ -4,7 +4,7 @@ class ListItemsController < ApplicationController
   def create
     @title = Title.find(params[:title_id])
     @list = current_user.lists.find(params[:list_item][:list_id])
-    @list_item = @list.list_items.new(title: @title)
+    @list_item = @list.list_items.new(title: @title, rank: @list.list_items.count + 1)
 
     if @list_item.save
       redirect_to title_path(@title), notice: 'Title was added to the list.'
@@ -21,6 +21,7 @@ class ListItemsController < ApplicationController
     end
 
     @list_item = @list.list_items.find_or_initialize_by(title: @title)
+    @list_item.rank = @list.list_items.count + 1 unless @list_item.persisted?
 
     if @list_item.persisted?
       redirect_to title_path(@title), notice: 'Title is already in your Watchlist.'
