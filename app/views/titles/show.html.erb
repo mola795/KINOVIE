@@ -21,7 +21,11 @@
     <h1 class="media-heading"><%= @title.name %></h1>
     <!-- Button trigger modal Rating/Review -->
     <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#ratemodal">
-      Add Rating
+      <% if @title.reviews.any? %>
+        Edit Rating
+      <% else %>
+        Add Rating
+      <% end %>
     </button>
     <!-- Button -->
     <%= button_to 'Add to Watchlist', add_to_watchlist_title_list_items_path(@title), method: :post, class: 'btn btn-add-watchlist', style: 'margin-left: 20px' %>
@@ -153,7 +157,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <%= form_with(model: [@title, Review.new], local: true) do |f| %>
+        <%= form_with(model: [@title, @review], local: true) do |f| %>
           <div class="mb-3">
             <%= f.label :rating, "Rating (1 to 10)" %>
             <%= f.number_field :rating, in: 1..10, class: "form-control", required: true %>
@@ -170,4 +174,16 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="container container-media-show">
+<% if @title.reviews.any? %>
+  <h3>Reviews</h3>
+  <% @title.reviews.each do |review| %>
+    <div class="review">
+      <p><strong><%= review.user.username %></strong> - <%= review.rating %> stars</p>
+      <p><%= review.comment %></p>
+    </div>
+  <% end %>
+<% end %>
 </div>
