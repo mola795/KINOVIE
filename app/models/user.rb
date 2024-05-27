@@ -14,6 +14,21 @@ class User < ApplicationRecord
   has_many :lists, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
+  has_many :comments, dependent: :destroy
+  has_many :list_items, through: :lists, dependent: :destroy
+
   acts_as_favoritor
   acts_as_favoritable
+
+  def activity
+    #  @reviews = self.reviews
+    #  @followers = self.followers
+    #  @followings = self.following
+    #  @comments = self.comments
+     @list_item = self.list_items
+     @lists = self.lists.where.not(name: "Watchlist")
+     # add @reviews + @followers + @followings + @comments later to the below function
+     @activities = @list_item + @lists
+     @activities.sort_by(&:created_at)
+  end
 end
