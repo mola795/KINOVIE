@@ -1,3 +1,4 @@
+<<<<<<< title_lists
 <%= render 'shared/carousel' %>
 
 <div class="container-collection">
@@ -26,6 +27,13 @@
 
 <div class="container-collection">
   <h2 class="page-heading">Friend's List</h2>
+=======
+<%# TOP CAROUSEL %>
+<%= render 'shared/carousel' %>
+<%# LIST CAROUSEL %>
+<div class="container-collection">
+  <h2 class="container page-heading">Friend's List</h2>
+>>>>>>> master
 </div>
 <div id="carouselCollection" class="carousel slide">
   <div class="carousel-inner">
@@ -48,3 +56,8 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+<%# ACTIVITY FEED %>
+<% if user_signed_in? %>
+  <h2 class="container page-heading">Friend's Activity</h2>
+  <%= render 'shared/activity_feed', list_activity: @friends_activity, title: ""%>
+<% end %>

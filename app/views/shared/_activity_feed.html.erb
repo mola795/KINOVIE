@@ -1,0 +1,23 @@
+<div class="activity-feed">
+  <h2 class="container home-heading"><%= title %></h2>
+  <div class="activity-feed-card">
+    <% list_activity.each do |activity| %>
+      <div class="activity-feed">
+        <img class="avatar-small" src="
+        <% if activity.user.profile_picture_url == nil %>
+          https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
+
+        <% else %>
+          <%= activity.user.profile_picture_url %>
+        <%end%>
+        " alt="
+        <% if activity.user.username == nil%>
+          Your Avatar
+        <% else %>
+          <%= activity.user.username %>'s Avatar<% end %>"
+        class="avatar-nav">
+        <%= activity_string(activity) %>
+      </div>
+    <% end %>
+  </div>
+</div>
