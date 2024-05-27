@@ -7,9 +7,7 @@ class UsersController < ApplicationController
     # @watchlist = @user.lists.find_by(name: 'Watchlist')
     @lists = @user.lists.order(:created_at)
     @follows = @user.follows
-    @list_activity = @user.activity.reverse.map do |list|
-      list.activity_string
-    end
+    @list_activity = @user.activity.reverse
   end
 
 end

@@ -1,0 +1,16 @@
+<div class="activity-feed">
+  <h2 class="user-heading"><%= title %></h2>
+  <div class="activity-feed-card">
+    <% list_activity.each do |activity| %>
+      <div>
+        <img src="<%= activity.user.profile_picture_url %>" alt="
+        <% if activity.user.username == nil%>
+        Your Avatar
+        <% else %>
+        <%= activity.user.username %>'s Avatar<% end %>"
+        class="avatar-nav">
+        <%= activity_string(activity) %>
+      </div>
+    <% end %>
+  </div>
+</div>

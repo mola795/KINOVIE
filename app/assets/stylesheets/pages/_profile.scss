@@ -11,6 +11,20 @@
   align-items: center;
 }
 
+.user-profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 6rem;
+  .page-heading {
+    margin-bottom: 0px;
+  }
+}
+
+.user-profile-bio {
+  color: $light-white;
+}
+
 .user-status-details {
   width: 100%;
   display: flex;

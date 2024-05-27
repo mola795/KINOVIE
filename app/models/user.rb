@@ -8,8 +8,8 @@ class User < ApplicationRecord
   validates :first_name, :last_name, presence: true
 
   has_many :follows, foreign_key: :follower_id, dependent: :destroy
-  has_many :followers, through: :follows, source: :followed
-  has_many :following, through: :follows, source: :follower
+  has_many :followers, through: :follows, source: :followers
+  has_many :followings, through: :follows, source: :followed
 
   has_many :lists, dependent: :destroy
   has_many :reviews, dependent: :destroy
@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_many :list_items, through: :lists, dependent: :destroy
 
   def activity
+    # @user_username = self.username
+    # @user_profile_img = self.profile_picture_url
     #  @reviews = self.reviews
     #  @followers = self.followers
     #  @followings = self.following
@@ -26,5 +28,14 @@ class User < ApplicationRecord
      # add @reviews + @followers + @followings + @comments later to the below function
      @activities = @list_item + @lists
      @activities.sort_by(&:created_at)
+  end
+
+  def friends_activity
+    followings.map { |user| user.activity }.flatten.reverse
+  end
+
+  # used to call all activites (followings, current user)
+  def all_activity
+    activity + friends_activity
   end
 end
