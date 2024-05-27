@@ -1,4 +1,3 @@
-<<<<<<< title_lists
 <%= render 'shared/carousel' %>
 
 <div class="container-collection">
@@ -25,16 +24,7 @@
   </button>
 </div>
 
-<div class="container-collection">
-  <h2 class="page-heading">Friend's List</h2>
-=======
-<%# TOP CAROUSEL %>
-<%= render 'shared/carousel' %>
-<%# LIST CAROUSEL %>
-<div class="container-collection">
-  <h2 class="container page-heading">Friend's List</h2>
->>>>>>> master
-</div>
+<h2 class="page-heading">Friend's List</h2>
 <div id="carouselCollection" class="carousel slide">
   <div class="carousel-inner">
     <% @lists.each_slice(4).each_with_index do |group, index| %>
