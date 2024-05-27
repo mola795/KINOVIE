@@ -59,6 +59,7 @@ gem 'rest-client'
 gem 'concurrent-ruby'
 gem 'kaminari'
 gem 'kaminari-bootstrap'
+gem 'cocoon'
 
 group :development, :test do
   gem "dotenv-rails"

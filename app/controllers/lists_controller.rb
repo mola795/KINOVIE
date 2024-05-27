@@ -3,12 +3,11 @@ class ListsController < ApplicationController
 
   def index
     @lists = List.all
-    @lists = @lists.where.not(status: 'Private')
   end
 
   def show
     @list = List.find(params[:id])
-    @list_items = @list.list_items
+    @list_items = @list.list_items.order(:rank)
   end
 
   def new
@@ -28,10 +27,11 @@ class ListsController < ApplicationController
 
   def edit
     @list = List.find(params[:id])
+    @list_items = @list.list_items.order(:rank)
     if @list.name == 'Watchlist'
       redirect_to @list, alert: 'The Watchlist cannot be renamed.'
     else
-      @list.genre_connections.build if @list.genre_connections.empty? # Ensure form builds fields for genres if none exist
+      @list.genre_connections.build if @list.genre_connections.empty?
     end
   end
 
@@ -40,9 +40,42 @@ class ListsController < ApplicationController
     if @list.name == 'Watchlist'
       redirect_to @list, alert: 'The Watchlist cannot be renamed.'
     else
-      if @list.update(list_update_params)
-        redirect_to @list, notice: 'List was updated.'
-      else
+      begin
+        ActiveRecord::Base.transaction do
+          # Schritt 1: Extrahiere die Originalreihenfolge
+          original_list = @list.list_items.order(:rank).to_a
+          temp_list = original_list.dup
+
+          # Aktualisiere Listeneigenschaften
+          @list.update!(list_update_params.except(:list_items_attributes))
+
+          # Schritt 2: Identifiziere das verschobene Element und seine neue Position
+          params[:list][:list_items_attributes].each do |id, attributes|
+            item_to_move = temp_list.find { |item| item.id == id.to_i }
+            new_position = attributes[:new_rank].to_i - 1  # 0-basierter Index
+            old_position = attributes[:old_rank].to_i - 1  # 0-basierter Index
+
+            if old_position != new_position
+              temp_list.delete_at(old_position)
+              temp_list.insert(new_position, item_to_move)
+            end
+          end
+
+          # Schritt 3: Passe die Positionen der verbleibenden Elemente an
+          temp_list.each_with_index do |item, index|
+            item.update!(rank: index + 1)
+          end
+
+          # Update Genres
+          @list.genre_connections.destroy_all
+          params[:list][:genre_ids].reject(&:blank?).each do |genre_id|
+            @list.genre_connections.create!(genre_id: genre_id)
+          end
+
+          redirect_to @list, notice: 'List was updated.'
+        end
+      rescue => e
+        @list.errors.add(:base, e.message)
         render :edit, status: :unprocessable_entity
       end
     end
@@ -66,6 +99,6 @@ class ListsController < ApplicationController
   end
 
   def list_update_params
-    params.require(:list).permit(:name, :description, :status, genre_connections_attributes: [:id, :genre_id, :_destroy])
+    params.require(:list).permit(:name, :description, :status, genre_connections_attributes: [:id, :genre_id, :_destroy], list_items_attributes: [:id, :old_rank, :new_rank], genre_ids: [])
   end
 end

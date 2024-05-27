@@ -10,18 +10,61 @@
     </div>
   </div>
 
-  <div class="row">
+<div class="row">
     <div class="col-12">
-      <%= f.simple_fields_for :genre_connections do |gc| %>
-        <div class="nested-fields">
-          <%= gc.input :genre_id, as: :select, collection: Genre.all.pluck(:name, :id), include_blank: "Select a genre" %>
-          <%= gc.hidden_field :_destroy %>
-          <%= link_to "Remove", "#", class: "remove-genre" %>
+      <h3>Edit Genres</h3>
+      <% 3.times do |index| %>
+        <div class="form-group">
+          <%= select_tag "list[genre_ids][]", options_for_select(Genre.all.pluck(:name, :id), @list.genre_connections[index]&.genre_id), include_blank: "Select a genre", class: 'form-control genre-select' %>
         </div>
       <% end %>
-      <%= link_to "Add Genre", "#", id: "add-genre" %>
     </div>
+  </div>
+
+  <div>
+    <h3>Edit Ranks</h3>
+    <% if @list_items.any? %>
+      <div class="container container-item-card">
+        <% @list_items.each do |list_item| %>
+          <div class="item-card">
+            <%= render 'shared/item_card', title: { id: list_item.title.id, name: list_item.title.name, start_year: list_item.title.start_year, end_year: list_item.title.end_year, poster_path: list_item.title.poster_url, media_type: list_item.title.media_type } %>
+            <label>Current Rank for <%= list_item.title.name %>: <%= list_item.rank %></label>
+            <%= hidden_field_tag "list[list_items_attributes][#{list_item.id}][id]", list_item.id %>
+            <%= hidden_field_tag "list[list_items_attributes][#{list_item.id}][old_rank]", list_item.rank %>
+            <%= select_tag "list[list_items_attributes][#{list_item.id}][new_rank]", options_for_select((1..@list_items.count).to_a, list_item.rank), class: 'form-control' %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <%= f.submit "Update List", class: "btn btn-primary" %>
 <% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const genreSelects = document.querySelectorAll('.genre-select');
+
+    function updateSelectOptions() {
+      const selectedValues = Array.from(genreSelects)
+        .map(select => select.value)
+        .filter(value => value);
+
+      genreSelects.forEach(select => {
+        Array.from(select.options).forEach(option => {
+          if (selectedValues.includes(option.value) && option.value !== select.value) {
+            option.disabled = true;
+          } else {
+            option.disabled = false;
+          }
+        });
+      });
+    }
+
+    genreSelects.forEach(select => {
+      select.addEventListener('change', updateSelectOptions);
+    });
+
+    updateSelectOptions(); // Initial call to set the correct state
+  });
+</script>

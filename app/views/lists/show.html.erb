@@ -2,13 +2,12 @@
   <div>
     <h1><%= @list.name %></h1>
   </div>
-  <div class="">
-  <div class="">
+  <div>
+    <div>
       <strong>Description:</strong>
-      <p class=""><%= @list.description.presence || "No description available" %></p>
+      <p><%= @list.description.presence || "No description available" %></p>
     </div>
-   <div class="">
-      <strong></strong>
+    <div>
       <div class="genre-buttons">
         <% @list.genres.each do |genre| %>
           <%= link_to genre.name, genre_path(genre.tmdb_id), class: "btn" %>
@@ -22,6 +21,7 @@
         <% @list_items.each do |list_item| %>
           <div class="item-card">
             <%= render 'shared/item_card', title: { id: list_item.title.id, name: list_item.title.name, start_year: list_item.title.start_year, end_year: list_item.title.end_year, poster_path: list_item.title.poster_url, media_type: list_item.title.media_type } %>
+            <p>Rank: <%= list_item.rank %></p>
             <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
               <i class="fa-solid fa-trash-can"></i>
             <% end %>
@@ -30,10 +30,10 @@
       </div>
     <% end %>
   </div>
-  <div class="">
-      <strong>Status:</strong>
-      <p class=""><%= @list.status.presence || "No status available" %></p>
-    </div>
+  <div>
+    <strong>Status:</strong>
+    <p><%= @list.status.presence || "No status available" %></p>
+  </div>
   <div>
     <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
     <% unless @list.name == 'Watchlist' %>

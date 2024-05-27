@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   resources :genres, only: %i[index show]
-  resources :lists, only: %i[show new create index edit update destroy]
+  resources :lists, only: %i[show new create index edit update destroy] do
+    resources :list_items, only: %i[create destroy update]
+    resources :genre_connections, only: %i[create destroy update]
+  end
   resources :titles, only: %i[index show new create] do
     resources :reviews, only: %i[index new create]
     resources :list_items, only: %i[create] do
@@ -14,7 +17,6 @@ Rails.application.routes.draw do
   end
   resources :list_items, only: %i[new create destroy]
   resources :users, only: %i[show]
-
 
   get '/profile', to: 'pages#profile', as: :profile
   get '/users/:username', to: 'users#show', as: :username
@@ -30,7 +32,4 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index', as: 'search'
   get 'movies', to: 'titles#movies', as: 'movies'
   get 'tv_shows', to: 'titles#tv_shows', as: 'tv_shows'
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
