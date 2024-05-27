@@ -1,6 +1,6 @@
 <%= link_to genre_path(genre.tmdb_id) do %>
   <div class="card cover-card mb-3">
-    <img src="<%= backdrop_url %>" class="card-img-top cover-card-img-top" alt="Backdrop for <%= genre.name %>">
+    <img src="<%= genre.cover_url %>" class="card-img-top cover-card-img-top" alt="Backdrop for <%= genre.name %>">
     <div class="card-body cover-card-body">
       <h5 class="card-title cover-card-title"><%= genre.name %></h5>
     </div>
