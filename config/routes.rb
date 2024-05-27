@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[show]
 
   get '/profile', to: 'pages#profile', as: :profile
+  get '/activity', to: 'pages#activity', as: :activty
   get '/users/:username', to: 'users#show', as: :username
   get '/users/:id/lists', to: 'users#lists', as: 'user_lists'
 

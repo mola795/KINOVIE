@@ -1,6 +1,6 @@
-// TOP CAROUSEL
+<%# TOP CAROUSEL %>
 <%= render 'shared/carousel' %>
-// LIST CAROUSEL
+<%# LIST CAROUSEL %>
 <div class="container-collection">
   <h2 class=" container home-heading">Friend's List</h2>
 </div>
@@ -25,3 +25,7 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+<%# ACTIVITY FEED %>
+<% if user_signed_in? %>
+  <%= render 'shared/activity_feed', list_activity: @friends_activity , title: "Friend's Activity"%>
+<% end %>
