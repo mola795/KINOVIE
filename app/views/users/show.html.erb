@@ -1,23 +1,26 @@
 <div class="container">
   <div class="container-user">
     <%# user profile image %>
-    <div class="user-details">
+    <div class="user-details" data-controller="follow-toggle" data-follow-toggle-value="<%=@user.username %>">
       <div class="user-profile-details">
         <img src="<%= @user.profile_picture_url %>" alt="" class="avatar-user-page">
         <h1 class="page-heading"><%= @user.username %></h1>
+        <button class='btn'
+        data-action="click->follow-toggle#toggle_follow"
+        data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
         <%# user profile description %>
         <%# user's social media %>
       </div>
       <div class="user-status-details">
         <div class="user-status-info">
           <p>Followers</p>
-          <%= link_to follows_path do %>
+          <%= link_to followers_path(@user.username) do %>
             <%= @user.follows.count == 0 ? 0 : @user.followers.count %>
           <% end %>
         </div>
         <div class="user-status-info">
           <p>Following</p>
-          <%= link_to follows_path do %>
+          <%= link_to following_path(@user.username) do %>
             <%= @user.follows.count == 0 ? 0 : @user.followers.count %>
           <% end %>
         </div>
@@ -37,7 +40,7 @@
     </div>
   </div>
   <div class="user-navbar">
-    <%= link_to 'Home', user_path%>
+    <%= link_to 'Home', user_path(current_user.username) %>
     <span>Activity</span>
     <span>Movies</span>
     <span>TV Shows</span>

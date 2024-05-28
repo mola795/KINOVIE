@@ -16,18 +16,18 @@ Rails.application.routes.draw do
     end
   end
   resources :list_items, only: %i[new create destroy]
-  resources :users, only: %i[show]
+  # resources :users, only: %i[show]
 
-  get '/profile', to: 'pages#profile', as: :profile do
-    get '/followers', to: 'pages#followers', as: :followers
-    get '/following', to: 'pages#following', as: :following
-  end
-  get '/users/:username', to: 'users#show', as: :username
-  get '/users/:id/lists', to: 'users#lists', as: 'user_lists'
+  get '/users/:username/followers', to: 'pages#followers', as: :followers
+  get '/users/:username/following', to: 'pages#following', as: :following
+  get '/users/:username/follow', to: 'users#follow', as: :follow_user
+  get '/users/:username/unfollow', to: 'users#unfollow', as: :unfollow_user
+  get '/users/:username', to: 'users#show', as: :user
+  get '/users/:username/lists', to: 'users#lists', as: 'user_lists'
 
   resources :people, only: %i[show]
   resources :services, only: %i[index show]
-  resources :follows, only: %i[create destroy]
+  # resources :follows, only: %i[create destroy]
 
   get "up" => "rails/health#show", as: :rails_health_check
 
