@@ -121,58 +121,75 @@
           <p class="media-show-info-text"> <%= @writers %></p>
         </div>
       <% end %>
-      <% if @cast.present? %>
-        <div class="media-show-info">
-          <span class="media-show-info-heading">Stars </span>
-          <p class="media-show-info-text"> <%= @cast.split(', ').first(6).join(', ') %></p>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>
 
-<!-- Reviews -->
-<div class="container container-media-show">
-  <div class = media-review-show-heading>
-    <h3>Reviews</h3>
-    <!-- Button watchlist -->
-    <span>
-      <% if current_user == @review.user && @review.comment.blank? %>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      <% elsif current_user == @review.user %>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
-          <i class="fa-regular fa-pen-to-square"></i>
-        </button>
-      <% end %>
-    </span>
-  </div>
-
-<!-- Review Card -->
-
-<% if @title.reviews.any? %>
-  <% @title.reviews.each do |review| %>
-    <% unless review.comment == ""%>
-      <div class="item-card">
-        <p><strong><%= review.user.username %></strong> - <i class="fas fa-star" style="color: #f39c12;"></i>
-        <%= "#{review.rating}/10" %></p>
-        <p><%= review.comment %></p>
-        <%= render 'comments/form', comment: @comment, commentable: review %>
-        <% review.comments.each do |comment| %>
-          <p><%= comment.content %></p>
+<!-- Cast Section -->
+<% if @cast.present? %>
+  <% filtered_cast = @cast.select { |person| person[:profile_path].present? }.first(8) %>
+  <% if filtered_cast.any? %>
+    <div class="container">
+      <h2 class="text-center">Cast</h2>
+      <div class="row justify-content-center">
+        <% filtered_cast.each do |person| %>
+          <div class="col-md-1">
+            <div class="card people-card mb-3">
+              <img src="<%= person[:profile_path] %>" alt="<%= person[:name] %>" class="card-img-top people-card-img-top">
+              <div class="card-body people-card-body">
+                <h5 class="card-title people-card-title"><%= truncate(person[:name], length: 20) %></h5>
+                <div class="card-text people-card-character">
+                  <%= sanitize(truncate(person[:character], length: 20).gsub(/\s?\([^)]*\)/, '')) %>
+                </div>
+              </div>
+            </div>
+          </div>
         <% end %>
-
       </div>
-    <% end %>
+    </div>
   <% end %>
 <% end %>
-</div>
-</div>
+
+
+<!-- Reviews -->
+<% if @title.reviews.any? %>
+  <div class="container container-media-show">
+    <div class="media-review-show-heading text-center">
+      <h2 class="page-heading" style="margin-bottom: 20px;">Reviews</h2>
+      <!-- Button watchlist -->
+      <span>
+        <% if current_user == @review.user && @review.comment.blank? %>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        <% elsif current_user == @review.user %>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </button>
+        <% end %>
+      </span>
+    </div>
+
+    <!-- Review Card -->
+    <% @title.reviews.each do |review| %>
+      <% unless review.comment == "" %>
+        <div class="item-card">
+          <p><strong><%= review.user.username %></strong> - <i class="fas fa-star" style="color: #f39c12;"></i>
+          <%= "#{review.rating}/10" %></p>
+          <p><%= review.comment %></p>
+          <%= render 'comments/form', comment: @comment, commentable: review %>
+          <% review.comments.each do |comment| %>
+            <p><%= comment.content %></p>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
 
 <!-- List Recommendation -->
 <% if @lists.any? %>
-  <h2 class="page-heading" style="margin-top: 20px;">Lists with <%= @title.name %></h2>
+  <h2 class="page-heading" style="margin-bottom: -70px;">Lists with <%= @title.name %></h2>
   <div id="carouselCollection" class="carousel slide">
     <div class="carousel-inner">
       <% @lists.each_slice(4).each_with_index do |group, index| %>
