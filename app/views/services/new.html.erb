@@ -1,0 +1,11 @@
+<h1>Add Streaming Information</h1>
+
+<%= form_with(url: services_path, method: :post) do |form| %>
+  <div class="form-group">
+    <%= form.label :list_id, 'Select a List' %>
+    <%= form.collection_select :list_id, @lists, :id, :name, include_blank: true, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.submit 'Add Streaming Information', class: 'btn btn-primary' %>
+  </div>
+<% end %>

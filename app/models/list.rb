@@ -13,12 +13,12 @@ class List < ApplicationRecord
   def activity_string
     time_minutes = (Time.now - created_at) / 60
       if time_minutes <= 60
-        "You created \"#{name}\" — #{time_minutes.round} minutes ago"
+        "#{user.username} created \"#{name}\" — #{time_minutes.round} minutes ago"
       elsif time_minutes > 60 && time_minutes < 1440
         time_hours = (time_minutes / 60).round
-        "You created \"#{name}\" — #{time_hours} #{time_hours == 1 ? "hour" : "hours" } ago"
+        "#{user.username} created \"#{name}\" — #{time_hours} #{time_hours == 1 ? "hour" : "hours" } ago"
       else
-        "You created \"#{name}\" — #{created_at.strftime("%b %d, %Y")}"
+        "#{user.username} created \"#{name}\" — #{created_at.strftime("%b %d, %Y")}"
       end
   end
 end

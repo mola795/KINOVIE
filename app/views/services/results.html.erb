@@ -1,0 +1,27 @@
+<!-- app/views/services/results.html.erb -->
+<h1>Streaming Information Results</h1>
+
+<% if @results.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Service</th>
+        <th>URL</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @results.each do |result| %>
+        <tr>
+          <td><%= result[:title] %></td>
+          <td><%= result[:service] %></td>
+          <td><%= link_to 'Watch', result[:url], target: '_blank' %></td>
+          <td><%= result[:streaming_type] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No streaming information found for the selected list.</p>
+<% end %>
