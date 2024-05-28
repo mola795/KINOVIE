@@ -13,7 +13,6 @@ class User < ApplicationRecord
 
   has_many :lists, dependent: :destroy
   has_many :reviews, dependent: :destroy
-  has_many :comments, dependent: :destroy
   has_many :list_items, through: :lists, dependent: :destroy
 
   def activity

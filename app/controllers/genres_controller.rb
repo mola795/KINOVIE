@@ -13,7 +13,7 @@ class GenresController < ApplicationController
 
     @db_movies = @genre.titles.where(media_type: 'movie').where("imdb_votes > 0").order(imdb_votes: :desc).page(params[:movie_page]).per(12) || []
     @db_tv_shows = @genre.titles.where(media_type: 'tv').where("imdb_votes > 0").order(imdb_votes: :desc).page(params[:tv_page]).per(12) || []
-    @lists = @genre.lists.distinct
+    @lists = @genre.lists.distinct.order(created_at: :desc)
     @cover_url = params[:cover_url] || @genre.cover_url
 
     unless params[:skip_update]
