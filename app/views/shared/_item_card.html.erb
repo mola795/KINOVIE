@@ -1,46 +1,36 @@
-<%= link_to title_path(title[:id]) do %>
+<%= link_to title_path(title.id) do %>
   <div class="card item-card mb-3">
-    <img src="https://image.tmdb.org/t/p/w500<%= title[:poster_path] %>" alt="<%= title[:name] %>" class="card-img-top item-card-img-top" alt="...">
+    <img src="https://image.tmdb.org/t/p/w500<%= title.poster_url %>" alt="<%= title.name %>" class="card-img-top item-card-img-top" alt="...">
     <div class="card-body item-card-body">
-      <img class="avatar-small avatar-list-card" src="
-        <% if list.user.profile_picture_url == nil %>
+      <% top_three_reviews(title.ordered_reviews).limit(3).each do |review| %>
+        <img class="avatar avatar-list-card" src="
+        <% if review.user.profile_picture_url == nil %>
           https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
         <% else %>
-          <%= list.user.profile_picture_url %>
+          <%= review.user.profile_picture_url %>
         <%end%>
         " alt="
-        <% if list.user.username == nil%>
+        <% if review.user.username == nil%>
           Your Avatar
         <% else %>
-          <%= list.user.username %>'s Avatar<% end %>"
+          <%= review.user.username %>'s Avatar<% end %>"
         class="avatar-nav">
-      <h5 class="card-title item-card-title"><%= title[:name] %></h5>
-      <img class="avatar avatar-collection-card" src="
-        <% if list.user.profile_picture_url == nil %>
-          https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
-        <% else %>
-          <%= list.user.profile_picture_url %>
-        <%end%>
-        " alt="
-        <% if list.user.username == nil%>
-          Your Avatar
-        <% else %>
-          <%= list.user.username %>'s Avatar<% end %>"
-        class="avatar-nav">
+      <% end %>
+      <h5 class="card-title item-card-title"><%= title.name %></h5>
       <div class="card-text item-card-small-texts">
         <div>
-          <% if title[:media_type] == 'tv' && title[:start_year] != title[:end_year] %>
-            <span class="item-card-small-text-heading"><%= title[:start_year] %>
-              <% if title[:end_year] %>
-                - <%= title[:end_year] %>
+          <% if title.media_type == 'tv' && title.start_year != title.end_year %>
+            <span class="item-card-small-text-heading"><%= title.start_year %>
+              <% if title.end_year %>
+                - <%= title.end_year %>
               <% end %></span>
           <% else %>
-            <span class="item-card-small-text-heading"><%= title[:start_year] %></span>
+            <span class="item-card-small-text-heading"><%= title.start_year %></span>
           <% end %>
         </div>
         <div>
           <span class="item-card-small-text-heading"></span>
-          <%= title[:media_type] == 'tv' ? 'TV Show' : title[:media_type].capitalize %>
+          <%= title.media_type == 'tv' ? 'TV Show' : title.media_type.capitalize %>
         </div>
       </div>
     </div>

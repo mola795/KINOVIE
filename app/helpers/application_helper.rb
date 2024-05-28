@@ -32,4 +32,12 @@ module ApplicationHelper
       end
     end
   end
+
+  def top_three_reviews(reviews)
+    if user_signed_in?
+      reviews.where(user: current_user.favorited_user)
+    else
+      review
+    end
+  end
 end
