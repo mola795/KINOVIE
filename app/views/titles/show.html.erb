@@ -261,23 +261,60 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel"><%= "Add #{@title.name}" %></h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <% current_user.lists.each do |list| %>
-          <% unless list.titles.include?(@title) %>
-            <%= simple_form_for [@title, ListItem.new] do |f| %>
-              <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
-              <%= f.button :button, class: 'btn btn-primary' do %>
-                <%= list.name %>
-              <% end %>
-            <% end %>
-          <% else %>
-            <p><%= list.name %> -  Already added</p>
-          <% end %>
+<div class="modal-body">
+  <% sorted_lists = current_user.lists.where.not(name: 'Watchlist').order(:name) %>
+  <% watchlist = current_user.lists.find_by(name: 'Watchlist') %>
+  <!-- Sorted Lists -->
+  <% sorted_lists.each do |list| %>
+    <%= simple_form_for [@title, ListItem.new] do |f| %>
+      <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
+      <% if list.titles.include?(@title) %>
+        <%= f.button :button, disabled: true do %>
+          <%= list.name %> <i class="fas fa-check"></i>
         <% end %>
-        <%= link_to new_list_path do %>
-          <i class="fa-solid fa-plus"></i> New List
+      <% else %>
+        <%= f.button :button do %>
+          <%= list.name %>
         <% end %>
-      </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  <!-- Watchlist -->
+  <% if watchlist.present? %>
+    <%= simple_form_for [@title, ListItem.new] do |f| %>
+      <%= f.input :list_id, as: :hidden, input_html: { value: watchlist.id } %>
+      <% if watchlist.titles.include?(@title) %>
+        <%= f.button :button, disabled: true do %>
+          <%= watchlist.name %> <i class="fas fa-check"></i>
+        <% end %>
+      <% else %>
+        <%= f.button :button do %>
+          <%= watchlist.name %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <!-- New List Button -->
+   <a class="btn-modal-new " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <i class="fa-solid fa-plus"></i> New List
+  </a>
+  <div class="collapse" id="collapseExample">
+  <div class="card card-body">
+   <%= simple_form_for(@new_list) do |f| %>
+  <div class="row">
+    <div class="col-6">
+      <%= f.input :name %>
+      <%= f.input :status, collection: %w[Private Friend Public] %>
+    </div>
+    <div class="col-6">
+      <%= f.input :description %>
+    </div>
+  </div>
+  <%= f.submit %>
+  <% end %>
+</div>
+</div>
+</div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
