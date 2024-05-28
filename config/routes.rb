@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get '/activity', to: 'pages#activity', as: :activity
   resources :people, only: %i[show]
   resources :services, only: %i[index show new create]
+  resources :comments, only: [:create]
 
   get "up" => "rails/health#show", as: :rails_health_check
 

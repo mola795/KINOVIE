@@ -11,6 +11,7 @@ class PagesController < ApplicationController
                  .group('lists.id')
                  .having('COUNT(list_items.id) > 0')
                  .order(created_at: :desc)
+    @titles = Title.limit(18)
 
     return unless user_signed_in?
 

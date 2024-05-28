@@ -10,6 +10,7 @@ Streaming.destroy_all
 ListItem.destroy_all
 Review.destroy_all
 Title.destroy_all
+List.destroy_all
 
 def extract_years(date)
   return [nil, nil] unless date
@@ -206,6 +207,7 @@ def save_genres(tmdb_genres, title)
   tmdb_genres.each do |tmdb_genre|
     genre = create_or_find_genre(tmdb_genre)
     title.genres << genre unless title.genres.include?(genre)
+    puts "Saved genre: #{genre.name} for title: #{title.name}"
   end
 end
 
@@ -214,6 +216,7 @@ def create_or_find_genre(tmdb_genre)
   genre.name = tmdb_genre['name']
 
   genre.save! if genre.new_record?
+  puts "Created or found genre: #{genre.name} (TMDb ID: #{genre.tmdb_id})"
   genre
 end
 
@@ -221,14 +224,18 @@ def seed_users_and_lists
   genres = Genre.all
 
   30.times do
+    first_name = Faker::Name.first_name
+    last_name = Faker::Name.last_name
+    username = "#{first_name}_#{last_name}"
+
     user = User.create!(
       email: Faker::Internet.unique.email,
       password: 'password',
       password_confirmation: 'password',
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      username: Faker::Internet.unique.username,
-      bio: Faker::Lorem.sentence,
+      first_name: first_name,
+      last_name: last_name,
+      username: username.downcase,
+      bio: "I love movies and TV shows",
       profile_picture_url: Faker::Avatar.image
     )
 

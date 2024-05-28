@@ -6,7 +6,7 @@ class ListsController < ApplicationController
   end
 
   def show
-    @list = List.find(params[:id])
+    @list = List.includes(:user).find(params[:id])
     if @list.name == 'Watchlist'
       @list_items = @list.list_items.order(rank: :desc)
     else

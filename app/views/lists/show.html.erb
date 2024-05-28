@@ -1,18 +1,21 @@
 <div>
   <div>
     <h1><%= @list.name %></h1>
+    <div class="created-by" style="margin-top: -10px;">
+      <span>Created by:</span>
+      <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.username %>" class="avatar-list">
+      <%= link_to @list.user.username, user_path(@list.user.username) %>
+    </div>
+  </div>
+  <div style="margin-top: 10px;">
+    <strong></strong>
+    <p><%= @list.description.presence || "No description available" %></p>
   </div>
   <div>
-    <div>
-      <strong>Description:</strong>
-      <p><%= @list.description.presence || "No description available" %></p>
-    </div>
-    <div>
-      <div class="genre-buttons">
-        <% @list.genres.each do |genre| %>
-          <%= link_to genre.name, genre_path(genre.tmdb_id), class: "btn" %>
-        <% end %>
-      </div>
+    <div class="genre-buttons">
+      <% @list.genres.each do |genre| %>
+        <%= link_to genre.name, genre_path(genre.tmdb_id), class: "btn" %>
+      <% end %>
     </div>
   </div>
   <div>
@@ -20,10 +23,12 @@
       <div class="container container-item-card">
         <% @list_items.each do |list_item| %>
           <div class="item-card">
-            <%= render 'shared/item_card', title: { id: list_item.title.id, name: list_item.title.name, start_year: list_item.title.start_year, end_year: list_item.title.end_year, poster_path: list_item.title.poster_url, media_type: list_item.title.media_type } %>
+            <%= render 'shared/item_card', title: list_item.title %>
             <p>Rank: <%= list_item.rank %></p>
-            <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
-              <i class="fa-solid fa-trash-can"></i>
+            <% if current_user == @list.user %>
+              <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
+                <i class="fa-solid fa-trash-can"></i>
+              <% end %>
             <% end %>
           </div>
         <% end %>
@@ -36,7 +41,7 @@
   </div>
   <div>
     <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
-    <% unless @list.name == 'Watchlist' %>
+    <% if current_user == @list.user && @list.name != 'Watchlist' %>
       <%= link_to 'Edit List', edit_list_path(@list), class: 'btn btn-primary' %>
       <%= link_to 'Delete List', @list, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this list?' }, class: 'btn btn-danger' %>
     <% end %>

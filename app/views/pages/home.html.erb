@@ -1,7 +1,29 @@
 <%= render 'shared/carousel' %>
 
-<div class="container-collection">
+<h2 class="page-heading" style="margin-top: 40px;">Friend's Favorites</h2>
+<div id="carouselItemCards" class="carousel slide">
+  <div class="carousel-inner">
+    <% @titles.each_slice(6).each_with_index do |group, index| %>
+      <div class="carousel-item <%= index == 0 ? "active" : "" %>">
+        <div class="item-card-list">
+          <% group.each do |title| %>
+            <%= render 'shared/item_card', title: title %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselItemCards" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselItemCards" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
 </div>
+
+<div class="container-collection" style="margin-top: -40px;"></div>
 <div id="carouselCoverCards" class="carousel slide">
   <div class="carousel-inner">
     <% @genres.each_slice(4).each_with_index do |group, index| %>
@@ -24,14 +46,14 @@
   </button>
 </div>
 
-<h2 class="page-heading">Friend's List</h2>
+<h2 class="page-heading" style="margin-bottom: -40px;">Friend's List</h2>
 <div id="carouselCollection" class="carousel slide">
   <div class="carousel-inner">
     <% @lists.each_slice(4).each_with_index do |group, index| %>
       <div class="carousel-item <%= index == 0 ? "active" : "" %>">
         <div class="collection-card-list">
           <% group.each do |list| %>
-            <%= render 'shared/collection_card', list: list%>
+            <%= render 'shared/collection_card', list: list %>
           <% end %>
         </div>
       </div>
@@ -46,7 +68,7 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<%# ACTIVITY FEED %>
+
 <% if user_signed_in? %>
   <h2 class="container page-heading">Friend's Activity</h2>
   <%= render 'shared/activity_feed', list_activity: @friends_activity, title: ""%>
