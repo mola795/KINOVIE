@@ -261,60 +261,91 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel"><%= "Add #{@title.name}" %></h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-<div class="modal-body">
-  <% sorted_lists = current_user.lists.where.not(name: 'Watchlist').order(:name) %>
-  <% watchlist = current_user.lists.find_by(name: 'Watchlist') %>
-  <!-- Sorted Lists -->
-  <% sorted_lists.each do |list| %>
-    <%= simple_form_for [@title, ListItem.new] do |f| %>
-      <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
-      <% if list.titles.include?(@title) %>
-        <%= f.button :button, disabled: true do %>
-          <%= list.name %> <i class="fas fa-check"></i>
+      <div class="modal-body">
+        <% sorted_lists = current_user.lists.where.not(name: 'Watchlist').order(:name) %>
+        <% watchlist = current_user.lists.find_by(name: 'Watchlist') %>
+
+        <!-- Display first 5 lists -->
+        <% sorted_lists.first(5).each do |list| %>
+          <%= simple_form_for [@title, ListItem.new] do |f| %>
+            <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
+            <% if list.titles.include?(@title) %>
+              <%= f.button :button, disabled: true do %>
+                <%= list.name %> <i class="fas fa-check"></i>
+              <% end %>
+            <% else %>
+              <%= f.button :button do %>
+                <%= list.name %>
+              <% end %>
+            <% end %>
+          <% end %>
         <% end %>
-      <% else %>
-        <%= f.button :button do %>
-          <%= list.name %>
+
+        <!-- Collapsible section for remaining lists -->
+        <% if sorted_lists.size > 5 %>
+          <div class="collapse" id="collapseLists">
+            <% sorted_lists.drop(5).each do |list| %>
+              <%= simple_form_for [@title, ListItem.new] do |f| %>
+                <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
+                <% if list.titles.include?(@title) %>
+                  <%= f.button :button, disabled: true do %>
+                    <%= list.name %> <i class="fas fa-check"></i>
+                  <% end %>
+                <% else %>
+                  <%= f.button :button do %>
+                    <%= list.name %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <a class="btn btn-link" data-bs-toggle="collapse" href="#collapseLists" role="button" aria-expanded="false" aria-controls="collapseLists">
+               <% if params[:show_more] == 'true' %>
+              Show Less
+            <% else %>
+              Show More
+            <% end %>
+          </a>
         <% end %>
-      <% end %>
-    <% end %>
-  <% end %>
-  <!-- Watchlist -->
-  <% if watchlist.present? %>
-    <%= simple_form_for [@title, ListItem.new] do |f| %>
-      <%= f.input :list_id, as: :hidden, input_html: { value: watchlist.id } %>
-      <% if watchlist.titles.include?(@title) %>
-        <%= f.button :button, disabled: true do %>
-          <%= watchlist.name %> <i class="fas fa-check"></i>
+
+        <!-- Watchlist -->
+        <% if watchlist.present? %>
+          <%= simple_form_for [@title, ListItem.new] do |f| %>
+            <%= f.input :list_id, as: :hidden, input_html: { value: watchlist.id } %>
+            <% if watchlist.titles.include?(@title) %>
+              <%= f.button :button, disabled: true do %>
+                <%= watchlist.name %> <i class="fas fa-check"></i>
+              <% end %>
+            <% else %>
+              <%= f.button :button do %>
+                <%= watchlist.name %>
+              <% end %>
+            <% end %>
+          <% end %>
         <% end %>
-      <% else %>
-        <%= f.button :button do %>
-          <%= watchlist.name %>
-        <% end %>
-      <% end %>
-    <% end %>
-  <% end %>
-  <!-- New List Button -->
-   <a class="btn-modal-new " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    <i class="fa-solid fa-plus"></i> New List
-  </a>
-  <div class="collapse" id="collapseExample">
-  <div class="card card-body">
-   <%= simple_form_for(@new_list) do |f| %>
-  <div class="row">
-    <div class="col-6">
-      <%= f.input :name %>
-      <%= f.input :status, collection: %w[Private Friend Public] %>
-    </div>
-    <div class="col-6">
-      <%= f.input :description %>
-    </div>
-  </div>
-  <%= f.submit %>
-  <% end %>
-</div>
-</div>
-</div>
+
+        <!-- New List Button -->
+        <a class="btn-modal-new" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          <i class="fa-solid fa-plus"></i> New List
+        </a>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <%= simple_form_for(@new_list) do |f| %>
+              <div class="row">
+                <div class="col-6">
+                  <%= f.input :name %>
+                  <%= f.input :status, collection: %w[Private Friend Public] %>
+                </div>
+                <div class="col-6">
+                  <%= f.input :description %>
+                </div>
+                <%= hidden_field_tag :title_id, @title.id %>
+              </div>
+              <%= f.submit %>
+            <% end %>
+          </div>
+        </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>

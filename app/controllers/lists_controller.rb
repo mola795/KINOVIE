@@ -21,10 +21,13 @@ class ListsController < ApplicationController
   def create
     @list = List.new(list_params)
     @list.user = current_user
-
     if @list.save
       update_genres(@list)
-      redirect_to @list, notice: 'List was created and genres were successfully linked.'
+      if params[:title_id].present?
+        @title = Title.find(params[:title_id])
+        ListItem.create(title: @title, list: @list, rank: @list.list_items.count + 1)
+      end
+      redirect_to @list, notice: 'List created.'
     else
       render :new, status: :unprocessable_entity
     end
