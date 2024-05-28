@@ -9,19 +9,7 @@ class SearchController < ApplicationController
       @titles = tmdb_results.map do |tmdb_title|
         media_type = tmdb_title['media_type']
         tmdb_id = tmdb_title['id']
-        title = create_or_find_title(tmdb_id, media_type)
-
-        {
-          id: title.id,
-          name: title.name,
-          media_type: title.media_type,
-          start_year: title.start_year,
-          end_year: title.end_year,
-          poster_url: title.poster_url,
-          imdb_id: title.imdb_id,
-          imdb_rating: title.imdb_rating,
-          imdb_votes: title.imdb_votes
-        }
+        create_or_find_title(tmdb_id, media_type)
       end
     else
       @titles = []
@@ -31,8 +19,8 @@ class SearchController < ApplicationController
   private
 
   def create_or_find_title(tmdb_id, media_type)
-    existing_title = Title.find_by(tmdb_id: tmdb_id, media_type: media_type)
-    return existing_title if existing_title
+    title = Title.find_by(tmdb_id: tmdb_id, media_type: media_type)
+    return title if title
 
     tmdb_api_key = ENV['TMDB_API_KEY']
     omdb_api_key = ENV['OMDB_API_KEY']
@@ -50,7 +38,7 @@ class SearchController < ApplicationController
     poster_url = "https://image.tmdb.org/t/p/w500#{tmdb_details['poster_path']}"
     logger.debug "Poster URL: #{poster_url}"  # Debug-Log für Poster-URL
 
-    title = Title.new(
+    title = Title.create!(
       name: title_name,
       media_type: media_type == 'tv' ? 'tv' : 'movie',
       start_year: release_year,
@@ -62,9 +50,7 @@ class SearchController < ApplicationController
       imdb_votes: omdb_details['imdbVotes']&.gsub(',', '')&.to_i
     )
 
-    if title.save
-      save_genres(tmdb_details['genres'], title)
-    end
+    save_genres(tmdb_details['genres'], title) if title.persisted?
     title
   end
 

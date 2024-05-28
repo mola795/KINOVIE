@@ -4,7 +4,7 @@
     <div class="created-by" style="margin-top: -10px;">
       <span>Created by:</span>
       <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.username %>" class="avatar-list">
-      <%= link_to @list.user.username, user_path(@list.user) %>
+      <%= link_to @list.user.username, user_path(@list.user.username) %>
     </div>
   </div>
   <div style="margin-top: 10px;">
