@@ -51,11 +51,9 @@
   }
 }
 
-
-
-
-
-
+.nav-item {
+  cursor: pointer;
+}
 
 .navbar-collapse .dropdown-menu {
   background-color: $sub-color;
@@ -66,4 +64,8 @@
   &:hover {
     background-color: $main-color;
   }
+}
+
+.fa-bell {
+  margin-right: 10px;
 }

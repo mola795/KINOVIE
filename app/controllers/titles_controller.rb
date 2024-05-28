@@ -17,6 +17,7 @@ class TitlesController < ApplicationController
     @list_item = ListItem.new
     @review = @title.reviews.find_by(user: current_user) || Review.new
     @lists = List.joins(:list_items).where(list_items: { title_id: @title.id }).distinct
+    @comment = Comment.new
     fetch_and_display_title_details
     fetch_backdrops
     fetch_additional_details
@@ -26,6 +27,7 @@ class TitlesController < ApplicationController
   rescue StandardError => e
     logger.error "Error fetching title details: #{e.message}"
     redirect_to titles_path, alert: "An error occurred while fetching title details."
+
   end
 
   def new

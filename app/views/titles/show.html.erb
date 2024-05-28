@@ -129,39 +129,74 @@
       <% end %>
     </div>
   </div>
-
-  <!-- Modal List-->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel"><%= "Add #{@title.name}" %></h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <% current_user.lists.each do |list| %>
-            <% unless list.titles.include?(@title) %>
-              <%= simple_form_for [@title, ListItem.new] do |f| %>
-                <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
-                <%= f.button :button, class: 'btn btn-primary' do %>
-                  <%= list.name %>
-                <% end %>
-              <% end %>
-            <% else %>
-              <p><%= list.name %> -  Already added</p>
-            <% end %>
-          <% end %>
-          <%= link_to new_list_path do %>
-            <i class="fa-solid fa-plus"></i> New List
-          <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
+
+<!-- Reviews -->
+<div class="container container-media-show">
+  <div class = media-review-show-heading>
+    <h3>Reviews</h3>
+    <!-- Button watchlist -->
+    <span>
+      <% if current_user == @review.user && @review.comment.blank? %>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      <% elsif current_user == @review.user %>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </button>
+      <% end %>
+    </span>
+  </div>
+
+<!-- Review Card -->
+
+<% if @title.reviews.any? %>
+  <% @title.reviews.each do |review| %>
+    <% unless review.comment == ""%>
+      <div class="item-card">
+        <p><strong><%= review.user.username %></strong> - <i class="fas fa-star" style="color: #f39c12;"></i>
+        <%= "#{review.rating}/10" %></p>
+        <p><%= review.comment %></p>
+        <%= render 'comments/form', comment: @comment, commentable: review %>
+        <% review.comments.each do |comment| %>
+          <p><%= comment.content %></p>
+        <% end %>
+
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+</div>
+</div>
+
+<!-- List Recommendation -->
+<% if @lists.any? %>
+  <h2 class="page-heading" style="margin-top: 20px;">Lists with <%= @title.name %></h2>
+  <div id="carouselCollection" class="carousel slide">
+    <div class="carousel-inner">
+      <% @lists.each_slice(4).each_with_index do |group, index| %>
+        <div class="carousel-item <%= index == 0 ? "active" : "" %>">
+          <div class="collection-card-list">
+            <% group.each do |list| %>
+              <%= render 'shared/collection_card', list: list %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+<% end %>
+
+<!-- MODALS -->
 
 <!-- Modal Rating -->
 <div class="modal fade" id="ratemodal" tabindex="-1" aria-labelledby="ratemodalLabel" aria-hidden="true">
@@ -195,35 +230,6 @@
   </div>
 </div>
 
-<!-- Reviews -->
-<div class="container container-media-show">
-  <div class = media-review-show-heading>
-    <h3>Reviews</h3>
-    <span>
-      <% if current_user == @review.user && @review.comment.blank? %>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      <% elsif current_user == @review.user %>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
-          <i class="fa-regular fa-pen-to-square"></i>
-        </button>
-      <% end %>
-    </span>
-  </div>
-<% if @title.reviews.any? %>
-  <% @title.reviews.each do |review| %>
-    <% unless review.comment == ""%>
-      <div class="review">
-        <p><strong><%= review.user.username %></strong> - <i class="fas fa-star" style="color: #f39c12;"></i>
-        <%= "#{review.rating}/10" %></p>
-        <p><%= review.comment %></p>
-      </div>
-    <% end %>
-  <% end %>
-<% end %>
-</div>
-
 <!-- Modal Review -->
 <div class="modal fade" id="reviewmodal" tabindex="-1" aria-labelledby="ratemodalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -247,27 +253,34 @@
   </div>
 </div>
 
-<% if @lists.any? %>
-  <h2 class="page-heading" style="margin-top: 20px;">Lists with <%= @title.name %></h2>
-  <div id="carouselCollection" class="carousel slide">
-    <div class="carousel-inner">
-      <% @lists.each_slice(4).each_with_index do |group, index| %>
-        <div class="carousel-item <%= index == 0 ? "active" : "" %>">
-          <div class="collection-card-list">
-            <% group.each do |list| %>
-              <%= render 'shared/collection_card', list: list %>
+<!-- Modal List-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel"><%= "Add #{@title.name}" %></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% current_user.lists.each do |list| %>
+          <% unless list.titles.include?(@title) %>
+            <%= simple_form_for [@title, ListItem.new] do |f| %>
+              <%= f.input :list_id, as: :hidden, input_html: { value: list.id } %>
+              <%= f.button :button, class: 'btn btn-primary' do %>
+                <%= list.name %>
+              <% end %>
             <% end %>
-          </div>
-        </div>
-      <% end %>
+          <% else %>
+            <p><%= list.name %> -  Already added</p>
+          <% end %>
+        <% end %>
+        <%= link_to new_list_path do %>
+          <i class="fa-solid fa-plus"></i> New List
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
-<% end %>
+</div>
