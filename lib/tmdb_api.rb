@@ -32,6 +32,13 @@ class TmdbApi
     []
   end
 
+  def fetch_top_rated_tv_shows(page = 1)
+    self.class.get("/tv/top_rated", query: { api_key: @api_key, language: 'en-US', page: page }).parsed_response['results']
+  rescue => e
+    puts "Error fetching top-rated TV shows: #{e.message}"
+    []
+  end
+
   def fetch_popular_movies
     self.class.get("/movie/popular", query: { api_key: @api_key, language: 'en-US' }).parsed_response['results']
   rescue => e

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get '/users/:id/lists', to: 'users#lists', as: 'user_lists'
 
   resources :people, only: %i[show]
-  resources :services, only: %i[index show]
+  resources :services, only: %i[index show new create]
   resources :follows, only: %i[create destroy]
 
   get "up" => "rails/health#show", as: :rails_health_check
