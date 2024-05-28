@@ -25,6 +25,17 @@
         class="avatar-nav">
     <div class="collection-card-main-text">
       <h5 class="card-title collection-card-title"><%= list.name  %></h5>
+      <img class="avatar avatar-collection-card" src="
+        <% if list.user.profile_picture_url == nil %>
+          https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
+        <% else %>
+          <%= list.user.profile_picture_url %>
+        <%end%>
+        " alt="
+        <% if list.user.username == nil%>
+          Your Avatar
+        <% else %>
+          <%= list.user.username %>'s Avatar<% end %>">
       <p class="card-subtitle collection-card-subtitle"><%= list.user.username %></p>
     </div>
     <div class="card-text collection-card-small-text">

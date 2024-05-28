@@ -15,6 +15,18 @@
           <%= list.user.username %>'s Avatar<% end %>"
         class="avatar-nav">
       <h5 class="card-title item-card-title"><%= title[:name] %></h5>
+      <img class="avatar avatar-collection-card" src="
+        <% if list.user.profile_picture_url == nil %>
+          https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
+        <% else %>
+          <%= list.user.profile_picture_url %>
+        <%end%>
+        " alt="
+        <% if list.user.username == nil%>
+          Your Avatar
+        <% else %>
+          <%= list.user.username %>'s Avatar<% end %>"
+        class="avatar-nav">
       <div class="card-text item-card-small-texts">
         <div>
           <% if title[:media_type] == 'tv' && title[:start_year] != title[:end_year] %>

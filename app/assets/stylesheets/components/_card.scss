@@ -105,6 +105,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   .collection-card-title {
     font-size: $big-text;
   }
