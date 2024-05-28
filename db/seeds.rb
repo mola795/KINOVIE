@@ -9,6 +9,7 @@ GenreConnection.destroy_all
 Streaming.destroy_all
 ListItem.destroy_all
 Review.destroy_all
+User.destroy_all
 Title.destroy_all
 List.destroy_all
 
@@ -38,8 +39,8 @@ def map_media_type(media_type)
 end
 
 def seed_top_rated_titles(tmdb_api, omdb_api)
-  total_movies_needed = 300
-  total_tv_shows_needed = 200
+  total_movies_needed = 200
+  total_tv_shows_needed = 100
   movies_per_page = 20
   tv_shows_per_page = 20
   total_movie_pages = (total_movies_needed / movies_per_page.to_f).ceil
