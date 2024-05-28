@@ -8,7 +8,7 @@
           <h1 class="page-heading"><%= @user.username %></h1>
           <p class="user-profile-bio"><%= @user.bio == nil ? "No bio" : @user.bio %></p>
         </div>
-        <button class='btn'
+        <button class='btn' style="margin-left: 20px"
         data-action="click->follow-toggle#toggle_follow"
         data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
         <%# user profile description %>
