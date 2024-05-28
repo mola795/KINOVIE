@@ -28,7 +28,7 @@ module ApplicationHelper
         time_hours = (time_minutes / 60).round
         "#{activity.user == current_user ? "You" : activity.user.username} added \"#{activity.title.name}\" to \"#{activity.list.name}\" — #{time_hours} #{time_hours == 1 ? "hour" : "hours" } ago"
       else
-        "#{activity.user == current_user ? "You" : activity.user.username} added \"#{activity.title.name}\" to \"#{activity.list.name}\" — #{created_at.strftime("%b %d, %Y")} ago"
+        "#{activity.user == current_user ? "You" : activity.user.username} added \"#{activity.title.name}\" to \"#{activity.list.name}\" — #{activity.created_at.strftime("%b %d, %Y")} ago"
       end
     end
   end

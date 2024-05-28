@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by(username: params[:username])
     # @lists = @user.lists.where.not(status: 'Private').order(:created_at)
     # @private_lists = @user.lists.where(status: 'Private').where.not(name: 'Watchlist').order(:created_at)
     # @watchlist = @user.lists.find_by(name: 'Watchlist')
@@ -10,4 +10,15 @@ class UsersController < ApplicationController
     @list_activity = @user.activity.reverse
   end
 
+  def follow
+    @user_to_follow = User.find_by(username: params[:username])
+    # debugger
+    current_user.favorite(@user_to_follow)
+  end
+
+  def unfollow
+    @user_to_unfollow = User.find_by(username: params[:username])
+    # debugger
+    current_user.unfavorite(@user_to_unfollow)
+  end
 end

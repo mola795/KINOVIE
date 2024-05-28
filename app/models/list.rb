@@ -8,6 +8,7 @@ class List < ApplicationRecord
   validates :name, presence: true
 
   accepts_nested_attributes_for :genre_connections, allow_destroy: true, reject_if: :all_blank
+  acts_as_favoritable
 
   def activity_string
     time_minutes = (Time.now - created_at) / 60
