@@ -228,7 +228,7 @@ def seed_users_and_lists
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
       username: Faker::Internet.unique.username,
-      bio: Faker::Lorem.sentence,
+      bio: "Hi my name is #{user.first_name} and I love movies and TV shows",
       profile_picture_url: Faker::Avatar.image
     )
 

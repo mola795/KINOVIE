@@ -17,7 +17,7 @@ class SearchController < ApplicationController
           media_type: title.media_type,
           start_year: title.start_year,
           end_year: title.end_year,
-          poster_path: title.poster_url,
+          poster_url: title.poster_url,
           imdb_id: title.imdb_id,
           imdb_rating: title.imdb_rating,
           imdb_votes: title.imdb_votes
@@ -47,6 +47,9 @@ class SearchController < ApplicationController
     imdb_id = tmdb_details['imdb_id'] || omdb_api.fetch_imdb_id(title_name, release_year)
     omdb_details = omdb_api.fetch_movie_details(imdb_id)
 
+    poster_url = "https://image.tmdb.org/t/p/w500#{tmdb_details['poster_path']}"
+    logger.debug "Poster URL: #{poster_url}"  # Debug-Log für Poster-URL
+
     title = Title.new(
       name: title_name,
       media_type: media_type == 'tv' ? 'tv' : 'movie',
@@ -54,7 +57,7 @@ class SearchController < ApplicationController
       end_year: extract_years(tmdb_details['last_air_date']).first,
       tmdb_id: tmdb_id,
       imdb_id: imdb_id,
-      poster_url: "https://image.tmdb.org/t/p/w500#{tmdb_details['poster_path']}",
+      poster_url: poster_url,
       imdb_rating: omdb_details['imdbRating'],
       imdb_votes: omdb_details['imdbVotes']&.gsub(',', '')&.to_i
     )
