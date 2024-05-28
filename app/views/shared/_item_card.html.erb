@@ -1,20 +1,10 @@
+<!-- app/views/shared/_item_card.html.erb -->
 <%= link_to title_path(title.id) do %>
   <div class="card item-card mb-3">
     <img src="https://image.tmdb.org/t/p/w500<%= title.poster_url %>" alt="<%= title.name %>" class="card-img-top item-card-img-top" alt="...">
     <div class="card-body item-card-body">
-      <% top_three_reviews(title.ordered_reviews).limit(3).each do |review| %>
-        <img class="avatar avatar-list-card" src="
-        <% if review.user.profile_picture_url == nil %>
-          https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
-        <% else %>
-          <%= review.user.profile_picture_url %>
-        <%end%>
-        " alt="
-        <% if review.user.username == nil%>
-          Your Avatar
-        <% else %>
-          <%= review.user.username %>'s Avatar<% end %>"
-        class="avatar-nav">
+      <% top_three_reviews(title.ordered_reviews).each do |review| %>
+        <img class="avatar avatar-list-card" src="<%= review.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= review.user.username %>'s Avatar" class="avatar-nav">
       <% end %>
       <h5 class="card-title item-card-title"><%= title.name %></h5>
       <div class="card-text item-card-small-texts">

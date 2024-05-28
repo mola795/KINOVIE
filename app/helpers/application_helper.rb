@@ -35,9 +35,9 @@ module ApplicationHelper
 
   def top_three_reviews(reviews)
     if user_signed_in?
-      reviews.where(user: current_user.favorited_user)
+      reviews.where(user: current_user.favorited_users).order(rating: :desc).limit(3)
     else
-      review
+      reviews.order(rating: :desc).limit(3)
     end
   end
 end
