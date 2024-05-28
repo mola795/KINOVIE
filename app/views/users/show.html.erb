@@ -6,11 +6,11 @@
         <img src="<%= @user.profile_picture_url %>" alt="" class="avatar-user-page">
         <div class="user-profile-info">
           <h1 class="page-heading"><%= @user.username %></h1>
-          <p class="user-profile-bio"><%= @user.bio == nil ? "No bio" : @user.bio %></p>
-        </div>
-        <button class='btn' style="margin-left: 20px"
+          <p class="user-profile-bio"><%= @user.bio == nil ? "No biography" : @user.bio %></p>
+          <button class='btn'
         data-action="click->follow-toggle#toggle_follow"
-          data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
+            data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
+        </div>
         <%# user profile description %>
         <%# user's social media %>
       </div>
@@ -79,7 +79,7 @@
   </div>
   <%= render 'shared/activity_feed', list_activity: @list_activity , title: "My Activity"%>
   <div class="friend-list">
-    <h2 class="user-heading">Recommended Friends</h2>
+    <%# <h2 class="user-heading">Recommended Friends</h2> %>
   </div>
 </div>
 </div>
