@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   resources :people, only: %i[show]
   resources :services, only: %i[index show]
   # resources :follows, only: %i[create destroy]
+  # get '/profile', to: 'pages#profile', as: :profile
+  get '/activity', to: 'pages#activity', as: :activity
+  resources :people, only: %i[show]
+  resources :services, only: %i[index show new create]
 
   get "up" => "rails/health#show", as: :rails_health_check
 
