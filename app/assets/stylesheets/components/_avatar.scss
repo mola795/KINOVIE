@@ -35,3 +35,15 @@
   border: 1px solid white;
   margin-right: 1rem;
 }
+
+.avatar-collection-card {
+  width: 32px;
+  position: absolute;
+  background-color: $main-white;
+  border: 1px solid $sub-color;
+  top: -16px;
+  right: 10px;
+}
+
+.avatar-list-card {
+}
