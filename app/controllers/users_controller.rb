@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   def show
     @user = User.find_by(username: params[:username])
     # @lists = @user.lists.where.not(status: 'Private').order(:created_at)

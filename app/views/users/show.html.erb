@@ -18,13 +18,14 @@
         <div class="user-status-info">
           <p>Followers</p>
           <%= link_to followers_path(@user.username) do %>
-            <%= @user.follows.count == 0 ? 0 : @user.followers.count %>
+            <%= @user.favoritors_by_type('User').count == 0 ? 0 : @user.all_favorited.count %>
           <% end %>
         </div>
         <div class="user-status-info">
           <p>Following</p>
           <%= link_to following_path(@user.username) do %>
-            <%= @user.follows.count == 0 ? 0 : @user.followers.count %>
+            <%= @user.favorites_by_type('User').count == 0 ? 0 : @user.all_favorites.count %>
+            <%# raise %>
           <% end %>
         </div>
         <div class="user-status-info">

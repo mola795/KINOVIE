@@ -29,11 +29,11 @@ class User < ApplicationRecord
      @lists = self.lists.where.not(name: "Watchlist")
      # add @reviews + @followers + @followings + @comments later to the below function
      @activities = @list_item + @lists
-     @activities.sort_by(&:created_at)
+     @activities.sort_by(&:created_at).first(10)
   end
 
   def friends_activity
-    followings.map { |user| user.activity }.flatten.reverse
+    self.favorited_users.map { |user| user.activity }.flatten.reverse
   end
 
   # used to call all activites (followings, current user)
