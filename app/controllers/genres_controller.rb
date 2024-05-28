@@ -47,15 +47,20 @@ class GenresController < ApplicationController
   end
 
   def find_new_top_title_for_genre
-    @genre.titles.where(media_type: 'movie').where("imdb_votes >= 25000").order(imdb_votes: :desc).find do |title|
-      title_genres = title.genres.pluck(:name)
-      # Überspringe Titel, die das Genre "Animation" enthalten, wenn das aktuelle Genre nicht "Animation" ist
-      next if title_genres.include?('Animation') && @genre.name != 'Animation'
-      # Überspringe Titel, die das Genre "Animation" nicht enthalten, wenn das aktuelle Genre "Animation" ist
-      next if !title_genres.include?('Animation') && @genre.name == 'Animation'
+    top_movie = @genre.titles.where(media_type: 'movie').where("imdb_votes >= 25000").order(imdb_votes: :desc).first
+    top_tv_show = @genre.titles.where(media_type: 'tv').where("imdb_votes >= 25000").order(imdb_votes: :desc).first
 
-      !Genre.exists?(cover_url: fetch_backdrop_url(title.tmdb_id, title.media_type))
-    end
+    top_title = [top_movie, top_tv_show].compact.max_by(&:imdb_votes)
+
+    return unless top_title
+
+    title_genres = top_title.genres.pluck(:name)
+    # Überspringe Titel, die das Genre "Animation" enthalten, wenn das aktuelle Genre nicht "Animation" ist
+    return if title_genres.include?('Animation') && @genre.name != 'Animation'
+    # Überspringe Titel, die das Genre "Animation" nicht enthalten, wenn das aktuelle Genre "Animation" ist
+    return if !title_genres.include?('Animation') && @genre.name == 'Animation'
+
+    top_title
   end
 
   def fetch_backdrop_url(tmdb_id, media_type)

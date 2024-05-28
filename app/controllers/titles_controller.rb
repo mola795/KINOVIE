@@ -65,7 +65,7 @@ class TitlesController < ApplicationController
 
     @description = @movie_details['overview'] || "No description available"
     tmdb_genres = @movie_details['genres'] || []
-    tmdb_cast = fetch_cast(@title.tmdb_id, tmdb_api, @title.media_type)
+    @cast = fetch_cast(@title.tmdb_id, tmdb_api, @title.media_type)
 
     if @title.imdb_id
       logger.debug "Fetching OMDb details for IMDb ID: #{@title.imdb_id}"
@@ -74,12 +74,10 @@ class TitlesController < ApplicationController
       @imdb_votes = omdb_details['imdbVotes']&.gsub(',', '')&.to_i || 0
 
       @genres = tmdb_genres.map { |g| g['name'] }.join(", ")
-      @cast = tmdb_cast.join(", ")
     else
       @imdb_rating = "N/A"
       @imdb_votes = 0
       @genres = tmdb_genres.map { |g| g['name'] }.join(", ")
-      @cast = tmdb_cast.join(", ")
     end
 
     logger.debug "Saving genres for title ID: #{@title.tmdb_id}"
@@ -173,8 +171,19 @@ class TitlesController < ApplicationController
                      tmdb_api.fetch_tv_cast(tmdb_id)
                    end
 
-    cast_details&.map { |cast_member| cast_member['name'] } || []
+    cast_details&.map do |cast_member|
+      profile_path = cast_member['profile_path'] ? "https://image.tmdb.org/t/p/w500#{cast_member['profile_path']}" : 'default_profile.png'
+      character = cast_member['character'].gsub(/\(.*?\)/, '').strip
+
+      {
+        id: cast_member['id'],
+        name: cast_member['name'],
+        profile_path: profile_path,
+        character: character
+      }
+    end || []
   end
+
 
   def map_media_type(media_type)
     case media_type
