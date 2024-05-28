@@ -18,4 +18,8 @@ class Title < ApplicationRecord
     all_review = self.reviews
     all_review.map{ |review| review.rating }.sum / all_review.count
   end
+
+  def ordered_reviews
+    reviews.order(rating: :desc)
+  end
 end

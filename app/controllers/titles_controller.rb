@@ -27,6 +27,7 @@ class TitlesController < ApplicationController
   rescue StandardError => e
     logger.error "Error fetching title details: #{e.message}"
     redirect_to titles_path, alert: "An error occurred while fetching title details."
+
   end
 
   def new
