@@ -9,11 +9,11 @@ class ListsController < ApplicationController
 
   def show
     @list = List.includes(:user).find(params[:id])
-    if @list.name == 'Watchlist' || @list.name == 'Ratings'
-      @list_items = @list.list_items.order(rank: :desc)
-    else
-      @list_items = @list.list_items.order(:rank)
-    end
+    @list_items = if @list.name == 'Watchlist' || @list.name == 'Ratings'
+                    @list.list_items.order(rank: :desc)
+                  else
+                    @list.list_items.order(:rank)
+                  end
   end
 
   def new
