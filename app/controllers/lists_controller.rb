@@ -2,7 +2,9 @@ class ListsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @lists = List.all
+    @lists = List.where.not(name: ['Watchlist'])
+    @genres = Genre.where.not(cover_url: nil)
+    @followed_lists = List.joins(user: :followers).where(users: { id: current_user.following_ids }).order(:created_at)
   end
 
   def show

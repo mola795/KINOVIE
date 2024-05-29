@@ -1,21 +1,80 @@
-<h1 class="page-heading">Lists</h1>
-
 <div class="row">
   <div class="col-md-12 text-center">
-    <%= link_to 'New List', new_list_path, class: 'btn btn-primary mb-4' %>
+    <%= link_to 'Create New List', new_list_path, class: 'btn btn-primary mb-4' %>
   </div>
 </div>
 
-<div class="container container-item-card">
-  <% @lists.each do |list| %>
-    <div class="item-card">
-      <h5 class="card-title"><%= list.name %></h5>
-      <p class="card-text"><%= list.description %></p>
-      <%= link_to 'Show', list_path(list), class: 'btn btn-secondary' %>
-      <%= link_to 'Edit', edit_list_path(list), class: 'btn btn-primary' %>
-      <%= link_to list_path(list), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this list?' }, class: 'btn btn-danger' do %>
-        <i class="fa-solid fa-trash-can"></i> Delete
+<div class="container">
+  <h2 class="user-heading">Genre</h2>
+
+  <!-- Genre's Lists -->
+  <div class="container-collection-genre" style="margin-top: -100px;"></div>
+  <div id="carouselCoverCards" class="carousel slide">
+    <div class="carousel-inner">
+      <% @genres.each_slice(4).each_with_index do |group, index| %>
+        <div class="carousel-item <%= index == 0 ? "active" : "" %>">
+          <div class="cover-card-list">
+            <% group.each do |genre| %>
+              <%= render 'shared/cover_card', genre: genre %>
+            <% end %>
+          </div>
+        </div>
       <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCoverCards" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselCoverCards" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+<!--Members Lists-->
+  <h2 class="user-heading">Members Lists</h2>
+
+  <% @lists.each_slice(4).each_with_index do |group, index| %>
+    <% if index < 1 %>
+      <!-- Display the first group of lists -->
+      <div class="collection-card-list">
+        <% group.each do |list| %>
+          <%= render 'shared/collection_card', list: list %>
+        <% end %>
+      </div>
+    <% else %>
+      <!-- Collapse the remaining groups of lists -->
+      <div class="collapse" id="collapseLists">
+        <div class="collection-card-list">
+          <% group.each do |list| %>
+            <%= render 'shared/collection_card', list: list %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- Show More / Show Less Button -->
+  <% if @lists.size > 4 %>
+    <div class="text-center mt-4">
+      <button id="toggleButton" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLists" aria-expanded="false" aria-controls="collapseLists">
+        Show More
+      </button>
     </div>
   <% end %>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var collapseElement = document.getElementById('collapseLists');
+    var toggleButton = document.getElementById('toggleButton');
+
+    collapseElement.addEventListener('show.bs.collapse', function () {
+      toggleButton.textContent = 'Show Less';
+    });
+
+    collapseElement.addEventListener('hide.bs.collapse', function () {
+      toggleButton.textContent = 'Show More';
+    });
+  });
+</script>

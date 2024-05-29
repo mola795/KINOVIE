@@ -1,2 +1,2 @@
-class FollowsController < ApplicationController
+class sController < ApplicationController
 end
