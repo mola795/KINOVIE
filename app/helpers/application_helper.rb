@@ -22,4 +22,12 @@ module ApplicationHelper
       reviews.order(rating: :desc).limit(3)
     end
   end
+
+  def top_three_titles(list_items)
+    if user_signed_in?
+      Title.joins( :reviews, list_items: {list: :user}).where(list_items: {lists:{ user: current_user.favorited_users}}).group(:id).average("reviews.rating")
+      # list_items.joins(:list, title: :reviews).where(list:{user: current_user.favorited_users}).order(title:  }).limit(3)
+    end
+  end
+
 end
