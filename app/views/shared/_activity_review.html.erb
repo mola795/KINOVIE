@@ -21,12 +21,17 @@
       <% if activity.comment.present? %>
         <div class="activity-comment-custom"><%= activity.comment %></div>
       <% end %>
-      <i class="fa-regular fa-heart"
+      <% if current_user.favorited?(activity) %>
+        <i class="fa-solid fa-heart pointer"
+          data-action="click->review-likes#toggle_likes"
+          data-review-likes-target="heart"></i>
+      <% else %>
+      <i class="fa-regular fa-heart pointer"
           data-action="click->review-likes#toggle_likes"
           data-review-likes-target="heart"></i>
       <% end %>
       <div data-review-likes-target="counter"
-        data-review-likes-likes-count-value="<%= activity.favoritors_by_type('User').count %>">
+      data-review-likes-likes-count-value="<%= activity.favoritors_by_type('User').count %>">
       <%= activity.favoritors_by_type('User').count %>
       </div>
       <div class="activity-time-custom">
