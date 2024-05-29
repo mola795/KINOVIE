@@ -32,10 +32,28 @@ class ListItemsController < ApplicationController
     end
   end
 
+  def add_to_ratings_list
+    @title = Title.find(params[:title_id])
+    @list = current_user.lists.find_or_create_by(name: 'Ratings') do |list|
+      list.description = 'A list of all titles I have rated'
+      list.status = 'Private'
+    end
+
+    unless @list.list_items.exists?(title_id: @title.id)
+      @list_item = @list.list_items.create!(title: @title, rank: @list.list_items.count + 1)
+    end
+
+    redirect_to title_path(@title), notice: 'Title was added to your Ratings list.'
+  end
+
   def destroy
     @list_item = ListItem.find(params[:id])
-    @list_item.destroy
-    redirect_to list_path(@list_item.list), notice: 'Title was removed from the list.', status: :see_other
+    if @list_item.list.name == 'Ratings'
+      redirect_to list_path(@list_item.list), alert: 'You cannot remove items from the Ratings list manually.', status: :see_other
+    else
+      @list_item.destroy
+      redirect_to list_path(@list_item.list), notice: 'Title was removed from the list.', status: :see_other
+    end
   end
 
   private
