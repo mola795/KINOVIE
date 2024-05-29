@@ -7,6 +7,19 @@ class UsersController < ApplicationController
       @lists = @user.lists.order(:created_at)
       @follows = @user.follows
       @list_activity = @user.activity.reverse
+
+      # Count movies and TV shows in the Ratings list
+      ratings_list = @user.lists.find_by(name: 'Ratings')
+      if ratings_list
+        @movies_count = ratings_list.list_items.joins(:title).where(titles: { media_type: 'movie' }).count
+        @tv_shows_count = ratings_list.list_items.joins(:title).where(titles: { media_type: 'tv' }).count
+      else
+        @movies_count = 0
+        @tv_shows_count = 0
+      end
+
+      # Count lists excluding Watchlist and Ratings
+      @lists_count = @user.lists.where.not(name: ['Watchlist', 'Ratings']).count
     end
   end
 

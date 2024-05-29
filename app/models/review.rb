@@ -7,8 +7,8 @@ class Review < ApplicationRecord
 
   acts_as_favoritable
 
-  after_create :after_create_add_to_ratings_list
-  before_destroy :before_destroy_remove_from_ratings_list
+  after_create :add_to_ratings_list
+  before_destroy :remove_from_ratings_list
 
   def activity_string
     time_minutes = (Time.now - created_at) / 60
@@ -26,15 +26,21 @@ class Review < ApplicationRecord
 
   private
 
-  def after_create_add_to_ratings_list
-    user.lists.find_or_create_by(name: 'Ratings') do |list|
+  def add_to_ratings_list
+    list = user.lists.find_or_create_by(name: 'Ratings') do |list|
       list.description = 'All the titles I have rated.'
       list.status = 'Private'
-    end.list_items.find_or_create_by(title: title)
+    end
+
+    list_item = list.list_items.find_or_initialize_by(title: title)
+    list_item.rank = list.list_items.count + 1 unless list_item.persisted?
+    list_item.save unless list_item.persisted?
   end
 
-  def before_destroy_remove_from_ratings_list
+  def remove_from_ratings_list
     list = user.lists.find_by(name: 'Ratings')
+    return unless list
+
     list_item = list.list_items.find_by(title: title)
     list_item.destroy if list_item
   end

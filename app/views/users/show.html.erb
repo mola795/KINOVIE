@@ -8,7 +8,7 @@
           <h1 class="page-heading"><%= @user.username %></h1>
           <p class="user-profile-bio"><%= @user.bio == nil ? "No biography" : @user.bio %></p>
           <button class='btn'
-        data-action="click->follow-toggle#toggle_follow"
+            data-action="click->follow-toggle#toggle_follow"
             data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
         </div>
         <%# user profile description %>
@@ -19,27 +19,25 @@
           <p>Followers</p>
           <%= link_to followers_path(@user.username) do %>
             <%= @user.favoritors_by_type('User').count == 0 ? 0 : @user.favoritors_by_type('User').count %>
-            <%# raise %>
           <% end %>
         </div>
         <div class="user-status-info">
           <p>Following</p>
           <%= link_to following_path(@user.username) do %>
             <%= @user.favorites_by_type('User').count == 0 ? 0 : @user.favorites_by_type('User').count %>
-            <%# raise %>
           <% end %>
         </div>
         <div class="user-status-info">
           <p>Movies</p>
+          <%= @movies_count %>
         </div>
         <div class="user-status-info">
           <p>TV Shows</p>
+          <%= @tv_shows_count %>
         </div>
         <div class="user-status-info">
           <p>Lists</p>
-          <%= link_to lists_path do %>
-            <%= @user.lists.count == 0 ? 0 : @user.lists.count %>
-          <% end %>
+          <%= @lists_count %>
         </div>
       </div>
     </div>
@@ -62,7 +60,7 @@
         <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
           <div class="collection-card-list">
             <% group.each do |list| %>
-              <%= render 'shared/collection_card', list: list%>
+              <%= render 'shared/collection_card', list: list %>
             <% end %>
           </div>
         </div>
@@ -77,7 +75,7 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-  <%= render 'shared/activity_feed', list_activity: @list_activity , title: "My Activity"%>
+  <%= render 'shared/activity_feed', list_activity: @list_activity, title: "My Activity" %>
   <div class="friend-list">
     <%# <h2 class="user-heading">Recommended Friends</h2> %>
   </div>
