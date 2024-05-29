@@ -1,31 +1,69 @@
 <div>
+
+  <!--Header-->
   <div>
-    <h1><%= @list.name %></h1>
-    <div class="created-by" style="margin-top: -10px;">
-      <span>Created by:</span>
-      <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.username %>" class="avatar-listshow">
-      <%= link_to @list.user.username, user_path(@list.user.username) %>
+    <!--Title-->
+    <h1 class="page-heading"><%= @list.name %></h1>
+    <!--Status-->
+    <div class="text-center">
+    <p><%= @list.status.presence || "No status available" %></p>
     </div>
+    <!--Created by-->
+    <% unless @list.name == "Watchlist" %>
+      <div class="created-by text-center" style="margin-top: -10px;">
+        <span>Created by:</span>
+        <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.username %>" class="avatar-listshow">
+        <%= link_to @list.user.username, user_path(@list.user.username) %>
+      </div>
+    <% else %>
+      <%# do not display anything%>
+    <% end %>
   </div>
-  <div style="margin-top: 10px;">
-    <strong></strong>
-    <p><%= @list.description.presence || "No description available" %></p>
-  </div>
-  <div>
+
+  <!--Description-->
+  <% unless @list.name == "Watchlist" %>
+    <div  class="text-center" style="margin-top: 10px;">
+      <p><%= @list.description.presence || "No description available" %></p>
+    </div>
+  <% else %>
+      <%# do not display anything%>
+  <% end %>
+
+  <!--Genre-->
+  <div class="text-center">
     <div class="genre-buttons">
       <% @list.genres.each do |genre| %>
         <%= link_to genre.name, genre_path(genre.tmdb_id), class: "btn" %>
       <% end %>
     </div>
   </div>
+
+  <!--Watchlist highlight-->
+
+  <% if @list.name == "Watchlist" %>
+    <h2 class="text-center">Most watched by your friend</h2>
+  <% else %>
+    <%# do not display anything%>
+  <% end %>
+
+  <!--List-->
   <div>
     <% if @list_items.any? %>
       <div class="container container-item-card">
         <% @list_items.each do |list_item| %>
           <div class="item-card">
             <%= render 'shared/item_card', title: list_item.title %>
-            <p>Rank: <%= list_item.rank %></p>
+            <% unless @list.name == "Watchlist" %>
+              <p>Rank: <%= list_item.rank %></p>
+            <% else %>
+              <%# do not display anything%>
+            <% end %>
             <% if current_user == @list.user %>
+              <% unless @list.name == "Watchlist" %>
+              <%= link_to 'Edit List', edit_list_path(@list), class: 'btn btn-primary' %>
+              <% else %>
+                <%# do not display anything%>
+              <% end %>
               <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
                 <i class="fa-solid fa-trash-can"></i>
               <% end %>
@@ -35,14 +73,11 @@
       </div>
     <% end %>
   </div>
-  <div>
-    <strong>Status:</strong>
-    <p><%= @list.status.presence || "No status available" %></p>
-  </div>
-  <div>
+
+  <!--Return Button-->
+  <div class="text-center m-4">
     <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
     <% if current_user == @list.user && @list.name != 'Watchlist' %>
-      <%= link_to 'Edit List', edit_list_path(@list), class: 'btn btn-primary' %>
       <%= link_to 'Delete List', @list, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this list?' }, class: 'btn btn-danger' %>
     <% end %>
   </div>
