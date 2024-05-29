@@ -8,10 +8,11 @@ Rails.application.routes.draw do
     resources :genre_connections, only: %i[create destroy update]
   end
   resources :titles, only: %i[index show new create] do
-    resources :reviews, only: %i[create update]
+    resources :reviews, only: %i[create update destroy]
     resources :list_items, only: %i[create] do
       collection do
         post 'add_to_watchlist'
+        post 'add_to_ratings_list'
       end
     end
   end
@@ -24,6 +25,10 @@ Rails.application.routes.draw do
   get '/users/:username/unfollow', to: 'users#unfollow', as: :unfollow_user
   get '/users/:username', to: 'users#show', as: :user
   get '/users/:username/lists', to: 'users#lists', as: 'user_lists'
+
+  # Likes
+  get '/reviews/:review/like_review', to: 'reviews#like_review', as: :like_review
+  get '/reviews/:review/unlike_review', to: 'reviews#unlike_review', as: :unlike_review
 
   resources :people, only: %i[show]
   resources :services, only: %i[index show]
@@ -40,4 +45,6 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index', as: 'search'
   get 'movies', to: 'titles#movies', as: 'movies'
   get 'tv_shows', to: 'titles#tv_shows', as: 'tv_shows'
+
+  # get 'likes/:type/:id', to: 'pages#like', as: :like
 end
