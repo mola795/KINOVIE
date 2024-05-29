@@ -8,10 +8,11 @@ Rails.application.routes.draw do
     resources :genre_connections, only: %i[create destroy update]
   end
   resources :titles, only: %i[index show new create] do
-    resources :reviews, only: %i[create update]
+    resources :reviews, only: %i[create update destroy]
     resources :list_items, only: %i[create] do
       collection do
         post 'add_to_watchlist'
+        post 'add_to_ratings_list'
       end
     end
   end

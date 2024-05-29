@@ -9,7 +9,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.includes(:user).find(params[:id])
-    if @list.name == 'Watchlist'
+    if @list.name == 'Watchlist' || @list.name == 'Ratings'
       @list_items = @list.list_items.order(rank: :desc)
     else
       @list_items = @list.list_items.order(:rank)
@@ -40,6 +40,8 @@ class ListsController < ApplicationController
     @list_items = @list.list_items.order(:rank)
     if @list.name == 'Watchlist'
       redirect_to @list, alert: 'The Watchlist cannot be renamed.'
+    elsif @list.name == 'Ratings'
+      redirect_to @list, alert: 'The Ratings list cannot be renamed.'
     else
       @list.genre_connections.build if @list.genre_connections.empty?
     end
@@ -49,21 +51,20 @@ class ListsController < ApplicationController
     @list = List.find(params[:id])
     if @list.name == 'Watchlist'
       redirect_to @list, alert: 'The Watchlist cannot be renamed.'
+    elsif @list.name == 'Ratings'
+      redirect_to @list, alert: 'The Ratings list cannot be renamed.'
     else
       begin
         ActiveRecord::Base.transaction do
-          # Schritt 1: Extrahiere die Originalreihenfolge
           original_list = @list.list_items.order(:rank).to_a
           temp_list = original_list.dup
 
-          # Aktualisiere Listeneigenschaften
           @list.update!(list_update_params.except(:list_items_attributes))
 
-          # Schritt 2: Identifiziere das verschobene Element und seine neue Position
           params[:list][:list_items_attributes].each do |id, attributes|
             item_to_move = temp_list.find { |item| item.id == id.to_i }
-            new_position = attributes[:new_rank].to_i - 1  # 0-basierter Index
-            old_position = attributes[:old_rank].to_i - 1  # 0-basierter Index
+            new_position = attributes[:new_rank].to_i - 1
+            old_position = attributes[:old_rank].to_i - 1
 
             if old_position != new_position
               temp_list.delete_at(old_position)
@@ -71,12 +72,10 @@ class ListsController < ApplicationController
             end
           end
 
-          # Schritt 3: Passe die Positionen der verbleibenden Elemente an
           temp_list.each_with_index do |item, index|
             item.update!(rank: index + 1)
           end
 
-          # Update Genres
           update_genres(@list)
 
           redirect_to @list, notice: 'List was updated and genres were successfully linked.'
@@ -93,6 +92,8 @@ class ListsController < ApplicationController
 
     if @list.name == 'Watchlist'
       redirect_to lists_path, alert: 'The Watchlist cannot be deleted.'
+    elsif @list.name == 'Ratings'
+      redirect_to lists_path, alert: 'The Ratings list cannot be deleted.'
     else
       @list.destroy
       redirect_to lists_path, notice: 'List was deleted.', status: :see_other
