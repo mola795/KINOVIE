@@ -5,10 +5,13 @@ require_relative '../lib/omdb_api'
 require 'faker'
 
 puts "Cleaning the DB..."
+Comment.destroy_all
+Review.destroy_all
+Favorite.destroy_all
+Follow.destroy_all
 GenreConnection.destroy_all
 Streaming.destroy_all
 ListItem.destroy_all
-Review.destroy_all
 Title.destroy_all
 List.destroy_all
 
@@ -221,7 +224,8 @@ def create_or_find_genre(tmdb_genre)
 end
 
 def seed_users_and_lists
-  genres = Genre.all
+  ignored_genres = ["TV Movie", "Talk", "Kids", "Reality"]
+  genres = Genre.where.not(name: ignored_genres)
   reviews_comments = [
     "Amazing! A must-watch.",
     "Really enjoyed it!",
@@ -251,25 +255,54 @@ def seed_users_and_lists
       profile_picture_url: Faker::Avatar.image
     )
 
-    genres.sample(5).each do |genre|
-      list = user.lists.create!(
-        name: "The best #{genre.name} List",
-        description: "Hi my name is #{user.first_name} and this is my #{genre.name} list",
-        status: 'Public'
-      )
-      genre_titles = genre.titles.sample(5)
-      genre_titles.each_with_index do |title, index|
-        list_item = list.list_items.create!(title: title, rank: index + 1)
+    # Ensure the 'Ratings' list is created for the user
+    ratings_list = user.lists.find_or_create_by!(name: 'Ratings') do |list|
+      list.description = 'All the titles I have rated.'
+      list.status = 'Private'
+    end
 
-        # Add a review for each title added to the list
-        user.reviews.create!(
-          title: title,
-          rating: rand(6..10),
-          comment: reviews_comments.sample
+    genres.each do |genre|
+      ['movie', 'tv'].each do |media_type|
+        genre_titles = genre.titles.where(media_type: media_type)
+
+        # Check if the genre contains titles of the selected media type
+        next if genre_titles.empty?
+
+        list_name = media_type == 'tv' ? "The best #{genre.name} TV Shows" : "The best #{genre.name} Movies"
+
+        list = user.lists.create!(
+          name: list_name,
+          description: "Hi my name is #{user.first_name} and this is my #{genre.name} #{media_type} list",
+          status: 'Public'
         )
+
+        # Add reviews and store the titles with their ratings
+        titles_with_ratings = genre_titles.sample(5).map do |title|
+          review = user.reviews.create!(
+            title: title,
+            rating: rand(6..10),
+            comment: reviews_comments.sample
+          )
+
+          # Ensure the title is added to the Ratings list
+          ratings_list.list_items.find_or_create_by!(title: title) do |list_item|
+            list_item.rank = ratings_list.list_items.count + 1
+          end
+
+          { title: title, rating: review.rating, created_at: review.created_at }
+        end
+
+        # Sort titles by rating in descending order
+        sorted_titles = titles_with_ratings.sort_by { |tr| -tr[:rating] }
+
+        # Add sorted titles to the list
+        sorted_titles.each_with_index do |tr, index|
+          list.list_items.create!(title: tr[:title], rank: index + 1)
+        end
+
+        list.genre_connections.create!(genre: genre)
+        puts "Created list: #{list.name} for user: #{user.username} and added reviews for each title in the list."
       end
-      list.genre_connections.create!(genre: genre)
-      puts "Created list: #{list.name} for user: #{user.username} and added reviews for each title in the list."
     end
   end
 end

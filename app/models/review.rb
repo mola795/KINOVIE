@@ -3,10 +3,12 @@ class Review < ApplicationRecord
   belongs_to :title
   has_many :comments, as: :commentable
 
-  validates :rating, presence: true
-  validates :rating, inclusion: { in: 1..10 }
+  validates :rating, presence: true, inclusion: { in: 1..10 }
 
   acts_as_favoritable
+
+  after_create :add_to_ratings_list
+  before_destroy :remove_from_ratings_list
 
   def activity_string
     time_minutes = (Time.now - created_at) / 60
@@ -19,6 +21,27 @@ class Review < ApplicationRecord
                   end
 
     comment_text = comment.present? ? " Comment: #{comment}" : ""
-    "#{user.username} reviewed \"#{title.name}\" — #{time_string}. Rating: #{rating}.#{comment_text}"
+    "#{user.first_name} reviewed \"#{title.name}\" — #{time_string}. Rating: #{rating}.#{comment_text}"
+  end
+
+  private
+
+  def add_to_ratings_list
+    list = user.lists.find_or_create_by(name: 'Ratings') do |list|
+      list.description = 'All the titles I have rated.'
+      list.status = 'Private'
+    end
+
+    list_item = list.list_items.find_or_initialize_by(title: title)
+    list_item.rank = list.list_items.count + 1 unless list_item.persisted?
+    list_item.save unless list_item.persisted?
+  end
+
+  def remove_from_ratings_list
+    list = user.lists.find_by(name: 'Ratings')
+    return unless list
+
+    list_item = list.list_items.find_by(title: title)
+    list_item.destroy if list_item
   end
 end

@@ -1,3 +1,7 @@
+.carousel {
+  height: max-content;
+}
+
 .carousel-inner {
   height: 30rem;
 }
@@ -20,4 +24,12 @@
   position: absolute;
   bottom: 0;
   margin-left: 50px;
+}
+
+.carousel-cards {
+  margin-bottom: 70px;
+}
+
+.carousel .carousel-card-inner {
+  height: max-content;
 }

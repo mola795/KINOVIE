@@ -39,13 +39,15 @@
           <%# <li class="nav-item active">
             <%= link_to "My Lists", user_lists_path(current_user), class: "nav-link" %>
           <%# </li>  %>
+          <%= link_to "Watchlist", lists_path, class: "nav-link" %>
           <li class="nav-item">
             <%= link_to "#", class: "nav-link" do %>
               <i class="fa-regular fa-bell"></i>
             <% end %>
           </li>
-          <li class="nav-item dropdown">
-            <img class="avatar dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="
+        </li>
+        <li class="nav-item dropdown">
+          <img class="avatar dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="
             <% if current_user.profile_picture_url == nil %>
               https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
             <% else %>
@@ -57,17 +59,17 @@
             <% else %>
               <%= current_user.username %>'s Avatar<% end %>"
             />
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="<%= user_path(current_user.username) %>">My Profile</a>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item btn btn-user-logout" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="<%= user_path(current_user.username) %>">My Profile</a>
+            <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item btn btn-user-logout" %>
+          </div>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+        </li>
+      <% end %>
+    </ul>
   </div>
+</div>
 </div>

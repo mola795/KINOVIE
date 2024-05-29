@@ -14,14 +14,14 @@
   <% else %>
     <%# do not display anything%>
   <% end %>
-
+  
   <!--Header-->
   <div>
     <!--Title-->
     <h1 class="page-heading"><%= @list.name %></h1>
     <!--Status-->
     <div class="text-center">
-    <p><%= @list.status.presence || "No status available" %></p>
+      <p><%= @list.status.presence || "No status available" %></p>
     </div>
     <!--Created by-->
     <% unless @list.name == "Watchlist" %>
@@ -37,11 +37,11 @@
 
   <!--Description-->
   <% unless @list.name == "Watchlist" %>
-    <div  class="text-center" style="margin-top: 10px;">
+    <div class="text-center" style="margin-top: 10px;">
       <p><%= @list.description.presence || "No description available" %></p>
     </div>
   <% else %>
-      <%# do not display anything%>
+    <%# do not display anything%>
   <% end %>
 
   <!--Genre-->
@@ -61,18 +61,29 @@
           <div class="item-card">
             <%= render 'shared/item_card', title: list_item.title %>
             <% unless @list.name == "Watchlist" %>
-              <p>Rank: <%= list_item.rank %></p>
-            <% else %>
-              <%# do not display anything%>
+              <% if @list.name != "Ratings" %>
+                <p>Rank: <%= list_item.rank %></p>
+              <% end %>
+              <% review = list_item.title.reviews.find_by(user: @list.user) %>
+              <% if review %>
+                <div class="rating-info">
+                  <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.username %>" class="avatar-listshow">
+                  <span>Rating: <%= review.rating %> / 10</span>
+                </div>
+                <p><%= review.created_at.strftime("%B %d, %Y") %></p>
+              <% else %>
+                <div class="rating-info">
+                  <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.username %>" class="avatar-listshow">
+                  <span>Rating: N/A</span>
+                </div>
+                <p>Date Reviewed: N/A</p>
+              <% end %>
             <% end %>
             <% if current_user == @list.user %>
-              <% unless @list.name == "Watchlist" %>
-              <%= link_to 'Edit List', edit_list_path(@list), class: 'btn btn-primary' %>
-              <% else %>
-                <%# do not display anything%>
-              <% end %>
-              <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
-                <i class="fa-solid fa-trash-can"></i>
+              <% unless @list.name == "Ratings" %>
+                <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
+                  <i class="fa-solid fa-trash-can"></i>
+                <% end %>
               <% end %>
             <% end %>
           </div>
@@ -81,10 +92,11 @@
     <% end %>
   </div>
 
-  <!--Return Button-->
+  <!--Return and Edit Buttons-->
   <div class="text-center m-4">
     <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
-    <% if current_user == @list.user && @list.name != 'Watchlist' %>
+    <% if current_user == @list.user && @list.name != 'Watchlist' && @list.name != 'Ratings' %>
+      <%= link_to 'Edit List', edit_list_path(@list), class: 'btn btn-primary' %>
       <%= link_to 'Delete List', @list, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this list?' }, class: 'btn btn-danger' %>
     <% end %>
   </div>

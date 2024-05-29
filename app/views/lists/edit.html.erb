@@ -10,7 +10,7 @@
     </div>
   </div>
 
-<div class="row">
+  <div class="row">
     <div class="col-12">
       <h3>Edit Genres</h3>
       <% 3.times do |index| %>
@@ -27,7 +27,7 @@
       <div class="container container-item-card">
         <% @list_items.each do |list_item| %>
           <div class="item-card">
-            <%= render 'shared/item_card', title: { id: list_item.title.id, name: list_item.title.name, start_year: list_item.title.start_year, end_year: list_item.title.end_year, poster_path: list_item.title.poster_url, media_type: list_item.title.media_type } %>
+            <%= render 'shared/item_card', title: list_item.title %>
             <label>Current Rank for <%= list_item.title.name %>: <%= list_item.rank %></label>
             <%= hidden_field_tag "list[list_items_attributes][#{list_item.id}][id]", list_item.id %>
             <%= hidden_field_tag "list[list_items_attributes][#{list_item.id}][old_rank]", list_item.rank %>

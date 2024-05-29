@@ -1,39 +1,38 @@
 // Activity
 .activity-feed-item-custom {
-  background-color: #1c1c1c;
-  border-radius: 8px;
+  background-color: $sub-color;
+  width: 30rem;
   padding: 20px;
   display: flex;
-  gap: 20px;
-  color: white;
+  margin-bottom: 10px;
 }
 
-.activity-feed-item-custom .activity-content-custom {
+.activity-content-custom {
   display: flex;
   gap: 20px;
 }
 
-.activity-feed-item-custom .activity-poster-custom {
+.activity-poster-custom {
   flex-shrink: 0;
 }
 
-.activity-feed-item-custom .activity-poster-custom img {
+.activity-poster-custom img {
   width: 100px;
 }
 
-.activity-feed-item-custom .activity-details-custom {
+.activity-details-custom {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.activity-feed-item-custom .activity-header-custom {
+.activity-header-custom {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.activity-feed-item-custom .activity-username-custom {
+.activity-username-custom {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -41,45 +40,45 @@
   font-weight: bold;
 }
 
-.activity-feed-item-custom .activity-username-custom img {
+.activity-username-custom img {
   border-radius: 50%;
   width: 30px;
   height: 30px;
 }
 
-.activity-feed-item-custom .activity-title-year-custom {
+.activity-title-year-custom {
   display: flex;
   flex-direction: column;
 }
 
-.activity-feed-item-custom .activity-title-custom {
+.activity-title-custom {
   font-size: 1.4em;
   font-weight: bold;
 }
 
-.activity-feed-item-custom .activity-year-custom {
+.activity-year-custom {
   font-size: 1.2em;
   color: #aaa;
 }
 
-.activity-feed-item-custom .activity-rating-custom {
+.activity-rating-custom {
   font-size: 1.2em;
   color: #ffcc00;
   margin-top: 10px;
 }
 
-.activity-feed-item-custom .activity-comment-custom {
+.activity-comment-custom {
   font-size: 1em;
   margin-top: 10px;
 }
 
-.activity-feed-item-custom .activity-time-custom {
+.activity-time-custom {
   font-size: 0.9em;
   color: #888;
   margin-top: 10px;
 }
 
-.activity-feed-item-custom .activity-list-custom {
+.activity-list-custom {
   font-size: 1em;
   color: #ddd;
   margin-top: 10px;
@@ -100,4 +99,11 @@
   width: 100px;
   height: 150px;
   object-fit: cover;
+}
+
+.activity-collection-card-img-group-custom {
+  width: 100px;
+  height: 150px;
+  display: flex;
+  flex-wrap: wrap;
 }
