@@ -15,10 +15,10 @@ class PagesController < ApplicationController
 
     return unless user_signed_in?
 
-    @friends_activity = current_user.friends_activity.reverse
+    @friends_activity = current_user.friends_activity
   end
 
   def activity
-    @all_activity = current_user.all_activity.reverse
+    @all_activity = current_user.all_activity
   end
 end

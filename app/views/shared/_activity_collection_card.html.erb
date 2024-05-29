@@ -1,0 +1,30 @@
+<div class="activity-feed-item-custom">
+  <div class="activity-content-custom">
+    <div class="activity-collection-custom">
+      <%= link_to list_path(activity.id) do %>
+        <div class="activity-collection-card-images-custom">
+          <% activity.titles.each do |title| %>
+            <% if activity.titles.count == 1 %>
+              <img src="<%= title.poster_url %>" alt="Poster of <%= title.name %>" class="activity-collection-card-img-custom activity-collection-card-img-single-custom">
+            <% else %>
+              <img src="<%= title.poster_url %>" alt="Poster of <%= title.name %>" class="activity-collection-card-img-custom">
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="activity-details-custom">
+      <div class="activity-header-custom">
+        <div class="activity-title-year-custom">
+          <span class="activity-title-custom"><%= activity.name %></span>
+          <span class="activity-year-custom">Was created by:</span>
+          <span class="activity-username-custom"><img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
+          <%= activity.user.username %></span>
+        </div>
+      </div>
+      <div class="activity-time-custom">
+        <%= activity_string(activity) %>
+      </div>
+    </div>
+  </div>
+</div>
