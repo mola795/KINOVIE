@@ -38,6 +38,11 @@
   flex-wrap: wrap;
 }
 
+// ACTIVITY FEED
+.container-activity-feed {
+  height: 2000px;
+  overflow-y: auto;
+
 .container-collection-genre {
   display: flex;
   align-items: center;

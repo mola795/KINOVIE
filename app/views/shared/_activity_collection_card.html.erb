@@ -3,12 +3,14 @@
     <div class="activity-collection-custom">
       <%= link_to list_path(activity.id) do %>
         <div class="activity-collection-card-images-custom">
-          <% activity.titles.each do |title| %>
-            <% if activity.titles.count == 1 %>
-              <img src="<%= title.poster_url %>" alt="Poster of <%= title.name %>" class="activity-collection-card-img-custom activity-collection-card-img-single-custom">
-            <% else %>
-              <img src="<%= title.poster_url %>" alt="Poster of <%= title.name %>" class="activity-collection-card-img-custom">
-            <% end %>
+          <% if activity.titles.count == 1 %>
+            <img src="<%= activity.titles[0].poster_url %>" alt="Poster of <%= activity.titles[0].name %>" class="activity-collection-card-img-custom activity-collection-card-img-single-custom">
+          <% else %>
+            <div class="activity-collection-card-img-group-custom">
+              <% activity.titles.limit(4).each do |title| %>
+                <img src="<%= title.poster_url %>" alt="Poster of <%= title.name %>" class="activity-collection-card-img-custom">
+              <% end %>
+            </div>
           <% end %>
         </div>
       <% end %>
@@ -19,7 +21,7 @@
           <span class="activity-title-custom"><%= activity.name %></span>
           <span class="activity-year-custom">Was created by:</span>
           <span class="activity-username-custom"><img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
-          <%= activity.user.username %></span>
+            <%= activity.user.first_name %></span>
         </div>
       </div>
       <div class="activity-time-custom">

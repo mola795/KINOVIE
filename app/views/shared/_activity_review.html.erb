@@ -12,7 +12,7 @@
           <span class="activity-title-custom"><%= activity.title.name %></span>
           <span class="activity-year-custom"><%= activity.title.release_year %></span>
           <span class="activity-username-custom"><img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
-          <%= activity.user.username %></span>
+            <%= activity.user.first_name %></span>
         </div>
       </div>
       <div class="activity-rating-custom">

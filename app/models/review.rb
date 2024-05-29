@@ -21,7 +21,7 @@ class Review < ApplicationRecord
                   end
 
     comment_text = comment.present? ? " Comment: #{comment}" : ""
-    "#{user.username} reviewed \"#{title.name}\" — #{time_string}. Rating: #{rating}.#{comment_text}"
+    "#{user.first_name} reviewed \"#{title.name}\" — #{time_string}. Rating: #{rating}.#{comment_text}"
   end
 
   private

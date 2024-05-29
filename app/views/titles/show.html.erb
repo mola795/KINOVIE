@@ -16,7 +16,6 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-
 <!-- Top Bar -->
 <div class="container container-media-show">
   <div class="media-show-heading">
@@ -50,7 +49,6 @@
       <% end %>
     <% end %>
   </div>
-
   <!-- Media info -->
   <div class="media-show-infos-year-type">
     <span class="media-show-info-heading"></span>
@@ -84,19 +82,18 @@
     <% if @review.rating  %>
       <span class="media-show-info-text">
         My Rating
-        <i class="fas fa-star" style="color: #f39c12;"></i>
+        <i class="fas fa-star"></i>
         <%= "#{@review.rating}/10" %>
       </span class="media-show-info-text">
     <% end %>
     <% if @title.reviews.any? %>
       <span>
         Community Rating
-        <i class="fas fa-star" style="color: #f39c12;"></i>
+        <i class="fas fa-star"></i>
         <%= "#{@title.average_rating_title}/10" %>
       </span>
     <% end %>
   </div>
-
   <div class="media-show-infos">
     <img src="https://image.tmdb.org/t/p/w500<%= @title.poster_url %>" alt="<%= @title.name %> Poster" class="media-show-poster-img">
     <div class="media-show-infos-details">
@@ -124,7 +121,6 @@
     </div>
   </div>
 </div>
-
 <!-- Cast Section -->
 <% if @cast.present? %>
   <% filtered_cast = @cast.select { |person| person[:profile_path].present? }.first(8) %>
@@ -168,13 +164,12 @@
         <% end %>
       </span>
     </div>
-
     <!-- Review Card -->
     <% @title.reviews.each do |review| %>
       <% unless review.comment == "" %>
         <div class="item-card" data-controller="review-likes" data-review-likes-review-id-value="<%= review.id %>">
-          <p><strong><%= review.user.username %></strong> - <i class="fas fa-star" style="color: #f39c12;"></i>
-          <%= "#{review.rating}/10" %></p>
+          <p><strong><%= review.user.username %></strong> - <i class="fas fa-star"></i>
+            <%= "#{review.rating}/10" %></p>
           <p><%= review.comment %></p>
           <%= render 'comments/form', comment: @comment, commentable: review %>
           <% review.comments.each do |comment| %>
@@ -201,7 +196,6 @@
     <% end %>
   </div>
 <% end %>
-
 <!-- List Recommendation -->
 <% if @lists.any? %>
   <h2 class="page-heading" style="margin-bottom: -70px;">Lists with <%= @title.name %></h2>
@@ -227,9 +221,7 @@
     </button>
   </div>
 <% end %>
-
 <!-- MODALS -->
-
 <!-- Modal Rating -->
 <div class="modal fade" id="ratemodal" tabindex="-1" aria-labelledby="ratemodalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -263,6 +255,29 @@
   </div>
 </div>
 
+<!-- Modal Review -->
+<div class="modal fade" id="reviewmodal" tabindex="-1" aria-labelledby="ratemodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="ratemodalLabel">Review <%= @title.name %></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: [@title, @review], local: true) do |f| %>
+          <div class="mb-3">
+            <%= f.text_area :comment, class: "form-control" %>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "Submit", class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal List-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -274,7 +289,6 @@
       <div class="modal-body">
         <% sorted_lists = current_user.lists.where.not(name: 'Watchlist').order(:name) %>
         <% watchlist = current_user.lists.find_by(name: 'Watchlist') %>
-
         <!-- Display first 5 lists -->
         <% sorted_lists.first(5).each do |list| %>
           <%= simple_form_for [@title, ListItem.new] do |f| %>
@@ -290,7 +304,6 @@
             <% end %>
           <% end %>
         <% end %>
-
         <!-- Collapsible section for remaining lists -->
         <% if sorted_lists.size > 5 %>
           <div class="collapse" id="collapseLists">
@@ -310,14 +323,13 @@
             <% end %>
           </div>
           <a class="btn btn-link" data-bs-toggle="collapse" href="#collapseLists" role="button" aria-expanded="false" aria-controls="collapseLists">
-               <% if params[:show_more] == 'true' %>
+            <% if params[:show_more] == 'true' %>
               Show Less
             <% else %>
               Show More
             <% end %>
           </a>
         <% end %>
-
         <!-- Watchlist -->
         <% if watchlist.present? %>
           <%= simple_form_for [@title, ListItem.new] do |f| %>
@@ -333,7 +345,6 @@
             <% end %>
           <% end %>
         <% end %>
-
         <!-- New List Button -->
         <a class="btn-modal-new" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
           <i class="fa-solid fa-plus"></i> New List
