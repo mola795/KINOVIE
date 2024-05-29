@@ -1,0 +1,29 @@
+<!-- app/views/shared/_activity_review.html.erb -->
+<div class="activity-feed-item-custom">
+  <div class="activity-content-custom">
+    <div class="activity-poster-custom">
+      <%= link_to title_path(activity.title.id) do %>
+        <img src="<%= activity.title.poster_url %>" alt="<%= activity.title.name %>">
+      <% end %>
+    </div>
+    <div class="activity-details-custom">
+      <div class="activity-header-custom">
+        <div class="activity-title-year-custom">
+          <span class="activity-title-custom"><%= activity.title.name %></span>
+          <span class="activity-year-custom"><%= activity.title.release_year %></span>
+          <span class="activity-username-custom"><img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
+          <%= activity.user.username %></span>
+        </div>
+      </div>
+      <div class="activity-rating-custom">
+        Rating: <%= '★' %> <%= activity.rating %>/10
+      </div>
+      <% if activity.comment.present? %>
+        <div class="activity-comment-custom"><%= activity.comment %></div>
+      <% end %>
+      <div class="activity-time-custom">
+        <%= activity_string(activity) %>
+      </div>
+    </div>
+  </div>
+</div>

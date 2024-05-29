@@ -22,4 +22,12 @@ class Title < ApplicationRecord
   def ordered_reviews
     reviews.order(rating: :desc)
   end
+
+  def release_year
+    if media_type == 'tv' && start_year != end_year
+      "#{start_year} - #{end_year || 'Present'}"
+    else
+      start_year.to_s
+    end
+  end
 end

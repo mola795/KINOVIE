@@ -9,7 +9,6 @@ GenreConnection.destroy_all
 Streaming.destroy_all
 ListItem.destroy_all
 Review.destroy_all
-User.destroy_all
 Title.destroy_all
 List.destroy_all
 
