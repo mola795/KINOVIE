@@ -23,6 +23,16 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def like_review
+    @review_to_like = Review.find(params[:review])
+    current_user.favorite(@review_to_like) if @review_to_like
+  end
+
+  def unlike_review
+    @review_to_unlike = Review.find(params[:review])
+    current_user.unfavorite(@review_to_unlike) if @review_to_unlike
+  end
+
   private
 
   def review_params

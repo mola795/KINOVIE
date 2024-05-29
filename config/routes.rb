@@ -25,6 +25,10 @@ Rails.application.routes.draw do
   get '/users/:username', to: 'users#show', as: :user
   get '/users/:username/lists', to: 'users#lists', as: 'user_lists'
 
+  # Likes
+  get '/reviews/:review/like_review', to: 'reviews#like_review', as: :like_review
+  get '/reviews/:review/unlike_review', to: 'reviews#unlike_review', as: :unlike_review
+
   resources :people, only: %i[show]
   resources :services, only: %i[index show]
   # resources :follows, only: %i[create destroy]
@@ -40,4 +44,6 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index', as: 'search'
   get 'movies', to: 'titles#movies', as: 'movies'
   get 'tv_shows', to: 'titles#tv_shows', as: 'tv_shows'
+
+  # get 'likes/:type/:id', to: 'pages#like', as: :like
 end
