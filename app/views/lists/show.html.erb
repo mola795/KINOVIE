@@ -1,4 +1,20 @@
 <div>
+  <!--Watchlist highlight-->
+  <% if @list.name == "Watchlist" %>
+    <h2 class="text-center">Most watched by your friends</h2>
+    <div class="container container-item-card">
+      <% if @list_items.present? %>
+        <% @toplist.each do |title| %>
+          <%= render 'shared/item_card', title: title %>
+        <% end %>
+      <% else %>
+        <p>No items in your Watchlist yet.</p>
+      <% end %>
+    </div>
+  <% else %>
+    <%# do not display anything%>
+  <% end %>
+  
   <!--Header-->
   <div>
     <!--Title-->
@@ -36,13 +52,6 @@
       <% end %>
     </div>
   </div>
-
-  <!--Watchlist highlight-->
-  <% if @list.name == "Watchlist" %>
-    <h2 class="text-center">Most watched by your friend</h2>
-  <% else %>
-    <%# do not display anything%>
-  <% end %>
 
   <!--List-->
   <div>
