@@ -21,4 +21,8 @@ class PagesController < ApplicationController
   def activity
     @all_activity = current_user.all_activity
   end
+
+  def like
+    raise
+  end
 end

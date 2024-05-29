@@ -44,27 +44,36 @@ ul {
 
 .pagination .page-item {
   margin: 0 5px;
+  cursor: pointer;
 }
 
 .pagination .page-item .page-link {
   padding: 10px 15px;
   font-size: 18px;
   letter-spacing: 2px;
-  color: #007bff;
+  color: $key-color;
   text-decoration: none;
 }
 
 .pagination .page-item .page-link:hover {
-  background-color: #e9ecef;
+  background-color: $main-white;
   border-radius: 5px;
 }
 
 .pagination .page-item.active .page-link {
-  background-color: #007bff;
-  color: white;
+  background-color: $key-color;
+  color: $main-white;
   border-radius: 5px;
 }
 
 .pagination .page-item.disabled .page-link {
   color: #6c757d;
+}
+
+.fa-star {
+  color: $star-color;
+}
+
+.fa-heart {
+  color: $heart-color;
 }

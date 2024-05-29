@@ -25,10 +25,13 @@
         class="avatar-nav">
     <div class="collection-card-main-text">
       <h5 class="card-title collection-card-title"><%= list.name  %></h5>
-      <p class="card-subtitle collection-card-subtitle"><%= list.user.username %></p>
     </div>
     <div class="card-text collection-card-small-text">
-      <p><%= list.titles.count %></p>
+      <div class="collection-card-film-number">
+        <i class="fa-solid fa-film"></i>
+        <span class="collection-card-subtitle"><%= list.titles.count %></span>
+      </div>
+      <p class="card-subtitle collection-card-subtitle"><%= list.user.first_name %></p>
       <%# <div>
         <p>Icon 1</p>
         <p>Icon 2</p>

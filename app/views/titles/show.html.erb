@@ -74,14 +74,14 @@
     <% if @review.rating  %>
       <span class="media-show-info-text">
         My Rating
-        <i class="fas fa-star" style="color: #f39c12;"></i>
+        <i class="fas fa-star"></i>
         <%= "#{@review.rating}/10" %>
       </span class="media-show-info-text">
     <% end %>
     <% if @title.reviews.any? %>
       <span>
         Community Rating
-        <i class="fas fa-star" style="color: #f39c12;"></i>
+        <i class="fas fa-star"></i>
         <%= "#{@title.average_rating_title}/10" %>
       </span>
     <% end %>
@@ -170,14 +170,27 @@
     <!-- Review Card -->
     <% @title.reviews.each do |review| %>
       <% unless review.comment == "" %>
-        <div class="item-card">
-          <p><strong><%= review.user.username %></strong> - <i class="fas fa-star" style="color: #f39c12;"></i>
+        <div class="item-card" data-controller="review-likes" data-review-likes-review-id-value="<%= review.id %>">
+          <p><strong><%= review.user.username %></strong> - <i class="fas fa-star"></i>
             <%= "#{review.rating}/10" %></p>
           <p><%= review.comment %></p>
           <%= render 'comments/form', comment: @comment, commentable: review %>
           <% review.comments.each do |comment| %>
             <p><%= comment.content %></p>
           <% end %>
+          <% if current_user.favorited?(review) %>
+            <i class="fa-solid fa-heart"
+             data-action="click->review-likes#toggle_likes"
+              data-review-likes-target="heart"></i>
+          <% else %>
+            <i class="fa-regular fa-heart"
+             data-action="click->review-likes#toggle_likes"
+              data-review-likes-target="heart"></i>
+          <% end %>
+          <div data-review-likes-target="counter"
+          data-review-likes-likes-count-value="<%= review.favoritors_by_type('User').count %>">
+            <%= review.favoritors_by_type('User').count %>
+          </div>
           <%= link_to title_review_path(@title, review), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
             Delete Review
           <% end %>
@@ -233,6 +246,28 @@
           </div>
           <div class="mb-3">
             <%= f.label :comment, "Review (optional)" %>
+            <%= f.text_area :comment, class: "form-control" %>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "Submit", class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Review -->
+<div class="modal fade" id="reviewmodal" tabindex="-1" aria-labelledby="ratemodalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="ratemodalLabel">Review <%= @title.name %></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: [@title, @review], local: true) do |f| %>
+          <div class="mb-3">
             <%= f.text_area :comment, class: "form-control" %>
           </div>
           <div class="modal-footer">

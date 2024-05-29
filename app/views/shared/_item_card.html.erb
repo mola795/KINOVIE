@@ -1,13 +1,13 @@
 <%= link_to title_path(title.id) do %>
   <div class="card item-card mb-3">
     <img src="https://image.tmdb.org/t/p/w500<%= title.poster_url %>" alt="<%= title.name %>" class="card-img-top item-card-img-top" alt="...">
+    <div class="btn-add-list">
+      <i class="fa-solid fa-plus"></i>
+    </div>
     <div class="card-body item-card-body">
-      <% top_three_reviews(title.ordered_reviews).each do |review| %>
-        <img class="avatar avatar-list-card" src="<%= review.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= review.user.username %>'s Avatar" class="avatar-nav">
-      <% end %>
       <h5 class="card-title item-card-title"><%= title.name %></h5>
       <div class="card-text item-card-small-texts">
-        <div>
+        <div class="item-card-small-text">
           <% if title.media_type == 'tv' && title.start_year != title.end_year %>
             <span class="item-card-small-text-heading"><%= title.start_year %>
               <% if title.end_year %>
@@ -16,10 +16,15 @@
           <% else %>
             <span class="item-card-small-text-heading"><%= title.start_year %></span>
           <% end %>
-        </div>
-        <div>
+          <span>·</span>
           <span class="item-card-small-text-heading"></span>
           <%= title.media_type == 'tv' ? 'TV Show' : title.media_type.capitalize %>
+        </div>
+        <div class="item-card-small-text item-card-small-text-rating">
+          <i class="fa-solid fa-heart"></i>
+          <% top_three_reviews(title.ordered_reviews).limit(3).each do |review| %>
+            <img class="avatar avatar-list-card" src="<%= review.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= review.user.username %>'s Avatar" class="avatar-nav">
+          <% end %>
         </div>
       </div>
     </div>

@@ -10,10 +10,14 @@
   width: 100%;
   max-width: 200px;
   margin-bottom: 20px;
+  position: relative;
   cursor: pointer;
   &:hover {
-    scale: 1.04;
+    scale: 1.02;
     transition: 0.3s ease-in-out;
+  }
+  &:hover .btn-add-list {
+    visibility: visible;
   }
 }
 
@@ -24,6 +28,7 @@
 }
 
 .item-card-body {
+  width: 100%;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -31,6 +36,7 @@
   height: 10rem;
   position: relative;
   .item-card-small-texts {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -40,7 +46,13 @@
     }
   }
   .item-card-title {
+    word-wrap: break-word;
     font-size: $big-text;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 }
 
@@ -103,11 +115,11 @@
 
 .collection-card-main-text {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: relative;
+  align-items: end;
   .collection-card-title {
     font-size: $big-text;
+    margin-right: 1rem;
   }
 }
 
@@ -122,6 +134,11 @@
       margin-right: 10px;
     }
   }
+}
+
+.collection-card-film-number {
+  display: flex;
+  align-items: center;
 }
 
 // ITEM DESCRIPTION CARD
