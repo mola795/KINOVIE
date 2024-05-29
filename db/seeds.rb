@@ -222,6 +222,18 @@ end
 
 def seed_users_and_lists
   genres = Genre.all
+  reviews_comments = [
+    "Amazing! A must-watch.",
+    "Really enjoyed it!",
+    "Solid performance and great plot.",
+    "Would recommend!",
+    "Not my cup of tea, but well made.",
+    "Fantastic visuals!",
+    "Good, but could be better.",
+    "Quite entertaining.",
+    "Loved the storyline.",
+    "Great direction and acting."
+  ]
 
   30.times do
     first_name = Faker::Name.first_name
@@ -247,10 +259,17 @@ def seed_users_and_lists
       )
       genre_titles = genre.titles.sample(5)
       genre_titles.each_with_index do |title, index|
-        list.list_items.create!(title: title, rank: index + 1)
+        list_item = list.list_items.create!(title: title, rank: index + 1)
+
+        # Add a review for each title added to the list
+        user.reviews.create!(
+          title: title,
+          rating: rand(6..10),
+          comment: reviews_comments.sample
+        )
       end
       list.genre_connections.create!(genre: genre)
-      puts "Created list: #{list.name} for user: #{user.username}"
+      puts "Created list: #{list.name} for user: #{user.username} and added reviews for each title in the list."
     end
   end
 end
