@@ -1,5 +1,4 @@
 <div class="container">
-
   <!--User Details-->
   <div class="container-user">
     <div class="user-details" data-controller="follow-toggle" data-follow-toggle-value="<%=@user.username %>">
@@ -8,9 +7,11 @@
         <div class="user-profile-info">
           <h1 class="page-heading"><%= @user.username %></h1>
           <p class="user-profile-bio"><%= @user.bio == nil ? "No biography" : @user.bio %></p>
-          <button class='btn'
+          <% if @user != current_user %>
+            <button class='btn'
             data-action="click->follow-toggle#toggle_follow"
-            data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
+              data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
+          <% end %>
         </div>
       </div>
       <div class="user-status-details">
@@ -41,65 +42,60 @@
       </div>
     </div>
   </div>
-
-  <!--User Navbar-->
-  <div class="user-navbar">
-    <%= link_to 'Home', user_path(current_user.username) %>
-    <span>Activity</span>
-    <span>Movies</span>
-    <span>TV Shows</span>
-    <%= link_to 'Lists', lists_path %>
-    <span>Reviews</span>
-  </div>
-
   <!-- User Top Rated Titles-->
-   <% unless @user == current_user %>
-  <h2 class="text-center"><%= @user.username %> Top Rated Titles</h2>
-  <div class="container container-item-card">
-    <% @rated_titles.each do |title| %>
-      <%= render 'shared/item_card', title: title %>
-    <% end %>
-  </div>
-  <% else %>
-  <%# do not display anything%>
-  <% end %>
-
-
-  <!--User List-->
-  <div class="container-collection container-collection-heading">
-    <% if @user == current_user %>
-    <h2 class="user-heading">My List</h2>
-    <div><%= link_to 'New List', new_list_path, class: 'btn' %></div>
-    <% else %>
-    <h2 class="user-heading"><%= @user.username %>'s List</h2>
-    <% end %>
-  </div>
-  <div id="carouselCollection" class="carousel slide">
-    <div class="carousel-inner">
-      <% @lists.each_slice(4).each_with_index do |group, index| %>
-        <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
-          <div class="collection-card-list">
-            <% group.each do |list| %>
-              <%= render 'shared/collection_card', list: list %>
-            <% end %>
-          </div>
-        </div>
+  <% unless @user == current_user %>
+    <h2 class="container page-heading"><%= @user.username %> Top Rated Titles</h2>
+    <div class="container container-item-card">
+      <% @rated_titles.each do |title| %>
+        <%= render 'shared/item_card', title: title %>
       <% end %>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+  <% else %>
+    <%# do not display anything%>
+  <% end %>
+  <!--User List-->
+  <div class="row">
+    <div class="col-7">
+      <div class="container-collection container-collection-heading">
+        <% if @user == current_user %>
+          <h2 class="page-heading page-heading-list">My List</h2>
+          <%= link_to 'New List', new_list_path, class: 'btn' %>
+        <% else %>
+          <h2 class="page-heading page-heading-list"><%= @user.username %>'s List</h2>
+          <%= link_to 'New List', new_list_path, class: 'btn' %>
+        <% end %>
+      </div>
+      <div id="carouselCollection" class="carousel carousel-cards slide">
+        <div class="carousel-inner carousel-card-inner">
+          <% @lists.each_slice(4).each_with_index do |group, index| %>
+            <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+              <div class="collection-card-list">
+                <% group.each do |list| %>
+                  <%= render 'shared/collection_card', list: list %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <!--Activity feed-->
+    <div class="col">
+      <h2 class="container page-heading">My Activity</h2>
+      <div class="container-activity-feed">
+        <%= render 'shared/activity_feed', list_activity: @list_activity, title: "" %>
+      </div>
+    </div>
+    <div class="friend-list">
+      <%# <h2 class="user-heading">Recommended Friends</h2> %>
+    </div>
   </div>
-
-  <!--Activity feed-->
-  <%= render 'shared/activity_feed', list_activity: @list_activity, title: "My Activity" %>
-  <div class="friend-list">
-    <%# <h2 class="user-heading">Recommended Friends</h2> %>
-  </div>
-</div>
 </div>

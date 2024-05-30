@@ -25,25 +25,28 @@
         <%= '★' %> <%= activity.rating %>/10
       </div>
       <% if activity.comment.present? %>
-        <div class="activity-comment-custom"><i class="fa-solid fa-quote-left fa-quotes fa-2xs"></i>
-          <%= activity.comment %> <i class="fa-solid fa-quote-right fa-quotes fa-2xs"></i>
+        <div class="activity-comment-custom">
+          <div>
+            <i class="fa-solid fa-quote-left fa-quotes fa-2xs"></i>
+            <%= activity.comment %> <i class="fa-solid fa-quote-right fa-quotes fa-2xs"></i>
+          </div>
+          <div class="activity-comment-like">
+            <% if current_user.favorited?(activity) %>
+              <i class="fa-solid fa-heart pointer"
+          data-action="click->review-likes#toggle_likes"
+                data-review-likes-target="heart"></i>
+            <% else %>
+              <i class="fa-regular fa-heart pointer"
+          data-action="click->review-likes#toggle_likes"
+                data-review-likes-target="heart"></i>
+            <% end %>
+            <span data-review-likes-target="counter"
+      data-review-likes-likes-count-value="<%= activity.favoritors_by_type('User').count %>">
+              <%= activity.favoritors_by_type('User').count %>
+            </span>
+          </div>
         </div>
       <% end %>
-      <div class="activity-comment-like">
-        <% if current_user.favorited?(activity) %>
-          <i class="fa-solid fa-heart pointer"
-          data-action="click->review-likes#toggle_likes"
-            data-review-likes-target="heart"></i>
-        <% else %>
-          <i class="fa-regular fa-heart pointer"
-          data-action="click->review-likes#toggle_likes"
-            data-review-likes-target="heart"></i>
-        <% end %>
-        <span data-review-likes-target="counter"
-      data-review-likes-likes-count-value="<%= activity.favoritors_by_type('User').count %>">
-          <%= activity.favoritors_by_type('User').count %>
-        </span>
-      </div>
       <div class="activity-time-custom">
         <%= activity_string(activity) %>
       </div>
