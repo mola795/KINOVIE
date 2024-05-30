@@ -1,29 +1,28 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="follow-toggle"
 export default class extends Controller {
   static targets = ["button"];
 
   static values = {
-    username: String
-  }
+    username: String,
+  };
 
   connect() {
-    console.log(this.buttonTarget)
+    console.log(this.buttonTarget);
   }
 
   toggle_follow() {
     const root = location.href;
-    if (this.buttonTarget.innerText == 'Follow') {
-      fetch(`${root}/follow`).then(()=>{
+    if (this.buttonTarget.innerText == "Follow") {
+      console.log(root);
+      fetch(`${root}/follow`).then(() => {
         this.buttonTarget.innerText = "Unfollow";
-      })
-
+      });
     } else {
-      fetch(`${root}/unfollow`).then(()=>{
+      fetch(`${root}/unfollow`).then(() => {
         this.buttonTarget.innerText = "Follow";
-      })
+      });
     }
   }
-
 }

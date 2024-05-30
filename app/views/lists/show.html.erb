@@ -21,18 +21,20 @@
   <div>
     <!--Title-->
     <% if @list.name == "Watchlist" && current_user == @list.user %>
-    <h1 class="page-heading mt-4">My <%= @list.name %></h1>
+    <h1 class="page-heading mb-1">My <%= @list.name %></h1>
     <% else %>
-    <h1 class="page-heading mt-4"><%= @list.name %></h1>
+    <h1 class="page-heading mb-1"><%= @list.name %></h1>
     <% end %>
+
     <!--Status-->
-    <div class="text-center">
+    <!-- <div class="text-center">
       <p><%= @list.status.presence || "No status available" %></p>
-    </div>
+    </div> -->
+
     <!--Created by-->
     <% unless @list.name == "Watchlist" %>
-      <div class="created-by text-center" style="margin-top: -10px;">
-        <span>Created by:</span>
+      <div class="created-by text-center mb-4">
+        <span>List by:</span>
         <img src="
           <% if @list.user.profile_picture.attached? %>
             <%= url_for(@list.user.profile_picture) %>
@@ -40,7 +42,7 @@
             <%= @list.user.profile_picture_url %>
           <% else %>
             'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
-          <% end %>" alt="<%= @list.user.username %>" class="avatar-listshow">
+          <% end %>" alt="<%= @list.user.first_name %>" class="avatar-listshow">
         <%= link_to @list.user.username, user_path(@list.user.username) %>
       </div>
     <% else %>
@@ -48,14 +50,23 @@
     <% end %>
   </div>
 
-  <!--Description-->
-  <% unless @list.name == "Watchlist" %>
-    <div class="text-center" style="margin-top: 10px;">
-      <p><%= @list.description.presence || "No description available" %></p>
+<!-- Description -->
+<% unless @list.name == "Watchlist" %>
+  <% if @list.description.present? %>
+    <div class="container mb-3">
+      <div class="row d-flex justify-content-center">
+        <div class="col-6 mx-auto">
+          <div class="text-center">
+            <h4>Description</h4>
+            <p><%= @list.description %></p>
+          </div>
+        </div>
+      </div>
     </div>
-  <% else %>
-    <%# do not display anything%>
   <% end %>
+<% else %>
+  <%# do not display anything %>
+<% end %>
 
   <!--Genre-->
   <div class="text-center">
@@ -67,15 +78,15 @@
   </div>
 
   <!--List-->
-<div>
-  <% if @list_items.any? %>
-    <div class="container container-item-card-favorite">
-      <% @list_items.each do |list_item| %>
-        <div class="item-card">
-          <%= render 'shared/item_card', title: list_item.title %>
-          <% unless @list.name == "Watchlist" %>
-            <% if @list.name != "Ratings" %>
-              <p>Rank: <%= list_item.rank %></p>
+  <div>
+    <% if @list_items.any? %>
+      <div class="container container-item-card-favorite">
+        <% @list_items.each do |list_item| %>
+          <div class="item-card">
+            <%= render 'shared/item_card', title: list_item.title %>
+            <% unless @list.name == "Watchlist" %>
+              <% if @list.name != "Ratings" %>
+                <p class="mb-1">Rank: <%= list_item.rank %></p>
             <% end %>
             <% review = list_item.title.reviews.find_by(user: @list.user) %>
             <% if review %>
@@ -88,9 +99,9 @@
                   <% else %>
                     'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
                   <% end %>" alt="<%= review.user.username %>" class="avatar-listshow">
-                <span>Rating: <%= review.rating %> / 10</span>
+                <span><i class="fas fa-star"></i><%= review.rating %>/10</span>
               </div>
-              <p><%= review.created_at.strftime("%B %d, %Y") %></p>
+              <!--<p><%= review.created_at.strftime("%B %d, %Y") %></p>-->
             <% else %>
               <div class="rating-info">
                 <img src="
