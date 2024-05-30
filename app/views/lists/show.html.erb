@@ -2,7 +2,7 @@
 <!--Watchlist highlight-->
 <% if @list.name == "Watchlist" && current_user == @list.user %>
   <h2 class="text-center">
-    Friends <%= @toplist.size == 1 ? 'Favorite' : 'Favorites' %>
+    Friend's <%= @toplist.size == 1 ? 'Favorite' : 'Favorites' %>
   </h2>
   <div class="container container-item-card-favorite">
     <% if @list_items.present? %>

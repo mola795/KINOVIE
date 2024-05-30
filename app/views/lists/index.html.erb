@@ -5,7 +5,7 @@
 </div>
 
 <div class="container">
-  <h2 class="user-heading mb-4">Genre</h2>
+  <h1 class="page-heading mb-4">Genre</h2>
 
   <!-- Genre's Lists -->
   <div class="container-collection-genre"></div>
@@ -32,7 +32,7 @@
   </div>
 
   <!-- Members Lists -->
-  <h2 class="user-heading mb-4 mt-4">Members Lists</h2>
+  <h1 class="page-heading mb-4 mt-4">Member's Lists</h2>
 
   <% @lists.reject{ |list| list.user == current_user || list.list_items.count < 1 }.each_slice(4).each_with_index do |group, index| %>
     <div class="collection-card-list">
