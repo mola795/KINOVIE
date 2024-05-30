@@ -7,9 +7,11 @@
         <div class="user-profile-info">
           <h1 class="page-heading"><%= @user.username %></h1>
           <p class="user-profile-bio"><%= @user.bio == nil ? "No biography" : @user.bio %></p>
-          <button class='btn'
+          <% if @user.username != current_user.username %>
+            <button class='btn btn-follow'
             data-action="click->follow-toggle#toggle_follow"
-            data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
+              data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
+          <% end %>
         </div>
         <%# user profile description %>
         <%# user's social media %>

@@ -81,3 +81,25 @@ ul {
 .fa-heart {
   color: $heart-color;
 }
+
+// SCROLLBAR
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $sub-color;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $light-white;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $key-color;
+}

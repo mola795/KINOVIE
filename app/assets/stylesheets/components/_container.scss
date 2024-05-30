@@ -26,7 +26,7 @@
 }
 
 .container-media-show {
-  width: 80%;
+  width: 100%;
   height: max-content;
   display: flex;
   flex-direction: column;
@@ -47,4 +47,15 @@
 .container-collection-genre {
   display: flex;
   align-items: center;
+}
+
+// SHOW
+.container-collection-card-list {
+  height: 43.4rem;
+  overflow-y: scroll;
+}
+
+.container-submit-comment-btn {
+  display: flex;
+  justify-content: end;
 }

@@ -2,6 +2,7 @@
   background-color: $sub-color;
   color: $main-white;
   border: none;
+  border-radius: 0px;
   padding: 10px 20px;
   &:hover {
     background-color: $sub-color;
@@ -49,4 +50,14 @@
 
 .modal-body .btn {
   padding: 5px;
+}
+
+.btn-add-comment {
+  justify-self: end;
+}
+
+.btn-follow {
+  background-color: $main-white;
+  color: $main-color;
+  border: none;
 }

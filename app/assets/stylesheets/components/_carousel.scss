@@ -33,3 +33,8 @@
 .carousel .carousel-card-inner {
   height: max-content;
 }
+
+#carouselCollection {
+  display: flex;
+  flex-direction: column;
+}
