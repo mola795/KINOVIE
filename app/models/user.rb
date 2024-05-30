@@ -16,6 +16,8 @@ class User < ApplicationRecord
   acts_as_favoritor
   acts_as_favoritable
 
+  has_one_attached :profile_picture
+
   def activity
     activities = lists + list_items + reviews
     activities.sort_by(&:created_at).reverse.first(10)

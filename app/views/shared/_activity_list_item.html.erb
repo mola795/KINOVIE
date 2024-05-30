@@ -10,7 +10,7 @@
         <div class="activity-title-year-custom">
           <span class="activity-username-custom">
             <%= link_to user_path(activity.user.username), class: 'custom-link' do %>
-              <img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar" class="avatar-custom">
+              <img src="<%= activity.user.profile_picture || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar" class="avatar-custom">
               <%= activity.user.first_name %>
             <% end %>
           </span>

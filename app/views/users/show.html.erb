@@ -3,7 +3,7 @@
   <div class="container-user">
     <div class="user-details" data-controller="follow-toggle" data-follow-toggle-value="<%=@user.username %>">
       <div class="user-profile-details">
-        <img src="<%= @user.profile_picture_url %>" alt="" class="avatar-user-page">
+        <%= image_tag @user.profile_picture, alt: @user.username, class: "avatar-user-page" if @user.profile_picture.attached? %>
         <div class="user-profile-info">
           <h1 class="page-heading"><%= @user.first_name %></h1>
           <p class="user-profile-bio">@<%= @user.username %></p>
