@@ -16,7 +16,11 @@
     </div>
   </div>
   <div class="item-review-user-texts">
-    <p class="item-review-user-review-text"><i class="fa-solid fa-quote-left fa-quotes fa-2xs"></i><%= review.comment %><i class="fa-solid fa-quote-right fa-quotes fa-2xs"></i></p>
+    <p class="item-review-user-review-text">
+      <i class="fa-solid fa-quote-left fa-quotes fa-2xs"></i>
+      <%= review.comment %>
+      <i class="fa-solid fa-quote-right fa-quotes fa-2xs"></i>
+    </p>
     <div class="item-review-heart">
       <% if current_user.favorited?(review) %>
         <i class="fa-solid fa-heart fa-lg"
@@ -28,15 +32,28 @@
            data-review-likes-target="heart"></i>
       <% end %>
       <div data-review-likes-target="counter"
-           data-review-likes-likes-count-value="<%= review.favoritors_by_type('User').count %>" class="item-review-heart-counter">
+           data-review-likes-likes-count-value="<%= review.favoritors_by_type('User').count %>"
+           class="item-review-heart-counter">
         <%= review.favoritors_by_type('User').count %>
       </div>
     </div>
   </div>
-  <%= render 'comments/form', comment: @comment, commentable: review %>
-  <% review.comments.each do |comment| %>
-    <p><%= comment.content %></p>
-  <% end %>
+
+  <!-- Comment Toggle Button -->
+  <div class="text-right">
+  <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments<%= review.id %>" aria-expanded="false" aria-controls="collapseComments<%= review.id %>">
+    <i class="fa-regular fa-comment"></i>
+  </button>
+  </div>
+
+  <!-- Collapsible Comment Section -->
+  <div class="collapse mt-2" id="collapseComments<%= review.id %>">
+    <%= render 'comments/form', comment: @comment, commentable: review %>
+    <% review.comments.each do |comment| %>
+      <p><%= comment.content %></p>
+    <% end %>
+  </div>
+
   <% if review.user == current_user %>
     <%= link_to title_review_path(@title, review), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
       Delete Review
