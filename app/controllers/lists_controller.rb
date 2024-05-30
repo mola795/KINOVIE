@@ -4,16 +4,29 @@ class ListsController < ApplicationController
   def index
     @lists = List.where.not(name: ['Watchlist'])
     @genres = Genre.where.not(cover_url: nil)
-    @followed_lists = List.joins(user: :followers).where(users: { id: current_user.following_ids }).order(:created_at)
   end
 
   def show
     @list = List.includes(:user).find(params[:id])
-    @list_items = if @list.name == 'Watchlist' || @list.name == 'Ratings'
+   @list_items = if @list.name == 'Watchlist' || @list.name == 'Ratings'
                     @list.list_items.order(rank: :desc)
                   else
                     @list.list_items.order(:rank)
                   end
+
+    # @titles = @list_items.map {|list_item| list_item.title }
+    friend_titles =
+      Title
+        .joins(:lists)
+        .where(lists: { user: current_user.favorited_users})
+        .distinct
+
+    your_title =
+      Title
+        .joins(:lists)
+        .where(lists: { name: "Watchlist", user: current_user})
+
+    @toplist = (friend_titles & your_title).max_by(3){ |title| title.average_rating_title}
   end
 
   def new

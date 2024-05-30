@@ -1,5 +1,6 @@
 class Title < ApplicationRecord
   has_many :list_items, dependent: :destroy
+  has_many :lists, through: :list_items
   has_many :reviews
   has_many :genre_connections
   has_many :genres, through: :genre_connections
@@ -16,6 +17,8 @@ class Title < ApplicationRecord
 
   def average_rating_title
     all_review = self.reviews
+    return 0 if all_review.count.zero?
+
     all_review.map{ |review| review.rating }.sum / all_review.count
   end
 
