@@ -22,7 +22,12 @@ class UsersController < ApplicationController
       @lists_count = @user.lists.where.not(name: ['Watchlist', 'Ratings']).count
     end
 
-    @rated_titles = Title.joins(:reviews).where(reviews: { user_id: @user.id }).distinct.limit(6)
+    @rated_titles = Title
+      .joins(:reviews)
+      .where(reviews: { user_id: @user.id })
+      .select('titles.*, reviews.rating')
+      .order('reviews.rating DESC')
+      .limit(6)
 
   end
 
