@@ -28,7 +28,22 @@ class UsersController < ApplicationController
       .select('titles.*, reviews.rating')
       .order('reviews.rating DESC')
       .limit(6)
+  end
 
+  def edit
+    @user = User.find_by(username: params[:username])
+    redirect_to root_path, alert: "You can only edit your own profile." unless @user == current_user
+  end
+
+  def update
+    @user = User.find_by(username: params[:username])
+    if @user.nil?
+      redirect_to root_path, alert: "User not found."
+    elsif @user.update(user_params)
+      redirect_to user_path(@user.username), notice: "Profile updated successfully."
+    else
+      render :edit
+    end
   end
 
   def follow
@@ -48,5 +63,11 @@ class UsersController < ApplicationController
     else
       @following = @user.favorites_by_type('User').map(&:favoritable)
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :bio, :profile_picture)
   end
 end

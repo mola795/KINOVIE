@@ -1,0 +1,34 @@
+<%= form_with model: @user, url: update_user_path(@user.username), local: true, method: :patch, class: "form-horizontal" do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@user.errors.count, "error") %> prevented this user from being saved:</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :first_name, class: "form-label" %>
+    <%= form.text_field :first_name, class: "form-control", placeholder: "Enter your first name" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :last_name, class: "form-label" %>
+    <%= form.text_field :last_name, class: "form-control", placeholder: "Enter your last name" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :bio, class: "form-label" %>
+    <%= form.text_area :bio, class: "form-control", placeholder: "Enter your bio" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :profile_picture, "Upload Profile Picture", class: "form-label" %>
+    <%= form.file_field :profile_picture, class: "form-control" %>
+  </div>
+
+  <%= form.submit "Update Profile", class: "btn btn-primary" %>
+<% end %>

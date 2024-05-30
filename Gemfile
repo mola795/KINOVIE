@@ -61,6 +61,7 @@ gem 'kaminari'
 gem 'kaminari-bootstrap'
 gem 'cocoon'
 gem 'acts_as_favoritor', github: 'jonhue/acts_as_favoritor'
+gem "cloudinary"
 
 group :development, :test do
   gem "dotenv-rails"
