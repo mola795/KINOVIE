@@ -15,6 +15,8 @@ class PagesController < ApplicationController
 
     @titles = Title.order("RANDOM()").limit(20)
 
+    @users = User.where.not(user: current_user).limit(1)
+
     return unless user_signed_in?
 
     @friends_activity = current_user.friends_activity
