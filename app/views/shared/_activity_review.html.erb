@@ -1,4 +1,3 @@
-<!-- app/views/shared/_activity_review.html.erb -->
 <div class="activity-feed-item-custom">
   <div class="activity-content-custom">
     <div class="activity-poster-custom">
@@ -7,17 +6,20 @@
       <% end %>
     </div>
     <div class="activity-details-custom" data-controller="review-likes" data-review-likes-review-id-value="<%= activity.id %>">
-      <span class="activity-username-custom">
-        <%= link_to user_path(activity.user.username) do %>
-          <img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
-          <%= activity.user.first_name %>
-        <% end %>
-      </span>
       <div class="activity-header-custom">
         <div class="activity-title-year-custom">
-          <span class="activity-title-custom"><%= activity.title.name %></span>
-          <span class="activity-year-custom"><%= activity.title.release_year %></span>
+          <span class="activity-username-custom">
+            <%= link_to user_path(activity.user.username), class: 'custom-link' do %>
+              <img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar" class="avatar-custom">
+              <%= activity.user.first_name %>
+            <% end %>
+          </span>
         </div>
+      </div>
+      <div class="activity-title-year-custom">
+        <span class="activity-year-custom">
+          Reviewed: <%= link_to "#{activity.title.name}", title_path(activity.title.id), class: 'custom-link' %>
+        </span>
       </div>
       <div class="activity-rating-custom">
         <%= '★' %> <%= activity.rating %>/10

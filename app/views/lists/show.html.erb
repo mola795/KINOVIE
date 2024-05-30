@@ -1,24 +1,30 @@
 <div>
-  <!--Watchlist highlight-->
-  <% if @list.name == "Watchlist" %>
-    <h2 class="text-center">Most watched by your friends</h2>
-    <div class="container container-item-card">
-      <% if @list_items.present? %>
-        <% @toplist.each do |title| %>
-          <%= render 'shared/item_card', title: title %>
-        <% end %>
-      <% else %>
-        <p>No items in your Watchlist yet.</p>
+<!--Watchlist highlight-->
+<% if @list.name == "Watchlist" && current_user == @list.user %>
+  <h2 class="text-center">
+    Friends <%= @toplist.size == 1 ? 'Favorite' : 'Favorites' %>
+  </h2>
+  <div class="container container-item-card-favorite">
+    <% if @list_items.present? %>
+      <% @toplist.each do |title| %>
+        <div class="item-card-favorite">
+          <%= render 'shared/item_card_favorite', title: title %>
+        </div>
       <% end %>
-    </div>
-  <% else %>
-    <%# do not display anything%>
-  <% end %>
-  
+    <% end %>
+  </div>
+<% else %>
+  <%# do not display anything %>
+<% end %>>
+
   <!--Header-->
   <div>
     <!--Title-->
-    <h1 class="page-heading"><%= @list.name %></h1>
+    <% if @list.name == "Watchlist" && current_user == @list.user %>
+    <h1 class="page-heading mt-4">My <%= @list.name %></h1>
+    <% else %>
+    <h1 class="page-heading mt-4"><%= @list.name %></h1>
+    <% end %>
     <!--Status-->
     <div class="text-center">
       <p><%= @list.status.presence || "No status available" %></p>
@@ -56,7 +62,7 @@
   <!--List-->
   <div>
     <% if @list_items.any? %>
-      <div class="container container-item-card">
+      <div class="container container-item-card-favorite">
         <% @list_items.each do |list_item| %>
           <div class="item-card">
             <%= render 'shared/item_card', title: list_item.title %>
@@ -89,6 +95,10 @@
           </div>
         <% end %>
       </div>
+    <% else %>
+    <div class="text-center">
+    <p>No items in your Watchlist yet.</p>
+    </div>
     <% end %>
   </div>
 

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   resources :list_items, only: %i[new create destroy]
 
   get '/users/:username/followers', to: 'pages#followers', as: :followers
-  get '/users/:username/following', to: 'pages#following', as: :following
+  get '/users/:username/following', to: 'users#following', as: :following
   get '/users/:username/follow', to: 'users#follow', as: :follow_user
   get '/users/:username/unfollow', to: 'users#unfollow', as: :unfollow_user
   get '/users/:username', to: 'users#show', as: :user

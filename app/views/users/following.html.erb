@@ -1,0 +1,17 @@
+<div class="container">
+  <h1 class="page-heading">Following</h1>
+  <div class="row">
+    <% @following.each do |followed_user| %>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="<%= followed_user.profile_picture_url %>" class="card-img-top" alt="<%= followed_user.username %>">
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to followed_user.username, user_path(followed_user.username) %></h5>
+            <p class="card-text"><%= followed_user.bio %></p>
+            <%= button_to (current_user.favorited?(followed_user) ? 'Unfollow' : 'Follow'), follow_user_path(followed_user.username), method: :post, class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
