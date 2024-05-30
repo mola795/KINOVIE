@@ -8,11 +8,9 @@
         <div class="user-profile-info">
           <h1 class="page-heading"><%= @user.username %></h1>
           <p class="user-profile-bio"><%= @user.bio == nil ? "No biography" : @user.bio %></p>
-          <% if @user.username != current_user.username %>
-            <button class='btn btn-follow'
+          <button class='btn'
             data-action="click->follow-toggle#toggle_follow"
-              data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
-          <% end %>
+            data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
         </div>
       </div>
       <div class="user-status-details">
@@ -55,12 +53,17 @@
   </div>
 
   <!-- User Top Rated Titles-->
-  <h2 class="text-center"><%= @user.username %>Top Rated Titles</h2>
+   <% unless @user == current_user %>
+  <h2 class="text-center"><%= @user.username %> Top Rated Titles</h2>
   <div class="container container-item-card">
     <% @rated_titles.each do |title| %>
       <%= render 'shared/item_card', title: title %>
     <% end %>
   </div>
+  <% else %>
+  <%# do not display anything%>
+  <% end %>
+
 
   <!--User List-->
   <div class="container-collection container-collection-heading">
