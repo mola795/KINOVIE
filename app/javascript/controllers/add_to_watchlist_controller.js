@@ -13,15 +13,22 @@ export default class extends Controller {
   }
 
   addToWatchlist(event) {
+    event.preventDefault()
     console.log(this.titleIdValue)
     fetch(`/add_to_watchlist?title_id=${this.titleIdValue}`, {
-    method: 'POST'})
+    method: 'POST',
+    headers: {
+      'X-CSRF-Token': document.querySelector('[name=csrf-token]').content,
+      "Accept": "application/json"
+    }
+  })
     .then(response => response.json())
     .then(data => {
-      if (data.success) {
-        alert('Title was added to your Watchlist.');
-        // this.watchListBtnTarget.classList.remove("fa-plus");
-        // this.watchListBtnTarget.classList.add("fa-check");
+      console.log(data);
+      if (data) {
+        // alert('Title was added to your Watchlist.');
+        this.watchListBtnTarget.classList.remove("fa-plus");
+        this.watchListBtnTarget.classList.add("fa-check");
       } else {
         alert('There was an error adding the title to your Watchlist.');
       }

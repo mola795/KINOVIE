@@ -5,9 +5,9 @@
      this.element.setAttribute("data-action", "turbo:submit-end->alerts#showAlert")
    }
 
-   showAlert(event) {
-     if (event.detail.success) {
-       notice("Title was added to your Watchlist.")
-     }
-   }
+  //  showAlert(event) {
+  //    if (event.detail.success) {
+  //      notice("Title was added to your Watchlist.")
+  //    }
+  //  }
  }

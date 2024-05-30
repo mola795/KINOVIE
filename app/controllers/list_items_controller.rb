@@ -14,6 +14,7 @@ class ListItemsController < ApplicationController
   end
 
   def add_to_watchlist
+    # raise
     @title = Title.find(params[:title_id])
     @list = current_user.lists.find_or_create_by(name: 'Watchlist') do |list|
       list.description = 'Watchlist'
@@ -25,10 +26,15 @@ class ListItemsController < ApplicationController
 
     respond_to do |format|
       if @list_item.save
-        format.html { redirect_back fallback_location: root_path, notice: 'Title was added to your Watchlist.' }
+        # format.html { redirect_back fallback_location: root_path, notice: 'Title was added to your Watchlist.' }
         format.js
+        format.json { render json: {}, status: :created }
+        format.text { head :ok }
+        format.html { head :ok }
       else
+        # raise
         format.html { redirect_back fallback_location: root_path, alert: "#{@list_item.errors.full_messages.join(', ')}" }
+        format.js
       end
     end
   end
