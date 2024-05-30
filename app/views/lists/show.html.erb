@@ -43,7 +43,7 @@
           <% else %>
             'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
           <% end %>" alt="<%= @list.user.first_name %>" class="avatar-listshow">
-        <%= link_to @list.user.username, user_path(@list.user.username) %>
+        <%= link_to @list.user.first_name, user_path(@list.user.username) %>
       </div>
     <% else %>
       <%# do not display anything%>
@@ -98,7 +98,7 @@
                     <%= review.user.profile_picture_url %>
                   <% else %>
                     'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
-                  <% end %>" alt="<%= review.user.username %>" class="avatar-listshow">
+                  <% end %>" alt="<%= review.user.first_name %>" class="avatar-listshow">
                 <span><i class="fas fa-star"></i><%= review.rating %>/10</span>
               </div>
               <!--<p><%= review.created_at.strftime("%B %d, %Y") %></p>-->
@@ -111,7 +111,7 @@
                     <%= @list.user.profile_picture_url %>
                   <% else %>
                     'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
-                  <% end %>" alt="<%= @list.user.username %>" class="avatar-listshow">
+                  <% end %>" alt="<%= @list.user.first_name %>" class="avatar-listshow">
                 <span>Rating: N/A</span>
               </div>
               <p>Date Reviewed: N/A</p>
