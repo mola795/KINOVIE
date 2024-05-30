@@ -1,3 +1,4 @@
+# lib/watch_mode_api.rb
 require 'httparty'
 
 class WatchModeApi

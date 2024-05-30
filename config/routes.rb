@@ -17,7 +17,6 @@ Rails.application.routes.draw do
     end
   end
   resources :list_items, only: %i[new create destroy]
-  # resources :users, only: %i[show]
 
   get '/users/:username/followers', to: 'pages#followers', as: :followers
   get '/users/:username/following', to: 'pages#following', as: :following
@@ -33,11 +32,6 @@ Rails.application.routes.draw do
   get '/reviews/:review/unlike_review', to: 'reviews#unlike_review', as: :unlike_review
 
   resources :people, only: %i[show]
-  resources :services, only: %i[index show]
-  # resources :follows, only: %i[create destroy]
-  # get '/profile', to: 'pages#profile', as: :profile
-  get '/activity', to: 'pages#activity', as: :activity
-  resources :people, only: %i[show]
   resources :services, only: %i[index show new create]
   resources :comments, only: [:create]
 
@@ -47,6 +41,5 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index', as: 'search'
   get 'movies', to: 'titles#movies', as: 'movies'
   get 'tv_shows', to: 'titles#tv_shows', as: 'tv_shows'
-
-  # get 'likes/:type/:id', to: 'pages#like', as: :like
+  get '/activity', to: 'pages#activity', as: :activity
 end
