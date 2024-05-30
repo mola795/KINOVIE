@@ -8,7 +8,7 @@ class ServicesController < ApplicationController
   end
 
   def new
-    @lists = List.all
+    @lists = current_user.lists
   end
 
   def create
