@@ -23,7 +23,14 @@
       <div class="item-card-small-text item-card-small-text-rating">
         <i class="fa-solid fa-heart"></i>
         <% top_three_reviews(title.ordered_reviews).limit(3).each do |review| %>
-          <img class="avatar avatar-list-card" src="<%= review.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= review.user.username %>'s Avatar" class="avatar-nav">
+          <img class="avatar avatar-list-card" src="
+            <% if review.user.profile_picture.attached? %>
+              <%= url_for(review.user.profile_picture) %>
+            <% elsif review.user.profile_picture_url.present? %>
+              <%= review.user.profile_picture_url %>
+            <% else %>
+              'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
+            <% end %>" alt="<%= review.user.username %>'s Avatar" class="avatar-nav">
         <% end %>
       </div>
     </div>

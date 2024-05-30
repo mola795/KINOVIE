@@ -3,15 +3,19 @@
   <div class="container-user">
     <div class="user-details" data-controller="follow-toggle" data-follow-toggle-value="<%=@user.username %>">
       <div class="user-profile-details">
-        <%= image_tag @user.profile_picture, alt: @user.username, class: "avatar-user-page" if @user.profile_picture.attached? %>
+        <% if @user.profile_picture.attached? %>
+          <%= image_tag @user.profile_picture, alt: @user.username, class: "avatar-user-page" %>
+        <% elsif @user.profile_picture_url.present? %>
+          <%= image_tag @user.profile_picture_url, alt: @user.username, class: "avatar-user-page" %>
+        <% else %>
+          <img class="avatar-user-page" src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" alt="<%= @user.username %>'s Avatar">
+        <% end %>
         <div class="user-profile-info">
           <h1 class="page-heading"><%= @user.first_name %></h1>
           <p class="user-profile-bio">@<%= @user.username %></p>
-          <p class="user-profile-bio"><%= @user.bio == nil ? "No biography" : @user.bio %></p>
+          <p class="user-profile-bio"><%= @user.bio.nil? ? "No biography" : @user.bio %></p>
           <% if @user != current_user %>
-            <button class='btn btn-follow'
-            data-action="click->follow-toggle#toggle_follow"
-              data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
+            <button class='btn btn-follow' data-action="click->follow-toggle#toggle_follow" data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
           <% end %>
         </div>
       </div>
