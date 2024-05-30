@@ -38,7 +38,7 @@
         <% if user_signed_in? %>
           <% watchlist = current_user.lists.find_by(name: 'Watchlist') %>
           <% if watchlist %>
-            <li><%= link_to list_path(watchlist), class: "nav-link" do %>
+            <li class="navbar-nav-watchlist"><%= link_to list_path(watchlist), class: "nav-link" do %>
                 Watchlist <i class="fa-solid fa-film navbar-watchlist-link"></i>
                 <div data-add-to-watchlist-target="counter">
                   <%= watchlist.list_items.count %>
