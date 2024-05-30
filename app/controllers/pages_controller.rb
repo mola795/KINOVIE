@@ -20,6 +20,7 @@ class PagesController < ApplicationController
     return unless user_signed_in?
 
     @friends_activity = current_user.friends_activity
+    # raise
   end
 
   def activity
