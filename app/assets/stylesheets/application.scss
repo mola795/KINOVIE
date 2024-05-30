@@ -29,6 +29,10 @@ ul {
   list-style-type: none;
 }
 
+.pointer:hover {
+  cursor: pointer;
+}
+
 .pagination-container {
   display: flex;
   justify-content: center;
