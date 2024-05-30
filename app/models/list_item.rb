@@ -17,6 +17,6 @@ class ListItem < ApplicationRecord
                     created_at.strftime("%b %d, %Y")
                   end
 
-    "#{user.first_name} added \"#{title.name}\" to \"#{list.name}\" — #{time_string}"
+    "— #{time_string}"
   end
 end
