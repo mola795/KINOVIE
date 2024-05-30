@@ -2,5 +2,7 @@
   <%= f.input :commentable_id, as: :hidden, input_html: { value: commentable.id} %>
   <%= f.input :commentable_type, as: :hidden, input_html: { value: commentable.class} %>
   <%= f.input :content %>
-  <%= f.submit %>
+  <div class="container-submit-comment-btn">
+    <%= f.submit "Add Comment", class: "btn btn-add-comment"%>
+  </div>
 <% end %>

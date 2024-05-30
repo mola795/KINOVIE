@@ -16,214 +16,229 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<!-- Top Bar -->
-<div class="container container-media-show">
-  <div class="media-show-heading">
-    <h1 class="media-heading"><%= @title.name %></h1>
-    <!-- Button trigger modal Rating/Review -->
-    <div class="media-show-btns">
-      <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#ratemodal">
-        <% if @title.reviews.find_by(user: current_user) %>
-          Edit Rating
-        <% else %>
-          Add Rating
-        <% end %>
-      </button>
-      <!-- Button watchlist -->
-      <%= button_to 'Add to Watchlist', add_to_watchlist_title_list_items_path(@title), method: :post, class: 'btn btn-add-watchlist', style: 'margin-left: 20px' %>
-      <!-- Button trigger modal Add to List-->
-      <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Add to List
-      </button>
-    </div>
-    <!-- Streaming Services -->
-    <% streaming_services = @title.streamings.where(streaming_type: 'sub') %>
-    <% if streaming_services.any? %>
-      <span style="margin-left: 250px; margin-right: 20px">Where to Watch</span>
-      <% streaming_services.each do |streaming| %>
-        <% if streaming.service.logo_url.present? %>
-          <div class="card" style="width: 50px;">
-            <%= link_to streaming.url, target: "_blank" do %>
-              <img src="<%= streaming.service.logo_url %>" class="card-img-top">
-            <% end %>
+<div class="container">
+  <div class="row">
+    <!-- Top Bar -->
+    <div class="col-8">
+      <div class="container-media-show">
+        <div class="media-show-heading">
+          <h1 class="media-heading"><%= @title.name %></h1>
+          <!-- Button trigger modal Rating/Review -->
+          <div class="media-show-btns">
+            <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#ratemodal">
+              <% if @title.reviews.find_by(user: current_user) %>
+                Edit Rating
+              <% else %>
+                Add Rating
+              <% end %>
+            </button>
+            <!-- Button watchlist -->
+            <%= button_to 'Add to Watchlist', add_to_watchlist_title_list_items_path(@title), method: :post, class: 'btn btn-add-watchlist', style: 'margin-left: 20px' %>
+            <!-- Button trigger modal Add to List-->
+            <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Add to List
+            </button>
           </div>
-        <% end %>
-      <% end %>
-    <% end %>
-  </div>
-  <!-- Media info -->
-  <div class="media-show-infos-year-type">
-    <span class="media-show-info-heading"></span>
-    <span class="media-show-info-text">
-      <%= @title.media_type == 'tv' ? 'TV Show' : @title.media_type.capitalize %>
-    </span>
-    <span class="media-show-info-heading"></span>
-    <span class="media-show-info-text">
-      <% if @title.media_type == 'tv' && @title.start_year != @title.end_year %>
-        <%= @title.start_year %>
-        <% if @title.end_year %>
-          - <%= @title.end_year %>
-        <% end %>
-      <% else %>
-        <%= @title.start_year %>
-      <% end %>
-    </span>
-    <span class="media-show-info-heading"></span>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg" alt="IMDb Logo" class="imdb-logo">
-    <span class="media-show-info-text"><%= @imdb_rating %></span>
-    <% if @review.rating  %>
-      <span class="media-show-info-text">
-        My Rating
-        <i class="fas fa-star"></i>
-        <%= "#{@review.rating}/10" %>
-      </span class="media-show-info-text">
-    <% end %>
-    <% if @title.reviews.any? %>
-      <span>
-        Community Rating
-        <i class="fas fa-star"></i>
-        <%= "#{@title.average_rating_title}/10" %>
-      </span>
-    <% end %>
-  </div>
-  <div class="media-show-infos">
-    <img src="https://image.tmdb.org/t/p/w500<%= @title.poster_url %>" alt="<%= @title.name %> Poster" class="media-show-poster-img">
-    <div class="media-show-infos-details">
-      <div>
-        <p class="media-show-info-text media-show-info-genre">
-          <% @genres.split(', ').each do |genre_name| %>
-            <% genre = Genre.find_by(name: genre_name) %>
-            <% if genre %>
-              <%= link_to genre.name, genre_path(genre.tmdb_id) %>
-            <% else %>
-              <span><%= genre_name %></span>
+          <!-- Streaming Services -->
+          <% streaming_services = @title.streamings.where(streaming_type: 'sub') %>
+          <% if streaming_services.any? %>
+            <span style="margin-left: 250px; margin-right: 20px">Where to Watch</span>
+            <% streaming_services.each do |streaming| %>
+              <% if streaming.service.logo_url.present? %>
+                <div class="card" style="width: 50px;">
+                  <%= link_to streaming.url, target: "_blank" do %>
+                    <img src="<%= streaming.service.logo_url %>" class="card-img-top">
+                  <% end %>
+                </div>
+              <% end %>
             <% end %>
           <% end %>
-        </p>
+        </div>
+        <!-- Media info -->
+        <div class="media-show-infos-year-type">
+          <span class="media-show-info-heading"></span>
+          <span class="media-show-info-text">
+            <%= @title.media_type == 'tv' ? 'TV Show' : @title.media_type.capitalize %>
+          </span>
+          <span class="media-show-info-heading"></span>
+          <span class="media-show-info-text">
+            <% if @title.media_type == 'tv' && @title.start_year != @title.end_year %>
+              <%= @title.start_year %>
+              <% if @title.end_year %>
+                - <%= @title.end_year %>
+              <% end %>
+            <% else %>
+              <%= @title.start_year %>
+            <% end %>
+          </span>
+          <span class="media-show-info-heading"></span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg" alt="IMDb Logo" class="imdb-logo">
+          <span class="media-show-info-text"><%= @imdb_rating %></span>
+          <% if @review.rating  %>
+            <span class="media-show-info-text">
+              My Rating
+              <i class="fas fa-star"></i>
+              <%= "#{@review.rating}/10" %>
+            </span class="media-show-info-text">
+          <% end %>
+          <% if @title.reviews.any? %>
+            <span>
+              Community Rating
+              <i class="fas fa-star"></i>
+              <%= "#{@title.average_rating_title}/10" %>
+            </span>
+          <% end %>
+        </div>
+        <div class="media-show-infos">
+          <img src="https://image.tmdb.org/t/p/w500<%= @title.poster_url %>" alt="<%= @title.name %> Poster" class="media-show-poster-img">
+          <div class="media-show-infos-details">
+            <div>
+              <p class="media-show-info-text media-show-info-genre">
+                <% @genres.split(', ').each do |genre_name| %>
+                  <% genre = Genre.find_by(name: genre_name) %>
+                  <% if genre %>
+                    <%= link_to genre.name, genre_path(genre.tmdb_id) %>
+                  <% else %>
+                    <span><%= genre_name %></span>
+                  <% end %>
+                <% end %>
+              </p>
+            </div>
+            <div class="media-show-info-premise">
+              <span class="media-show-info-heading">Premise </span>
+              <p class="media-show-info-text"> <%= @description %></p>
+            </div>
+            <% if @title.media_type == 'movie' && @director.present? %>
+              <div class="media-show-info">
+                <span class="media-show-info-heading">Director </span>
+                <p class="media-show-info-text"> <%= @director %></p>
+              </div>
+            <% elsif @title.media_type == 'tv' && @creator.present? %>
+              <div class="media-show-info">
+                <span class="media-show-info-heading">Creator </span>
+                <p class="media-show-info-text"> <%= @creator %></p>
+              </div>
+            <% end %>
+            <% if @writers.present? %>
+              <div class="media-show-info">
+                <span class="media-show-info-heading">Writer </span>
+                <p class="media-show-info-text"> <%= @writers %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
       </div>
-      <div>
-        <span class="media-show-info-heading">Premise </span>
-        <p class="media-show-info-text"> <%= @description %></p>
+      <!-- Cast Section -->
+      <% if @cast.present? %>
+        <% filtered_cast = @cast.select { |person| person[:profile_path].present? }.first(8) %>
+        <% if filtered_cast.any? %>
+          <h2 class="page-heading page-heading-media-show">Cast</h2>
+          <div class="media-show-cast-row">
+            <% filtered_cast.each do |person| %>
+              <div>
+                <div class="card people-card mb-3">
+                  <img src="<%= person[:profile_path] %>" alt="<%= person[:name] %>" class="card-img-top people-card-img-top">
+                  <div class="card-body people-card-body">
+                    <h5 class="card-title people-card-title"><%= truncate(person[:name], length: 20) %></h5>
+                    <div class="card-text people-card-character">
+                      <%= sanitize(truncate(person[:character], length: 20).gsub(/\s?\([^)]*\)/, '')) %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <!-- Reviews -->
+          <% if @title.reviews.any? %>
+            <div class="container-media-show">
+              <div class="media-review-show-heading text-center">
+                <h2 class="page-heading page-heading-media-show">Reviews</h2>
+                <!-- Button watchlist -->
+                <span>
+                  <% if current_user == @review.user && @review.comment.blank? %>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
+                      <i class="fa-solid fa-plus"></i>
+                    </button>
+                  <% elsif current_user == @review.user %>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
+                      <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                  <% end %>
+                </span>
+              </div>
+              <!-- Review Card -->
+              <% @title.reviews.each do |review| %>
+                <% unless review.comment == "" %>
+                  <div class="item-card item-review-card" data-controller="review-likes" data-review-likes-review-id-value="<%= review.id %>">
+                    <div class="item-review-user">
+                      <img src="<%= review.user.profile_picture_url %>" alt="" class="avatar-review-card">
+                      <div class="item-review-user-rating">
+                        <p class="item-review-user-rating-text">
+                          <strong><%= review.user.first_name %></strong>
+                        </p>
+                        <p class="item-review-user-rating-text">
+                          <i class="fas fa-star"></i>
+                          <%= "#{review.rating}/10" %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="item-review-user-texts">
+                      <p class="item-review-user-review-text"><i class="fa-solid fa-quote-left fa-quotes fa-2xs"></i><%= review.comment %><i class="fa-solid fa-quote-right fa-quotes fa-2xs"></i>
+                      </p>
+                      <div class="item-review-heart">
+                        <% if current_user.favorited?(review) %>
+                          <i class="fa-solid fa-heart fa-lg"
+             data-action="click->review-likes#toggle_likes"
+                            data-review-likes-target="heart"></i>
+                        <% else %>
+                          <i class="fa-regular fa-heart fa-lg"
+             data-action="click->review-likes#toggle_likes"
+                            data-review-likes-target="heart"></i>
+                        <% end %>
+                        <div data-review-likes-target="counter"
+          data-review-likes-likes-count-value="<%= review.favoritors_by_type('User').count %>" class="item-review-heart-counter">
+                          <%= review.favoritors_by_type('User').count %>
+                        </div>
+                      </div>
+                    </div>
+                    <%= render 'comments/form', comment: @comment, commentable: review %>
+                    <% review.comments.each do |comment| %>
+                      <p><%= comment.content %></p>
+                    <% end %>
+                    <% if review.user == current_user %>
+                      <%= link_to title_review_path(@title, review), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
+                        Delete Review
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <!-- List Recommendation -->
+    <div class="container col">
+      <div class="media-show-collection-list">
+        <% if @lists.any? %>
+          <h2 class="page-heading page-heading-show-list">Lists with <%= @title.name %></h2>
+          <div class="container-collection-card-list">
+            <% @lists.each_with_index do |list| %>
+              <div class="collection-card-list">
+                <%= render 'shared/collection_card', list: list %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
       </div>
-      <% if @title.media_type == 'movie' && @director.present? %>
-        <div class="media-show-info">
-          <span class="media-show-info-heading">Director </span>
-          <p class="media-show-info-text"> <%= @director %></p>
-        </div>
-      <% elsif @title.media_type == 'tv' && @creator.present? %>
-        <div class="media-show-info">
-          <span class="media-show-info-heading">Creator </span>
-          <p class="media-show-info-text"> <%= @creator %></p>
-        </div>
-      <% end %>
-      <% if @writers.present? %>
-        <div class="media-show-info">
-          <span class="media-show-info-heading">Writer </span>
-          <p class="media-show-info-text"> <%= @writers %></p>
-        </div>
-      <% end %>
+      <div class="media-show-watched-list">
+        <h2 class="page-heading page-heading-show-list">Watched By</h2>
+      </div>
     </div>
   </div>
 </div>
-<!-- Cast Section -->
-<% if @cast.present? %>
-  <% filtered_cast = @cast.select { |person| person[:profile_path].present? }.first(8) %>
-  <% if filtered_cast.any? %>
-    <div class="container">
-      <h2 class="text-center">Cast</h2>
-      <div class="row justify-content-center">
-        <% filtered_cast.each do |person| %>
-          <div class="col-md-1">
-            <div class="card people-card mb-3">
-              <img src="<%= person[:profile_path] %>" alt="<%= person[:name] %>" class="card-img-top people-card-img-top">
-              <div class="card-body people-card-body">
-                <h5 class="card-title people-card-title"><%= truncate(person[:name], length: 20) %></h5>
-                <div class="card-text people-card-character">
-                  <%= sanitize(truncate(person[:character], length: 20).gsub(/\s?\([^)]*\)/, '')) %>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-<% end %>
-<!-- Reviews -->
-<% if @title.reviews.any? %>
-  <div class="container container-media-show">
-    <div class="media-review-show-heading text-center">
-      <h2 class="page-heading" style="margin-bottom: 20px;">Reviews</h2>
-      <!-- Button watchlist -->
-      <span>
-        <% if current_user == @review.user && @review.comment.blank? %>
-          <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
-            <i class="fa-solid fa-plus"></i>
-          </button>
-        <% elsif current_user == @review.user %>
-          <button type="button" data-bs-toggle="modal" data-bs-target="#reviewmodal">
-            <i class="fa-regular fa-pen-to-square"></i>
-          </button>
-        <% end %>
-      </span>
-    </div>
-    <!-- Review Card -->
-    <% @title.reviews.each do |review| %>
-      <% unless review.comment == "" %>
-        <div class="item-card" data-controller="review-likes" data-review-likes-review-id-value="<%= review.id %>">
-          <p><strong><%= review.user.username %></strong> - <i class="fas fa-star"></i>
-            <%= "#{review.rating}/10" %></p>
-          <p><%= review.comment %></p>
-          <%= render 'comments/form', comment: @comment, commentable: review %>
-          <% review.comments.each do |comment| %>
-            <p><%= comment.content %></p>
-          <% end %>
-          <% if current_user.favorited?(review) %>
-            <i class="fa-solid fa-heart"
-             data-action="click->review-likes#toggle_likes"
-              data-review-likes-target="heart"></i>
-          <% else %>
-            <i class="fa-regular fa-heart"
-             data-action="click->review-likes#toggle_likes"
-              data-review-likes-target="heart"></i>
-          <% end %>
-          <div data-review-likes-target="counter"
-          data-review-likes-likes-count-value="<%= review.favoritors_by_type('User').count %>">
-            <%= review.favoritors_by_type('User').count %>
-          </div>
-          <%= link_to title_review_path(@title, review), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
-            Delete Review
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
-<!-- List Recommendation -->
-<% if @lists.any? %>
-  <h2 class="page-heading" style="margin-bottom: -70px;">Lists with <%= @title.name %></h2>
-  <div id="carouselCollection" class="carousel slide">
-    <div class="carousel-inner">
-      <% @lists.each_slice(4).each_with_index do |group, index| %>
-        <div class="carousel-item <%= index == 0 ? "active" : "" %>">
-          <div class="collection-card-list">
-            <% group.each do |list| %>
-              <%= render 'shared/collection_card', list: list %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-<% end %>
+</div>
 <!-- MODALS -->
 <!-- Modal Rating -->
 <div class="modal fade" id="ratemodal" tabindex="-1" aria-labelledby="ratemodalLabel" aria-hidden="true">

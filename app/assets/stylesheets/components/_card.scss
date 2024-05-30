@@ -190,6 +190,7 @@
   width: 100%;
   max-width: 120px; /* Adjust the max width */
   overflow: hidden;
+  border-radius: 0px;
 }
 
 .people-card-img-top {
@@ -202,7 +203,7 @@
 }
 
 .people-card-title {
-  font-size: 0.6rem; /* Smaller font size */
+  font-size: $small-text; /* Smaller font size */
   line-height: 1.2;
   max-height: 2.4rem; /* Allow for up to 2 lines of text */
   overflow: hidden;
@@ -211,10 +212,11 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  text-align: center;
 }
 
 .people-card-character {
-  font-size: 0.5rem; /* Even smaller font size */
+  font-size: 12px; /* Even smaller font size */
   text-align: center;
   color: #777; /* A different color for the character name */
   line-height: 1.2;
@@ -225,4 +227,63 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+// REVIEW CARD
+.item-review-card {
+  max-width: 49.8rem;
+  height: 20rem;
+  background-color: $main-white;
+  color: $main-black;
+  padding: 30px;
+  margin-bottom: 10px;
+  cursor: default;
+  &:hover {
+    scale: none;
+  }
+}
+
+.item-review-user {
+  display: flex;
+  align-items: center;
+}
+
+.item-review-user-rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  .item-review-user-rating-text {
+    margin-bottom: 0px;
+    &:first-child {
+      font-size: 20px;
+    }
+  }
+}
+
+.item-review-user-review-text {
+  margin: 15px 0px;
+  font-size: 18px;
+  .fa-quotes {
+    font-size: $smaller-text;
+    color: $light-black;
+    margin: 0px 5px;
+  }
+}
+
+.item-review-user-texts {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-review-heart {
+  display: flex;
+  align-items: center;
+}
+
+.item-review-heart-counter {
+  margin-left: 5px;
+}
+
+.review_form_input {
+  background-color: black;
 }

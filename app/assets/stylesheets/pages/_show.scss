@@ -16,7 +16,6 @@
 
 .media-show-infos {
   display: flex;
-  width: 70rem;
 }
 
 .media-show-info-heading {
@@ -25,6 +24,7 @@
 
 .media-show-info-text {
   margin-right: 10px;
+  width: 100%;
 }
 
 .media-show-infos-details {
@@ -32,8 +32,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  width: 35rem;
   max-height: 15rem;
+  margin-left: 10px;
 }
 
 .imdb-logo {
@@ -67,4 +68,13 @@
       border-color: $key-color;
     }
   }
+}
+.media-show-cast-row {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+}
+
+.media-show-watched-list {
+  margin-top: 45px;
 }
