@@ -21,6 +21,9 @@ class UsersController < ApplicationController
       # Count lists excluding Watchlist and Ratings
       @lists_count = @user.lists.where.not(name: ['Watchlist', 'Ratings']).count
     end
+
+    @rated_titles = Title.joins(:reviews).where(reviews: { user_id: @user.id }).distinct.limit(6)
+
   end
 
   def follow

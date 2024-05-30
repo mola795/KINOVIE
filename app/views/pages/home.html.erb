@@ -2,112 +2,122 @@
 <div class="container">
   <div class="row container-row">
     <div class="col-7">
+
+      <!-- Carousel for Friend's Favorite Movies -->
       <div id="carouselItemCards" class="carousel carousel-cards slide">
         <h2 class="container page-heading">Friend's Favorite Movies</h2>
         <div class="carousel-inner carousel-card-inner">
           <% if user_signed_in? %>
-            <% @titles.where(media_type: "movie").each_slice(4).each_with_index do |group, index| %>
+            <% @titles.where(media_type: "movie").each_slice(4).each_with_index do |group, index| %> <!-- Group movies by 4 -->
               <div class="carousel-item <%= index == 0 ? "active" : "" %>">
                 <div class="item-card-list">
                   <% group.each do |title| %>
-                    <%= render 'shared/item_card', title: title %>
+                    <%= render 'shared/item_card', title: title %> <!-- Render each item card -->
                   <% end %>
                 </div>
               </div>
             <% end %>
-          <% else %>
-            <% @titles.each_slice(6).each_with_index do |group, index| %>
+          <% else %> <!-- If user is not signed in -->
+            <% @titles.each_slice(6).each_with_index do |group, index| %> <!-- Group movies by 6 -->
               <div class="carousel-item <%= index == 0 ? "active" : "" %>">
                 <div class="item-card-list">
                   <% group.each do |title| %>
-                    <%= render 'shared/item_card', title: title %>
+                    <%= render 'shared/item_card', title: title %> <!-- Render each item card -->
                   <% end %>
                 </div>
               </div>
             <% end %>
           <% end %>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselItemCards" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselItemCards" data-bs-slide="prev"> <!-- Previous button -->
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselItemCards" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselItemCards" data-bs-slide="next"> <!-- Next button -->
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+
+      <!-- Carousel for Friend's Favorite TV Shows -->
       <div id="carouselTVShowItemCards" class="carousel carousel-cards slide">
         <h2 class="page-heading">Friend's Favorite TV Shows</h2>
         <div class="carousel-inner carousel-card-inner">
-          <% @titles.where(media_type: "tv").each_slice(4).each_with_index do |group, index| %>
+          <% @titles.where(media_type: "tv").each_slice(4).each_with_index do |group, index| %> <!-- Group TV shows by 4 -->
             <div class="carousel-item <%= index == 0 ? "active" : "" %>">
               <div class="item-card-list">
                 <% group.each do |title| %>
-                  <%= render 'shared/item_card', title: title %>
+                  <%= render 'shared/item_card', title: title %> <!-- Render each item card -->
                 <% end %>
               </div>
             </div>
           <% end %>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselTVShowItemCards" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselTVShowItemCards" data-bs-slide="prev"> <!-- Previous button -->
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselTVShowItemCards" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselTVShowItemCards" data-bs-slide="next"> <!-- Next button -->
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+
+      <!-- Carousel for Friend's Favorite Genres -->
       <div id="carouselCoverCards" class="carousel carousel-cards slide">
         <h2 class="container page-heading">Friend's Favorite Genres</h2>
         <div class="carousel-inner carousel-card-inner">
-          <% @genres.each_slice(3).each_with_index do |group, index| %>
+          <% @genres.each_slice(3).each_with_index do |group, index| %> <!-- Group genres by 3 -->
             <div class="carousel-item <%= index == 0 ? "active" : "" %>">
               <div class="cover-card-list">
                 <% group.each do |genre| %>
-                  <%= render 'shared/cover_card', genre: genre %>
+                  <%= render 'shared/cover_card', genre: genre %> <!-- Render each cover card -->
                 <% end %>
               </div>
             </div>
           <% end %>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCoverCards" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCoverCards" data-bs-slide="prev"> <!-- Previous button -->
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselCoverCards" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCoverCards" data-bs-slide="next"> <!-- Next button -->
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+
+      <!-- Carousel for Friend's List -->
       <div id="carouselCollection" class="carousel carousel-cards slide">
         <h2 class="page-heading">Friend's List</h2>
         <div class="carousel-inner carousel-card-inner">
-          <% @lists.each_slice(2).each_with_index do |group, index| %>
+          <% @lists.each_slice(2).each_with_index do |group, index| %> <!-- Group lists by 2 -->
             <div class="carousel-item <%= index == 0 ? "active" : "" %>">
               <div class="collection-card-list">
                 <% group.each do |list| %>
-                  <%= render 'shared/collection_card', list: list %>
+                  <%= render 'shared/collection_card', list: list %> <!-- Render each collection card -->
                 <% end %>
               </div>
             </div>
           <% end %>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCollection" data-bs-slide="prev"> <!-- Previous button -->
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCollection" data-bs-slide="next"> <!-- Next button -->
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
     </div>
+
+    <!-- Friend's Activity Side Bar-->
     <% if user_signed_in? %>
       <div class="col">
         <h2 class="container page-heading">Friend's Activity</h2>
         <div class="container-activity-feed">
-          <%= render 'shared/activity_feed', list_activity: @friends_activity, title: "" %>
+          <%= render 'shared/activity_feed', list_activity: @friends_activity, title: "" %> <!-- Render the activity feed -->
         </div>
       </div>
     <% end %>
