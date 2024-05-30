@@ -305,3 +305,23 @@
 .review_form_input {
   background-color: black;
 }
+
+// PROFILE PAGE FOLLOWING
+.following-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 8px;
+  cursor: pointer;
+  color: $main-white;
+  font-size: 20px;
+  &:hover {
+    color: $key-color;
+    transition: 0.3s ease-in-out;
+    .avatar-following {
+      border-color: $key-color;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}

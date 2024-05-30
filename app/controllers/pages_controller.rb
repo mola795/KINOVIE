@@ -12,6 +12,8 @@ class PagesController < ApplicationController
                  .having('COUNT(list_items.id) > 0')
                  .order(created_at: :desc)
 
+    @titles = Title.order("RANDOM()").limit(20)
+
     return unless user_signed_in?
 
     friend_titles_with_ratings =
