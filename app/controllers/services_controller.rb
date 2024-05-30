@@ -1,4 +1,3 @@
-# app/controllers/services_controller.rb
 class ServicesController < ApplicationController
   def index
     @services = Service.all
@@ -27,7 +26,11 @@ class ServicesController < ApplicationController
       streaming_sources = watchmode_api.get_title_details(title_id, 'US')
 
       streaming_sources.select { |source| source['format'] == 'HD' }.each do |source|
-        service = Service.find_or_create_by(name: source['name'])
+        service = Service.find_or_create_by(name: source['name']) do |s|
+          s.watchmode_id = source['id']
+          s.logo_url = source['logo_100px']
+        end
+
         Streaming.create!(
           url: source['web_url'],
           service: service,
