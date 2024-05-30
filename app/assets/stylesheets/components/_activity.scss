@@ -8,6 +8,7 @@
 }
 
 .activity-content-custom {
+  width: 100%;
   display: flex;
   gap: 20px;
 }
@@ -40,6 +41,9 @@
   margin-bottom: 5px;
   font-size: 20px;
   font-weight: bold;
+  a {
+    color: $main-white;
+  }
 }
 
 .activity-username-custom img {
@@ -68,8 +72,11 @@
 }
 
 .activity-comment-custom {
+  width: 100%;
   font-size: 1em;
   // margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .activity-time-custom {
@@ -117,6 +124,7 @@
 .activity-comment-like {
   display: flex;
   align-items: center;
+  justify-self: end;
   .fa-heart {
     margin-right: 5px;
   }

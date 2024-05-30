@@ -18,8 +18,12 @@
     <div class="activity-details-custom">
       <div class="activity-header-custom">
         <div class="activity-title-year-custom">
-          <span class="activity-username-custom"><img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
-            <%= activity.user.first_name %></span>
+          <span class="activity-username-custom">
+            <%= link_to user_path(activity.user.username) do %>
+              <img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
+              <%= activity.user.first_name %>
+            <% end %>
+          </span>
           <span class="activity-year-custom">Created list:</span>
           <span class="activity-title-custom"><%= activity.name %></span>
         </div>
