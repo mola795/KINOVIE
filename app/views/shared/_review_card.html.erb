@@ -1,4 +1,4 @@
-<div class="item-card item-review-card" data-controller="review-likes" data-review-likes-review-id-value="<%= review.id %>">
+<div class="item-card item-review-card" data-controller="review-likes">
   <div class="item-review-user">
     <%= link_to user_path(review.user.username) do %>
       <img src="<%= review.user.profile_picture_url %>" alt="" class="avatar-review-card">

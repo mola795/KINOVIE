@@ -33,4 +33,8 @@ class Title < ApplicationRecord
       start_year.to_s
     end
   end
+
+  def in_watchlist?(watchlist)
+    watchlist.list_items.find_by(title: self, list: watchlist) ? true : false
+  end
 end
