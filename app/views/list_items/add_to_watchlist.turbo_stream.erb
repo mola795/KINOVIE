@@ -1,7 +1,0 @@
-<%= turbo_stream.update "add_to_watchlist_#{@title.id}" do %>
-  <div class="btn-add-watchlist" data-controller="alerts">
-    <%= button_to add_to_watchlist_path(title_id: @title.id), method: :post, remote: true, class: 'btn-add-watchlist' do %>
-      <i class="fa-solid fa-check"></i>
-    <% end %>
-  </div>
-<% end %>
