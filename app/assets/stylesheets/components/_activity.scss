@@ -121,3 +121,15 @@
     margin-right: 5px;
   }
 }
+
+.custom-link {
+  color: white !important;
+}
+
+.avatar-custom {
+  width: 10px; /* Adjust the width as needed */
+  height: 10px; /* Adjust the height as needed */
+  vertical-align: middle; /* Aligns the avatar with the text */
+  margin-top: -5px; /* Adjust the top margin to move the avatar upwards */
+  border-radius: 50%; /* Makes the avatar circular */
+}
