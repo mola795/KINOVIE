@@ -8,11 +8,11 @@ class ListsController < ApplicationController
 
   def show
     @list = List.includes(:user).find(params[:id])
-   @list_items = if @list.name == 'Watchlist' || @list.name == 'Ratings'
-                    @list.list_items.order(rank: :desc)
-                  else
-                    @list.list_items.order(:rank)
-                  end
+      @list_items = if @list.name == 'Watchlist' || @list.name == 'Ratings'
+                      @list.list_items.order(created_at: :desc)
+                    else
+                      @list.list_items.order(:rank)
+                    end
 
     # @titles = @list_items.map {|list_item| list_item.title }
     friend_titles =

@@ -44,7 +44,6 @@ class ReviewsController < ApplicationController
     else
       redirect_to @review.title, alert: 'You can only delete your own reviews.'
     end
-
   end
 
   private

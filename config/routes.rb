@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   get '/users/:username', to: 'users#show', as: :user
   get '/users/:username/lists', to: 'users#lists', as: 'user_lists'
 
+  post 'add_to_watchlist', to: 'list_items#add_to_watchlist', as: :add_to_watchlist
+
   # Likes
   get '/reviews/:review/like_review', to: 'reviews#like_review', as: :like_review
   get '/reviews/:review/unlike_review', to: 'reviews#unlike_review', as: :unlike_review
