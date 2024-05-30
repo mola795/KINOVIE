@@ -20,8 +20,8 @@ class Review < ApplicationRecord
                     created_at.strftime("%b %d, %Y")
                   end
 
-    comment_text = comment.present? ? " Comment: #{comment}" : ""
-    "#{user.first_name} reviewed \"#{title.name}\" — #{time_string}. Rating: #{rating}.#{comment_text}"
+    # comment_text = comment.present? ? " Comment: #{comment}" : ""
+    "— #{time_string}"
   end
 
   private

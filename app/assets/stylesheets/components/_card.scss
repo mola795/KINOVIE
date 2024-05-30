@@ -45,6 +45,15 @@
       font-weight: 600;
     }
   }
+
+  .item-card-small-text-rating {
+    font-size: 18px;
+    align-self: end;
+    .item-card-small-text-rating-subheading {
+      font-size: $small-text;
+    }
+  }
+
   .item-card-title {
     word-wrap: break-word;
     font-size: $big-text;
@@ -54,6 +63,10 @@
     line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+}
+
+.item-card-small-text-username {
+  font-weight: 600;
 }
 
 // COVER CARD
@@ -139,6 +152,11 @@
 .collection-card-film-number {
   display: flex;
   align-items: center;
+}
+
+.collection-card-username {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 // ITEM DESCRIPTION CARD

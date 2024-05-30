@@ -6,10 +6,13 @@
       <% end %>
     </div>
     <div class="activity-details-custom" data-controller="review-likes" data-review-likes-review-id-value="<%= activity.id %>">
+      <p class="activity-username-custom"><img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
+        <%= activity.user.first_name %></p>
       <div class="activity-header-custom">
         <div class="activity-title-year-custom">
           <span class="activity-title-custom"><%= activity.title.name %></span>
           <span class="activity-year-custom"><%= activity.title.release_year %></span>
+
           <span class="activity-username-custom">
             <%= link_to user_path(activity.user.username) do %>
               <img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
@@ -19,23 +22,27 @@
         </div>
       </div>
       <div class="activity-rating-custom">
-        Rating: <%= '★' %> <%= activity.rating %>/10
+        <%= '★' %> <%= activity.rating %>/10
       </div>
       <% if activity.comment.present? %>
-        <div class="activity-comment-custom"><%= activity.comment %></div>
+        <div class="activity-comment-custom"><i class="fa-solid fa-quote-left fa-quotes fa-2xs"></i>
+          <%= activity.comment %> <i class="fa-solid fa-quote-right fa-quotes fa-2xs"></i>
+        </div>
       <% end %>
-      <% if current_user.favorited?(activity) %>
-        <i class="fa-solid fa-heart pointer"
+      <div class="activity-comment-like">
+        <% if current_user.favorited?(activity) %>
+          <i class="fa-solid fa-heart pointer"
           data-action="click->review-likes#toggle_likes"
-          data-review-likes-target="heart"></i>
-      <% else %>
-        <i class="fa-regular fa-heart pointer"
+            data-review-likes-target="heart"></i>
+        <% else %>
+          <i class="fa-regular fa-heart pointer"
           data-action="click->review-likes#toggle_likes"
-          data-review-likes-target="heart"></i>
-      <% end %>
-      <div data-review-likes-target="counter"
-           data-review-likes-likes-count-value="<%= activity.favoritors_by_type('User').count %>">
-        <%= activity.favoritors_by_type('User').count %>
+            data-review-likes-target="heart"></i>
+        <% end %>
+        <span data-review-likes-target="counter"
+      data-review-likes-likes-count-value="<%= activity.favoritors_by_type('User').count %>">
+          <%= activity.favoritors_by_type('User').count %>
+        </span>
       </div>
       <div class="activity-time-custom">
         <%= activity_string(activity) %>
