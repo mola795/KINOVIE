@@ -1,6 +1,7 @@
 <div class="container">
+
+  <!--User Details-->
   <div class="container-user">
-    <%# user profile image %>
     <div class="user-details" data-controller="follow-toggle" data-follow-toggle-value="<%=@user.username %>">
       <div class="user-profile-details">
         <img src="<%= @user.profile_picture_url %>" alt="" class="avatar-user-page">
@@ -11,8 +12,6 @@
             data-action="click->follow-toggle#toggle_follow"
             data-follow-toggle-target="button"><%= current_user.favorited?(@user) ? "Unfollow" : "Follow" %></button>
         </div>
-        <%# user profile description %>
-        <%# user's social media %>
       </div>
       <div class="user-status-details">
         <div class="user-status-info">
@@ -42,6 +41,8 @@
       </div>
     </div>
   </div>
+
+  <!--User Navbar-->
   <div class="user-navbar">
     <%= link_to 'Home', user_path(current_user.username) %>
     <span>Activity</span>
@@ -50,6 +51,16 @@
     <%= link_to 'Lists', lists_path %>
     <span>Reviews</span>
   </div>
+
+  <!-- User Top Rated Titles-->
+  <h2 class="text-center"><%= @user.username %>Top Rated Titles</h2>
+  <div class="container container-item-card">
+    <% @rated_titles.each do |title| %>
+      <%= render 'shared/item_card', title: title %>
+    <% end %>
+  </div>
+
+  <!--User List-->
   <div class="container-collection container-collection-heading">
     <h2 class="user-heading">My List</h2>
     <div><%= link_to 'New List', new_list_path, class: 'btn' %></div>
@@ -75,6 +86,8 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+
+  <!--Activity feed-->
   <%= render 'shared/activity_feed', list_activity: @list_activity, title: "My Activity" %>
   <div class="friend-list">
     <%# <h2 class="user-heading">Recommended Friends</h2> %>
