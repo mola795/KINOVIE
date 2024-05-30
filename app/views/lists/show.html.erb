@@ -4,7 +4,7 @@
   <h2 class="text-center">
     Friend's <%= @toplist.size == 1 ? 'Favorite' : 'Favorites' %>
   </h2>
-  <div class="container container-item-card-favorite">
+  <div class="container container-item-card-favorite mb-4">
     <% if @list_items.present? %>
       <% @toplist.each do |title| %>
         <div class="item-card-favorite">
