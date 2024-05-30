@@ -1,5 +1,4 @@
-<a href="<%= list_path(list) %>"
- class="card collection-card mb-3">
+<a href="<%= list_path(list) %>" class="card collection-card mb-3">
   <div class="collection-card-images">
     <% list.titles.each do |title| %>
       <% if list.titles.count == 1 %>
@@ -11,20 +10,20 @@
   </div>
   <div class="card-body collection-card-body">
     <img class="avatar avatar-collection-card" src="
-        <% if list.user.profile_picture_url == nil %>
-          https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
-
-        <% else %>
-          <%= list.user.profile_picture_url %>
-        <%end%>
-        " alt="
-        <% if list.user.username == nil%>
-          Your Avatar
-        <% else %>
-          <%= list.user.username %>'s Avatar<% end %>"
-        class="avatar-nav">
+      <% if list.user.profile_picture.attached? %>
+        <%= url_for(list.user.profile_picture) %>
+      <% elsif list.user.profile_picture_url.present? %>
+        <%= list.user.profile_picture_url %>
+      <% else %>
+        https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
+      <% end %>" alt="
+      <% if list.user.username.nil? %>
+        Your Avatar
+      <% else %>
+        <%= list.user.username %>'s Avatar
+      <% end %>">
     <div class="collection-card-main-text">
-      <h5 class="card-title collection-card-title"><%= list.name  %></h5>
+      <h5 class="card-title collection-card-title"><%= list.name %></h5>
     </div>
     <div class="card-text collection-card-small-text">
       <div class="collection-card-film-number">

@@ -1,21 +1,21 @@
 <div>
-<!--Watchlist highlight-->
-<% if @list.name == "Watchlist" && current_user == @list.user %>
-  <h2 class="text-center">
-    Friend's <%= @toplist.size == 1 ? 'Favorite' : 'Favorites' %>
-  </h2>
-  <div class="container container-item-card-favorite mb-4">
-    <% if @list_items.present? %>
-      <% @toplist.each do |title| %>
-        <div class="item-card-favorite">
-          <%= render 'shared/item_card_favorite', title: title %>
-        </div>
+  <!--Watchlist highlight-->
+  <% if @list.name == "Watchlist" && current_user == @list.user %>
+    <h2 class="text-center">
+      Friend's <%= @toplist.size == 1 ? 'Favorite' : 'Favorites' %>
+    </h2>
+    <div class="container container-item-card-favorite">
+      <% if @list_items.present? %>
+        <% @toplist.each do |title| %>
+          <div class="item-card-favorite">
+            <%= render 'shared/item_card_favorite', title: title %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-<% else %>
-  <%# do not display anything %>
-<% end %>
+    </div>
+  <% else %>
+    <%# do not display anything %>
+  <% end %>>
 
   <!--Header-->
   <div>
@@ -34,9 +34,16 @@
     <!--Created by-->
     <% unless @list.name == "Watchlist" %>
       <div class="created-by text-center mb-4">
-        <span>List by</span>
-        <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.first_name %>" class="avatar-listshow">
-        <%= link_to @list.user.first_name, user_path(@list.user.username) %>
+        <span>List by:</span>
+        <img src="
+          <% if @list.user.profile_picture.attached? %>
+            <%= url_for(@list.user.profile_picture) %>
+          <% elsif @list.user.profile_picture_url.present? %>
+            <%= @list.user.profile_picture_url %>
+          <% else %>
+            'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
+          <% end %>" alt="<%= @list.user.first_name %>" class="avatar-listshow">
+        <%= link_to @list.user.username, user_path(@list.user.username) %>
       </div>
     <% else %>
       <%# do not display anything%>
@@ -80,45 +87,58 @@
             <% unless @list.name == "Watchlist" %>
               <% if @list.name != "Ratings" %>
                 <p class="mb-1">Rank: <%= list_item.rank %></p>
-              <% end %>
-              <% review = list_item.title.reviews.find_by(user: @list.user) %>
-              <% if review %>
-                <div class="rating-info">
-                  <img src="<%= @list.user.profile_picture_url %>" alt="<% @list.user.first_name %>" class="avatar-listshow">
-                  <span><i class="fas fa-star"></i><%= review.rating %>/10</span>
-                </div>
-                <!--<p><%= review.created_at.strftime("%B %d, %Y") %></p>-->
-              <% else %>
-                <div class="rating-info">
-                  <img src="<%= @list.user.profile_picture_url %>" alt="<% @list.user.first_name %>" class="avatar-listshow">
-                  <span>Rating: N/A</span>
-                </div>
-                <p>Date Reviewed: N/A</p>
+            <% end %>
+            <% review = list_item.title.reviews.find_by(user: @list.user) %>
+            <% if review %>
+              <div class="rating-info">
+                <img src="
+                  <% if review.user.profile_picture.attached? %>
+                    <%= url_for(review.user.profile_picture) %>
+                  <% elsif review.user.profile_picture_url.present? %>
+                    <%= review.user.profile_picture_url %>
+                  <% else %>
+                    'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
+                  <% end %>" alt="<%= review.user.username %>" class="avatar-listshow">
+                <span><i class="fas fa-star"></i><%= review.rating %>/10</span>
+              </div>
+              <!--<p><%= review.created_at.strftime("%B %d, %Y") %></p>-->
+            <% else %>
+              <div class="rating-info">
+                <img src="
+                  <% if @list.user.profile_picture.attached? %>
+                    <%= url_for(@list.user.profile_picture) %>
+                  <% elsif @list.user.profile_picture_url.present? %>
+                    <%= @list.user.profile_picture_url %>
+                  <% else %>
+                    'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
+                  <% end %>" alt="<%= @list.user.username %>" class="avatar-listshow">
+                <span>Rating: N/A</span>
+              </div>
+              <p>Date Reviewed: N/A</p>
+            <% end %>
+          <% end %>
+          <% if current_user == @list.user %>
+            <% unless @list.name == "Ratings" %>
+              <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
+                <i class="fa-solid fa-trash-can"></i>
               <% end %>
             <% end %>
-            <% if current_user == @list.user %>
-              <% unless @list.name == "Ratings" %>
-                <%= link_to list_item_path(list_item), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-remove' do %>
-                  <i class="fa-solid fa-trash-can"></i>
-                <% end %>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-    <div class="text-center">
-    <p>No items in your Watchlist yet.</p>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-    <% end %>
+  <% else %>
+  <div class="text-center">
+  <p>No items in your Watchlist yet.</p>
   </div>
+  <% end %>
+</div>
 
-  <!--Return and Edit Buttons-->
-  <div class="text-center m-4">
-    <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
-    <% if current_user == @list.user && @list.name != 'Watchlist' && @list.name != 'Ratings' %>
-      <%= link_to 'Edit List', edit_list_path(@list), class: 'btn btn-primary' %>
-      <%= link_to 'Delete List', @list, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this list?' }, class: 'btn btn-danger' %>
-    <% end %>
-  </div>
+<!--Return and Edit Buttons-->
+<div class="text-center m-4">
+  <%= link_to 'Back to Lists', lists_path, class: 'btn btn-secondary' %>
+  <% if current_user == @list.user && @list.name != 'Watchlist' && @list.name != 'Ratings' %>
+    <%= link_to 'Edit List', edit_list_path(@list), class: 'btn btn-primary' %>
+    <%= link_to 'Delete List', @list, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this list?' }, class: 'btn btn-danger' %>
+  <% end %>
 </div>

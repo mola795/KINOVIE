@@ -20,8 +20,7 @@
           <%= text_field_tag :query,
                 params[:query],
                 class: "form-control",
-                placeholder: "Search for Movies or TV Shows"
-            %>
+                placeholder: "Search for Movies or TV Shows" %>
           <button type="submit" class="btn btn-search">
             <i class="fas fa-search"></i>
           </button>
@@ -29,10 +28,6 @@
       </div>
     </div>
     <%# DROPDOWN %>
-    <%# <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> %>
-    <%# OTHER LINKS AND PROFILE %>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
@@ -53,17 +48,13 @@
           </li>
           <li class="nav-item dropdown">
             <img class="avatar dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="
-              <% if current_user.profile_picture_url.nil? %>
-                https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg
-              <% else %>
+              <% if current_user.profile_picture.attached? %>
+                <%= url_for(current_user.profile_picture) %>
+              <% elsif current_user.profile_picture_url.present? %>
                 <%= current_user.profile_picture_url %>
-              <% end %>
-              " alt="
-              <% if current_user.username.nil? %>
-                Your Avatar
               <% else %>
-                <%= current_user.username %>'s Avatar
-              <% end %>"
+                'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
+              <% end %>" alt="<%= current_user.username || 'Your Avatar' %>"
             />
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="<%= user_path(current_user.username) %>">My Profile</a>
