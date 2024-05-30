@@ -33,6 +33,7 @@ class ReviewsController < ApplicationController
   def unlike_review
     @review_to_unlike = Review.find(params[:review])
     current_user.unfavorite(@review_to_unlike) if @review_to_unlike
+  end
 
   def destroy
     @review = Review.find(params[:id])
@@ -43,7 +44,6 @@ class ReviewsController < ApplicationController
     else
       redirect_to @review.title, alert: 'You can only delete your own reviews.'
     end
-
   end
 
   private

@@ -23,12 +23,13 @@ class ListItemsController < ApplicationController
     @list_item = @list.list_items.find_or_initialize_by(title: @title)
     @list_item.rank = @list.list_items.count + 1 unless @list_item.persisted?
 
-    if @list_item.persisted?
-      redirect_to title_path(@title), notice: 'Title is already in your Watchlist.'
-    elsif @list_item.save
-      redirect_to title_path(@title), notice: 'Title was added to your Watchlist.'
-    else
-      redirect_to title_path(@title), alert: "#{@list_item.errors.full_messages.join(', ')}"
+    respond_to do |format|
+      if @list_item.save
+        format.html { redirect_back fallback_location: root_path, notice: 'Title was added to your Watchlist.' }
+        format.js
+      else
+        format.html { redirect_back fallback_location: root_path, alert: "#{@list_item.errors.full_messages.join(', ')}" }
+      end
     end
   end
 
