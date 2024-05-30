@@ -69,10 +69,10 @@
   <div class="container-collection container-collection-heading">
     <% if @user == current_user %>
     <h2 class="user-heading">My List</h2>
+    <div><%= link_to 'New List', new_list_path, class: 'btn' %></div>
     <% else %>
     <h2 class="user-heading"><%= @user.username %>'s List</h2>
     <% end %>
-    <div><%= link_to 'New List', new_list_path, class: 'btn' %></div>
   </div>
   <div id="carouselCollection" class="carousel slide">
     <div class="carousel-inner">
