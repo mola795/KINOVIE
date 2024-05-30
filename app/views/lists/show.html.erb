@@ -34,7 +34,7 @@
     <!--Created by-->
     <% unless @list.name == "Watchlist" %>
       <div class="created-by text-center mb-4">
-        <span>Created by:</span>
+        <span>List by</span>
         <img src="<%= @list.user.profile_picture_url %>" alt="<%= @list.user.first_name %>" class="avatar-listshow">
         <%= link_to @list.user.first_name, user_path(@list.user.username) %>
       </div>
@@ -79,13 +79,13 @@
             <%= render 'shared/item_card', title: list_item.title %>
             <% unless @list.name == "Watchlist" %>
               <% if @list.name != "Ratings" %>
-                <p>Rank: <%= list_item.rank %></p>
+                <p class="mb-1">Rank: <%= list_item.rank %></p>
               <% end %>
               <% review = list_item.title.reviews.find_by(user: @list.user) %>
               <% if review %>
                 <div class="rating-info">
                   <img src="<%= @list.user.profile_picture_url %>" alt="<% @list.user.first_name %>" class="avatar-listshow">
-                  <span>Rating: <%= review.rating %> <i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i><%= review.rating %>/10</span>
                 </div>
                 <!--<p><%= review.created_at.strftime("%B %d, %Y") %></p>-->
               <% else %>
