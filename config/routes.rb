@@ -41,4 +41,5 @@ Rails.application.routes.draw do
   get 'search', to: 'search#index', as: 'search'
   get 'movies', to: 'titles#movies', as: 'movies'
   get 'tv_shows', to: 'titles#tv_shows', as: 'tv_shows'
+  get '/activity', to: 'pages#activity', as: :activity
 end
