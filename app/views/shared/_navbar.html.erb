@@ -40,7 +40,9 @@
           <% if watchlist %>
             <li><%= link_to list_path(watchlist), class: "nav-link" do %>
                 Watchlist <i class="fa-solid fa-film navbar-watchlist-link"></i>
-                <%= watchlist.list_items.count %>
+                <div data-add-to-watchlist-target="counter">
+                  <%= watchlist.list_items.count %>
+                </div>
               <% end %>
             </li>
           <% end %>

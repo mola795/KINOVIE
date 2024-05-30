@@ -30,4 +30,8 @@ class User < ApplicationRecord
   def all_activity
     (activity + friends_activity).sort_by(&:created_at).reverse
   end
+
+  def find_user_watchlist
+    self.lists.find_by(name: "Watchlist")
+  end
 end

@@ -26,7 +26,7 @@ class ListItemsController < ApplicationController
 
     respond_to do |format|
       if @list_item.save
-        # format.html { redirect_back fallback_location: root_path, notice: 'Title was added to your Watchlist.' }
+        format.html { redirect_back fallback_location: root_path, notice: 'Title was added to your Watchlist.' }
         format.js
         format.json { render json: {}, status: :created }
         format.text { head :ok }

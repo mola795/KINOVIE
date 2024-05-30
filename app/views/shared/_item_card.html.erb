@@ -1,10 +1,11 @@
-<div class="card item-card mb-3" data-controller="add-to-watchlist" data-add-to-watchlist-title-id-value="<%= title.id %>">
+<div class="card item-card mb-3" data-add-to-watchlist-title-id-value="<%= title.id %>">
   <%= link_to title_path(title.id) do %>
     <img src="https://image.tmdb.org/t/p/w500<%= title.poster_url %>" alt="<%= title.name %>" class="card-img-top item-card-img-top">
   <% end %>
-    <i class="fa-solid fa-plus btn-add-watchlist"
+    <i class="fa-solid <%= title.in_watchlist?(current_user.find_user_watchlist) ? 'fa-check' : 'fa-plus' %> btn-add-watchlist"
       data-action="click->add-to-watchlist#addToWatchlist"
-      data-add-to-watchlist-target="watchListBtn"></i>
+      data-add-to-watchlist-target="watchListBtn"
+      data-id="<%= title.id %>"></i>
   <div class="card-body item-card-body">
     <div class="">
       <h5 class="card-title item-card-title"><%= title.name %></h5>
