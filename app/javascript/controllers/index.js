@@ -16,6 +16,6 @@ eagerLoadControllersFrom("controllers", application)
 // Lazy load controllers as they appear in the DOM (remember not to preload controllers in import map!)
 // import { lazyLoadControllersFrom } from "@hotwired/stimulus-loading"
 // lazyLoadControllersFrom("controllers", application)
-import AlertsController from "./alerts_controller"
+// import AlertsController from "./alerts_controller"
 
-application.register("alerts", AlertsController)
+// application.register("alerts", AlertsController)
