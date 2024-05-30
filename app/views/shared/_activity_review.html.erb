@@ -1,4 +1,3 @@
-<!-- app/views/shared/_activity_review.html.erb -->
 <div class="activity-feed-item-custom">
   <div class="activity-content-custom">
     <div class="activity-poster-custom">
@@ -13,6 +12,13 @@
         <div class="activity-title-year-custom">
           <span class="activity-title-custom"><%= activity.title.name %></span>
           <span class="activity-year-custom"><%= activity.title.release_year %></span>
+
+          <span class="activity-username-custom">
+            <%= link_to user_path(activity.user.username) do %>
+              <img src="<%= activity.user.profile_picture_url || 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' %>" alt="<%= activity.user.username %>'s Avatar">
+              <%= activity.user.first_name %>
+            <% end %>
+          </span>
         </div>
       </div>
       <div class="activity-rating-custom">
