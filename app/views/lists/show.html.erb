@@ -7,14 +7,12 @@
         <% @toplist.each do |title| %>
           <%= render 'shared/item_card', title: title %>
         <% end %>
-      <% else %>
-        <p>No items in your Watchlist yet.</p>
-      <% end %>
     </div>
+      <% end %>
   <% else %>
     <%# do not display anything%>
   <% end %>
-  
+
   <!--Header-->
   <div>
     <!--Title-->
@@ -89,6 +87,10 @@
           </div>
         <% end %>
       </div>
+    <% else %>
+    <div class="text-center">
+    <p>No items in your Watchlist yet.</p>
+    </div>
     <% end %>
   </div>
 
