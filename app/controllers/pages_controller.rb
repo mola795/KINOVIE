@@ -13,6 +13,8 @@ class PagesController < ApplicationController
                  .order(created_at: :desc)
     @titles = Title.limit(20) || []
 
+    @titles = Title.order("RANDOM()").limit(20)
+
     return unless user_signed_in?
 
     @friends_activity = current_user.friends_activity
