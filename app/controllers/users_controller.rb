@@ -40,4 +40,13 @@ class UsersController < ApplicationController
     @user_to_unfollow = User.find_by(username: params[:username])
     current_user.unfavorite(@user_to_unfollow) if @user_to_unfollow
   end
+
+  def following
+    @user = User.find_by(username: params[:username])
+    if @user.nil?
+      redirect_to root_path, alert: "User not found."
+    else
+      @following = @user.favorites_by_type('User').map(&:favoritable)
+    end
+  end
 end
