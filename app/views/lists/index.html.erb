@@ -35,31 +35,10 @@
   <h2 class="user-heading">Members Lists</h2>
 
   <% @lists.each_slice(4).each_with_index do |group, index| %>
-    <% if index < 1 %>
-      <!-- Display the first group of lists -->
-      <div class="collection-card-list">
-        <% group.each do |list| %>
-          <%= render 'shared/collection_card', list: list %>
-        <% end %>
-      </div>
-    <% else %>
-      <!-- Collapse the remaining groups of lists -->
-      <div class="collapse" id="collapseLists">
-        <div class="collection-card-list">
-          <% group.each do |list| %>
-            <%= render 'shared/collection_card', list: list %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
-
-  <!-- Show More / Show Less Button -->
-  <% if @lists.size > 4 %>
-    <div class="text-center mt-4">
-      <button id="toggleButton" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLists" aria-expanded="false" aria-controls="collapseLists">
-        Show More
-      </button>
+    <div class="collection-card-list">
+      <% group.each do |list| %>
+        <%= render 'shared/collection_card', list: list %>
+      <% end %>
     </div>
   <% end %>
 </div>

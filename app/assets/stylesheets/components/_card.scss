@@ -9,7 +9,7 @@
   justify-content: space-between;
   width: 100%;
   max-width: 200px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   position: relative;
   cursor: pointer;
   &:hover {
@@ -324,4 +324,10 @@
       transition: 0.3s ease-in-out;
     }
   }
+
+// WISHLIST
+
+.item-card-favorite {
+  border: 2px solid silver;
+  border-radius: 3px;
 }

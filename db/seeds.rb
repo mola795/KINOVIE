@@ -239,7 +239,7 @@ def seed_users_and_lists
     "Great direction and acting."
   ]
 
-  30.times do
+  10.times do
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
     username = "#{first_name}_#{last_name}"
@@ -261,7 +261,8 @@ def seed_users_and_lists
       list.status = 'Private'
     end
 
-    genres.each do |genre|
+    5.times do
+      genre = genres.sample
       ['movie', 'tv'].each do |media_type|
         genre_titles = genre.titles.where(media_type: media_type)
 

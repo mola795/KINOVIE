@@ -10,8 +10,8 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log(this.heartTarget)
-    console.log(this.reviewIdValue)
+    // console.log(this.heartTarget)
+    // console.log(this.reviewIdValue)
   }
 
   toggle_likes() {
