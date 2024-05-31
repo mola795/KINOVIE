@@ -17,9 +17,9 @@ class PagesController < ApplicationController
                    .order(imdb_votes: :desc)
                    .limit(20)
 
-    @users = User.where.not(id: current_user.id).limit(1)
 
     return unless user_signed_in?
+    @users = User.where.not(id: current_user.id).limit(1)
 
     @friends_activity = current_user.friends_activity
     # raise

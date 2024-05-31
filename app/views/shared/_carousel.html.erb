@@ -6,22 +6,21 @@
   </div>
   <div class="carousel-inner">
     <% if current_page?(root_path) %>
-      <div class="carousel-item active">
-        <% @genres.each_with_index do |genre, index| %>
+      <% @genres.each_with_index do |genre, index| %>
+        <div class="carousel-item <%= index == 0 ? "active" : "" %>" >
           <a href="<%= genre_path(genre.tmdb_id, cover_url: genre.cover_url, skip_update: true) %>" class="carousel-anchor">
             <img src="<%= genre.cover_url %>" class="carousel-item-img carousel-item-img-homepage" alt="Cover of <%= genre.name %>">
           </a>
           <div class="carousel-homepage-heading">
             <h1 class="carousel-homepage-title">KINOVIE</h1>
-            <p class="carousel-homepage-subtitle"
->Find and recommend movies and TV shows to your friends!</p>
+            <p class="carousel-homepage-subtitle">Find and recommend movies and TV shows to your friends!</p>
           </div>
-        <% end %>
+        </div>
+      <% end %>
+      <!-- <div class="carousel-item">
       </div>
       <div class="carousel-item">
-      </div>
-      <div class="carousel-item">
-      </div>
+      </div> -->
     <% else %>
       <% @genres.each_with_index do |genre, index| %>
         <div class="carousel-item <%= index == 0 ? "active" : "" %>">
