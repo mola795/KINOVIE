@@ -27,15 +27,16 @@
     <div class="item-card-small-text item-card-small-text-rating">
       <% top_three_reviews(title.ordered_reviews).limit(1).each do |review| %>
         <% if review.present? %>
-          <span class="item-card-small-text-rating-subheading">Rated by</span>
-          <img class="avatar avatar-list-card" src="
+          <span class="item-card-small-text-rating-subheading">Recommended by</span>
+          <%# <span class="item-card-small-text-rating-subheading">Rated by</span> %>
+          <img class="avatar avatar-list-card" src=
             <% if review.user.profile_picture.attached? %>
               <%= url_for(review.user.profile_picture) %>
             <% elsif review.user.profile_picture_url.present? %>
               <%= review.user.profile_picture_url %>
             <% else %>
-              'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
-            <% end %>" alt="<%= review.user.username %>'s Avatar" class="avatar-nav">
+              "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"
+            <% end %> alt="<%= review.user.username %>'s Avatar" class="avatar-nav">
           <span class="item-card-small-text-username"><%= review.user.first_name %></span>
         <% end %>
       <% end %>
