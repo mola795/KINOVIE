@@ -3,7 +3,7 @@ class PagesController < ApplicationController
 
   def home
     @genres = Genre.where.not(cover_url: nil)
-                   .where.not(name: ["Animation", "TV Movie", "Kids", "Documentary", "War"])
+                   .where.not(name: ["Animation", "TV Movie", "Kids", "Documentary", "Crime", "Drama", "War"])
                    .sample(12)
     @lists = List.includes(:user)
                  .where.not(name: ['Watchlist', 'Ratings'])
@@ -13,7 +13,7 @@ class PagesController < ApplicationController
                  .order(created_at: :desc)
     @titles = Title.limit(20) || []
 
-    @titles = Title.order("RANDOM()").limit(20)
+    @titles = Title.order(imdb_votes: :desc).limit(20)
 
     @users = User.where.not(user: current_user).limit(1)
 
