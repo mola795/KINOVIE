@@ -27,7 +27,8 @@
     <div class="item-card-small-text item-card-small-text-rating">
       <% top_three_reviews(title.ordered_reviews).limit(1).each do |review| %>
         <% if review.present? %>
-          <span class="item-card-small-text-rating-subheading">Rated by</span>
+          <span class="item-card-small-text-rating-subheading">Recommended by</span>
+          <%# <span class="item-card-small-text-rating-subheading">Rated by</span> %>
           <img class="avatar avatar-list-card" src=
             <% if review.user.profile_picture.attached? %>
               <%= url_for(review.user.profile_picture) %>
