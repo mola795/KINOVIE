@@ -21,33 +21,38 @@
     <!-- Top Bar -->
     <div class="col-8">
       <div class="container-media-show">
-        <div class="media-show-heading">
-          <h1 class="media-heading"><%= @title.name %></h1>
-          <!-- Button trigger modal Rating/Review -->
-          <div class="media-show-btns">
-            <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#ratemodal">
-              <% if @title.reviews.find_by(user: current_user) %>
-                Edit Rating
-              <% else %>
-                Add Rating
-              <% end %>
-            </button>
-            <!-- Button watchlist -->
-            <%= button_to 'Add to Watchlist', add_to_watchlist_title_list_items_path(@title), method: :post, class: 'btn btn-add-list', style: 'margin-left: 20px' %>
-            <!-- Button trigger modal Add to List-->
-            <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              Add to List
-            </button>
+        <div class="media-show-heading justify-content-between">
+          <div class="d-flex align-items-center">
+            <h1 class="media-heading"><%= @title.name %></h1>
+            <!-- Button trigger modal Rating/Review -->
+            <div class="media-show-btns">
+              <div>
+                <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#ratemodal">
+                  <% if @title.reviews.find_by(user: current_user) %>
+                    Edit Rating
+                  <% else %>
+                    Add Rating
+                  <% end %>
+                </button>
+              </div>
+              <!-- Button watchlist -->
+              <%= button_to 'Add to Watchlist', add_to_watchlist_title_list_items_path(@title), method: :post, class: 'btn btn-add-list', style: 'margin-left: 20px' %>
+              <!-- Button trigger modal Add to List-->
+              <div>
+                <button type="button" class="btn btn-add-list" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Add to List
+                </button>
+              </div>
+            </div>
           </div>
           <!-- Streaming Services -->
           <% streaming_services = @title.streamings.where(streaming_type: 'sub') %>
           <% if streaming_services.any? %>
-            <span style="margin-left: 250px; margin-right: 20px">Where to Watch</span>
             <% streaming_services.each do |streaming| %>
               <% if streaming.service.logo_url.present? %>
-                <div class="card" style="width: 50px;">
+                <div class="card streaming-service-logo" style="width: 50px;">
                   <%= link_to streaming.url, target: "_blank" do %>
-                    <img src="<%= streaming.service.logo_url %>" class="card-img-top">
+                    <img src="<%= streaming.service.logo_url %>" class="card-img-top streaming-service-logo" style="width: 50px;">
                   <% end %>
                 </div>
               <% end %>
@@ -150,7 +155,6 @@
           </div>
         <% end %>
       <% end %>
-
       <!-- Reviews -->
       <% if @title.reviews.any? %>
         <div class="container-media-show">
@@ -178,7 +182,6 @@
         </div>
       <% end %>
     </div>
-
     <!-- List Recommendation -->
     <div class="container col">
       <div class="media-show-collection-list">
@@ -215,9 +218,9 @@
             <%= f.label :rating, "Rating (1 to 10)" %>
           </div>
           <div class="star-rating mb-5">
-              <% 10.times do |i| %>
-                <input type="radio" name="review[rating]" value="<%= i + 1 %>" <%= "checked" if i == 0 %> />
-              <% end %>
+            <% 10.times do |i| %>
+              <input type="radio" name="review[rating]" value="<%= i + 1 %>" <%= "checked" if i == 0 %> />
+            <% end %>
           </div>
           <div class="mb-3">
             <%= f.label :comment, "Review (optional)" %>
@@ -298,7 +301,7 @@
               <% end %>
             <% end %>
           </div>
-     <a class="btn btn-link" data-bs-toggle="collapse" href="#collapseLists" role="button" aria-expanded="false" aria-controls="collapseLists">
+          <a class="btn btn-link" data-bs-toggle="collapse" href="#collapseLists" role="button" aria-expanded="false" aria-controls="collapseLists">
             <% if params[:show_more] == 'true' %>
               Show Less
             <% else %>

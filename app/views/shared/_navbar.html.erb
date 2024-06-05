@@ -47,14 +47,14 @@
             <% end %>
           </li>
           <li class="nav-item dropdown">
-            <img class="avatar dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="
+            <img class="avatar dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src=
               <% if current_user.profile_picture.attached? %>
                 <%= url_for(current_user.profile_picture) %>
               <% elsif current_user.profile_picture_url.present? %>
                 <%= current_user.profile_picture_url %>
               <% else %>
-                'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
-              <% end %>" alt="<%= current_user.username || 'Your Avatar' %>"
+                "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"
+              <% end %> alt="<%= current_user.username || 'Your Avatar' %>"
             />
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="<%= user_path(current_user.username) %>">My Profile</a>

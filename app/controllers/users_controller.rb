@@ -18,9 +18,20 @@ class UsersController < ApplicationController
         @tv_shows_count = 0
       end
 
-      # Count lists excluding Watchlist and Ratings
-      @lists_count = @user.lists.where.not(name: ['Watchlist', 'Ratings']).count
-    end
+    @my_top_movies = Title
+    .joins(:reviews)
+    .where(media_type: "movie", reviews: { user_id: @user.id })
+    .order('reviews.rating DESC')
+
+    @my_top_tv = Title
+    .joins(:reviews)
+    .where(media_type: "tv", reviews: { user_id: @user.id })
+    .order('reviews.rating DESC')
+
+    @my_top_genre = Genre
+    .where.not(cover_url: nil)
+    .where.not(name: ["Animation", "TV Movie", "Kids", "Documentary", "War"])
+    .sample(12)
 
     @rated_titles = Title
       .joins(:reviews)
@@ -28,6 +39,12 @@ class UsersController < ApplicationController
       .select('titles.*, reviews.rating')
       .order('reviews.rating DESC')
       .limit(6)
+
+      # Count lists excluding Watchlist and Ratings
+      @lists_count = @user.lists.where.not(name: ['Watchlist', 'Ratings']).count
+    end
+
+
   end
 
   def edit
@@ -70,7 +87,7 @@ class UsersController < ApplicationController
     @user_to_unfollow = User.find_by(username: params[:username])
     current_user.unfavorite(@user_to_unfollow) if @user_to_unfollow
   end
-  
+
   def following
     @user = User.find_by(username: params[:username])
     if @user.nil?

@@ -18,6 +18,8 @@ class User < ApplicationRecord
 
   has_one_attached :profile_picture
 
+  after_create_commit :create_watchlist
+
   def activity
     activities = lists + list_items + reviews
     activities.sort_by(&:created_at).reverse.first(10)
@@ -33,5 +35,9 @@ class User < ApplicationRecord
 
   def find_user_watchlist
     self.lists.find_by(name: "Watchlist")
+  end
+
+  def create_watchlist
+    self.lists.build(name: "Watchlist").save
   end
 end

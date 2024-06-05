@@ -2,10 +2,12 @@
   <%= link_to title_path(title.id) do %>
     <img src="https://image.tmdb.org/t/p/w500<%= title.poster_url %>" alt="<%= title.name %>" class="card-img-top item-card-img-top">
   <% end %>
+  <% if user_signed_in? && current_user.lists.any? %>
     <i class="fa-solid <%= title.in_watchlist?(current_user.find_user_watchlist) ? 'fa-check' : 'fa-plus' %> btn-add-watchlist"
       data-action="click->add-to-watchlist#addToWatchlist"
       data-add-to-watchlist-target="watchListBtn"
       data-id="<%= title.id %>"></i>
+  <% end %>
   <div class="card-body item-card-body">
     <div class="">
       <h5 class="card-title item-card-title"><%= title.name %></h5>
@@ -27,7 +29,8 @@
     <div class="item-card-small-text item-card-small-text-rating">
       <% top_three_reviews(title.ordered_reviews).limit(1).each do |review| %>
         <% if review.present? %>
-          <span class="item-card-small-text-rating-subheading">Rated by</span>
+          <span class="item-card-small-text-rating-subheading">Recommended by</span>
+          <%# <span class="item-card-small-text-rating-subheading">Rated by</span> %>
           <img class="avatar avatar-list-card" src=
             <% if review.user.profile_picture.attached? %>
               <%= url_for(review.user.profile_picture) %>

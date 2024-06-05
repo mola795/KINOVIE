@@ -136,4 +136,6 @@
   vertical-align: middle; /* Aligns the avatar with the text */
   margin-top: -5px; /* Adjust the top margin to move the avatar upwards */
   border-radius: 50%; /* Makes the avatar circular */
+  object-fit: cover;
+  object-position: center;
 }

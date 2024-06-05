@@ -69,7 +69,14 @@
               <% group.each do |user| %>
                 <%= link_to user_path(user.username) do %>
                   <div class="following-card">
-                    <img src="<%= user.profile_picture_url %>" alt="" class="avatar-following">
+                      <img class="avatar-following" src=
+            <% if user.profile_picture.attached? %>
+              <%= url_for(user.profile_picture) %>
+            <% elsif user.profile_picture_url.present? %>
+              <%= user.profile_picture_url %>
+            <% else %>
+              "https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"
+            <% end %> alt="<%= user.username %>'s Avatar" class="avatar-following">
                     <p><%= user.first_name %></p>
                   </div>
                 <% end %>
