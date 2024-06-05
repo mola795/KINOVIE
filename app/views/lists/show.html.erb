@@ -35,14 +35,14 @@
     <% unless @list.name == "Watchlist" %>
       <div class="created-by text-center mb-4">
         <span>List by:</span>
-        <img src="
+        <img src=
           <% if @list.user.profile_picture.attached? %>
             <%= url_for(@list.user.profile_picture) %>
           <% elsif @list.user.profile_picture_url.present? %>
             <%= @list.user.profile_picture_url %>
           <% else %>
             'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg'
-          <% end %>" alt="<%= @list.user.first_name %>" class="avatar-listshow">
+          <% end %> alt="<%= @list.user.first_name %>" class="avatar-listshow">
         <%= link_to @list.user.first_name, user_path(@list.user.username) %>
       </div>
     <% else %>
